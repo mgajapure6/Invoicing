@@ -24,15 +24,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.ResourceUtils;
 
-import com.google.gson.Gson;
-import com.mgsoft.invoicing.beans.B2B;
 import com.mgsoft.invoicing.beans.Customer;
 import com.mgsoft.invoicing.beans.InvItem;
 import com.mgsoft.invoicing.beans.ItemCategory;
 import com.mgsoft.invoicing.beans.Menu;
 import com.mgsoft.invoicing.beans.Module;
 import com.mgsoft.invoicing.beans.Tax;
-import com.mgsoft.invoicing.repositories.B2BRepository;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.repositories.InvItemRepository;
 import com.mgsoft.invoicing.repositories.ItemCategoryRepository;
@@ -64,9 +61,6 @@ public class InvoicingApplication extends SpringBootServletInitializer {
 	private InvItemRepository invItemRepository;
 	
 	@Autowired
-	private B2BRepository b2bRepository;
-	
-	@Autowired
 	ServletContext context;
 
 	@Override
@@ -88,15 +82,7 @@ public class InvoicingApplication extends SpringBootServletInitializer {
 			    Files.delete(filePath);
 			    //f1.delete();
 			}
-			
-			String b2bString = "{\"ctin\":\"01AABCE2207R1Z5\",\"inv\":[{\"inum\":\"S008400\",\"idt\":\"24-11-2016\",\"val\":729248.16,\"pos\":\"06\",\"rchrg\":\"N\",\"etin\":\"01AABCE5507R1C4\",\"inv_typ\":\"R\",\"diff_percent\":0.65,\"itms\":[{\"num\":1,\"itm_det\":{\"rt\":5,\"txval\":10000,\"iamt\":325,\"csamt\":500}}]}]}";
-			Gson gson = new Gson();
-			B2B b2b = gson.fromJson(b2bString, B2B.class);
-			System.out.println("b2bJson:"+gson.toJson(b2b));
-			
-			B2B b2bnew = b2bRepository.save(b2b);
-			
-			System.out.println("b2bnewJson:"+gson.toJson(b2bnew));
+		
 			
 			
 			Tax tax = new Tax();
