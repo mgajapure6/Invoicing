@@ -1,0 +1,156 @@
+[
+	{
+		"id":1,
+		"menuName":"Sales Order",
+		"parentMenuId":0,
+		"moduleId":11,
+		"haslink":1,
+		"link":"/sales/so"
+	},
+	{
+		"id":2,
+		"menuName":"Sales Estimate",
+		"parentMenuId":0,
+		"moduleId":11,
+		"haslink":1,
+		"link":"/sales/se"
+	},
+	{
+		"id":3,
+		"menuName":"Purchase Order",
+		"parentMenuId":0,
+		"moduleId":12,
+		"haslink":1,
+		"link":"/purchase/po"
+	},
+	{
+		"id":4,
+		"menuName":"Purchase Estimate",
+		"parentMenuId":0,
+		"moduleId":12,
+		"haslink":1,
+		"link":"/sales/pe"
+	},
+	{
+		"id":5,
+		"menuName":"Accounting",
+		"parentMenuId":0,
+		"moduleId":13,
+		"haslink":0,
+		"link":null
+	},
+	{
+		"id":6,
+		"menuName":"General Ledger",
+		"parentMenuId":5,
+		"moduleId":13,
+		"haslink":1,
+		"link":"/fin/acc/gl"
+	},
+	{
+		"id":7,
+		"menuName":"General Journal",
+		"parentMenuId":5,
+		"moduleId":13,
+		"haslink":1,
+		"link":"/fin/acc/gj"
+	},
+	{
+		"id":8,
+		"menuName":"Transactions",
+		"parentMenuId":0,
+		"moduleId":13,
+		"haslink":0,
+		"link":"/tran"
+	},
+	{
+		"id":9,
+		"menuName":"Entity Setting",
+		"parentMenuId":0,
+		"moduleId":15,
+		"haslink":1,
+		"link":"/admin/entitySetting"
+	},
+	{
+		"id":10,
+		"menuName":"Module Setting",
+		"parentMenuId":0,
+		"moduleId":15,
+		"haslink":1,
+		"link":"/admin/moduleSetting"
+	},
+	{
+		"id":11,
+		"menuName":"Menu Setting",
+		"parentMenuId":0,
+		"moduleId":15,
+		"haslink":1,
+		"link":"/admin/menuSetting"
+	},
+	{
+		"id":12,
+		"menuName":"User Setting",
+		"parentMenuId":0,
+		"moduleId":15,
+		"haslink":1,
+		"link":"/admin/userSetting"
+	},
+	{
+		"id":13,
+		"menuName":"Role Setting",
+		"parentMenuId":0,
+		"moduleId":15,
+		"haslink":1,
+		"link":"/admin/roleSetting"
+	},
+	
+	{
+		"id":14,
+		"menuName":"Customer Master",
+		"parentMenuId":0,
+		"moduleId":16,
+		"haslink":1,
+		"link":"/master/customerMaster"
+	},
+	{
+		"id":15,
+		"menuName":"Inventory Item Master",
+		"parentMenuId":0,
+		"moduleId":16,
+		"haslink":1,
+		"link":"/master/inventoryItemMaster"
+	},
+	{
+		"id":16,
+		"menuName":"Category Master",
+		"parentMenuId":0,
+		"moduleId":16,
+		"haslink":1,
+		"link":"/master/categoryMaster"
+	},
+	{
+		"id":17,
+		"menuName":"Unit Master",
+		"parentMenuId":0,
+		"moduleId":16,
+		"haslink":1,
+		"link":"/master/unitMaster"
+	},
+	{
+		"id":18,
+		"menuName":"Tax Master",
+		"parentMenuId":0,
+		"moduleId":16,
+		"haslink":1,
+		"link":"/master/taxMaster"
+	},
+	{
+		"id":19,
+		"menuName":"Discount Master",
+		"parentMenuId":0,
+		"moduleId":16,
+		"haslink":1,
+		"link":"/master/discountMaster"
+	}
+
+]

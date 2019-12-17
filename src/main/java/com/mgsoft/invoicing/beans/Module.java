@@ -1,0 +1,149 @@
+package com.mgsoft.invoicing.beans;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table
+public class Module {
+	@Id
+	private Long id;
+	@Column
+	private String  moduleName;
+	@Column
+	private String  moduleNameOl;  
+	@Column
+	private Integer parentModuleId;
+	@Column
+	private Integer entityId;
+	@Column
+	private String  moduleIcon; 
+	@Column
+	private String  moduleUnder; 
+	@Column
+	private boolean  hasLink; 
+	@Column
+	private String  link; 
+	@Column
+	private String  addRight; 
+	@Column
+	private String  modRight; 
+	@Column
+	private String  delRight; 
+	@Column
+	private String  viewRight;
+	@Column
+	private String  printRight;  
+	@Column
+	private String  specialRight;
+	
+	@Transient
+	private List<Menu> subMenus = new ArrayList<>();
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getModuleName() {
+		return moduleName;
+	}
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
+	public String getModuleNameOl() {
+		return moduleNameOl;
+	}
+	public void setModuleNameOl(String moduleNameOl) {
+		this.moduleNameOl = moduleNameOl;
+	}
+	public Integer getParentModuleId() {
+		return parentModuleId;
+	}
+	public void setParentModuleId(Integer parentModuleId) {
+		this.parentModuleId = parentModuleId;
+	}
+	public Integer getEntityId() {
+		return entityId;
+	}
+	public void setEntityId(Integer entityId) {
+		this.entityId = entityId;
+	}
+
+	public String getModuleUnder() {
+		return moduleUnder;
+	}
+	public void setModuleUnder(String moduleUnder) {
+		this.moduleUnder = moduleUnder;
+	}
+	
+	public boolean isHasLink() {
+		return hasLink;
+	}
+	public void setHasLink(boolean hasLink) {
+		this.hasLink = hasLink;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	public String getModuleIcon() {
+		return moduleIcon;
+	}
+	public void setModuleIcon(String moduleIcon) {
+		this.moduleIcon = moduleIcon;
+	}
+	public String getAddRight() {
+		return addRight;
+	}
+	public void setAddRight(String addRight) {
+		this.addRight = addRight;
+	}
+	public String getModRight() {
+		return modRight;
+	}
+	public void setModRight(String modRight) {
+		this.modRight = modRight;
+	}
+	public String getDelRight() {
+		return delRight;
+	}
+	public void setDelRight(String delRight) {
+		this.delRight = delRight;
+	}
+	public String getViewRight() {
+		return viewRight;
+	}
+	public void setViewRight(String viewRight) {
+		this.viewRight = viewRight;
+	}
+	public String getPrintRight() {
+		return printRight;
+	}
+	public void setPrintRight(String printRight) {
+		this.printRight = printRight;
+	}
+	public String getSpecialRight() {
+		return specialRight;
+	}
+	public void setSpecialRight(String specialRight) {
+		this.specialRight = specialRight;
+	}
+	public List<Menu> getSubMenus() {
+		return subMenus;
+	}
+	public void setSubMenus(List<Menu> subMenus) {
+		this.subMenus = subMenus;
+	}
+	
+	
+}
