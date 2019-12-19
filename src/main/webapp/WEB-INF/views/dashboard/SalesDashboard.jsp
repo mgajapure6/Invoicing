@@ -851,6 +851,7 @@
 	<script src="lib/peity/jquery.peity.min.js"></script>
 	<script src="lib/chart.js/Chart.bundle.min.js"></script>
 	<script src="assets/horizontal/js/dashforge.sampledata.js"></script>
+	<script src="assets/api.js"></script>
 	<script>
       $(function(){
         'use strict'

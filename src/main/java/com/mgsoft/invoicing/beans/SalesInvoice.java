@@ -49,19 +49,22 @@ public class SalesInvoice implements Serializable {
     @Column
     private String recipientDesc;
     @Column
-    private String payStatus;  //P=for paid, U=for unpaid, h=for half or partial paid
-    
+    private String payStatus; // P=for paid, U=for unpaid, h=for half or partial paid
+
     @ManyToOne
     @JsonIgnore
     private Customer customer;
 
-    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-    @JoinTable(name="salesInvoice_soldItem", joinColumns = {@JoinColumn(name="salesInvoice_id")}, inverseJoinColumns = {@JoinColumn(name="soldItem_id")})
-    private Set<SoldItem> items;
-    
-    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-    @JoinTable(name="salesInvoice_invoicePayment", joinColumns = {@JoinColumn(name="salesInvoice_id")}, inverseJoinColumns = {@JoinColumn(name="invoicePayment_id")})
-    private Set<InvoicePayment> payments;
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinTable(name = "salesInvoice_salesInvoiceItem", joinColumns = {
+	    @JoinColumn(name = "salesInvoice_id") }, inverseJoinColumns = { @JoinColumn(name = "salesInvoiceItem_id") })
+    private Set<SalesInvoiceItem> items;
+
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinTable(name = "salesInvoice_salesInvoicePayment", joinColumns = {
+	    @JoinColumn(name = "salesInvoice_id") }, inverseJoinColumns = {
+		    @JoinColumn(name = "salesInvoicePayment_id") })
+    private Set<SalesInvoicePayment> payments;
 
     public Long getId() {
 	return id;
@@ -143,40 +146,36 @@ public class SalesInvoice implements Serializable {
 	this.customer = customer;
     }
 
-    public Set<SoldItem> getItems() {
+    public Set<SalesInvoiceItem> getItems() {
 	return items;
     }
 
-    public void setItems(Set<SoldItem> items) {
+    public void setItems(Set<SalesInvoiceItem> items) {
 	this.items = items;
     }
-    
-    
 
     public String getRecipientDesc() {
-        return recipientDesc;
+	return recipientDesc;
     }
 
     public void setRecipientDesc(String recipientDesc) {
-        this.recipientDesc = recipientDesc;
+	this.recipientDesc = recipientDesc;
     }
 
     public String getPayStatus() {
-        return payStatus;
+	return payStatus;
     }
 
     public void setPayStatus(String payStatus) {
-        this.payStatus = payStatus;
+	this.payStatus = payStatus;
     }
 
-    public Set<InvoicePayment> getPayments() {
-        return payments;
+    public Set<SalesInvoicePayment> getPayments() {
+	return payments;
     }
 
-    public void setPayments(Set<InvoicePayment> payments) {
-        this.payments = payments;
+    public void setPayments(Set<SalesInvoicePayment> payments) {
+	this.payments = payments;
     }
-
-
 
 }
