@@ -20,9 +20,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mgsoft.invoicing.beans.Customer;
-import com.mgsoft.invoicing.beans.InvItem;
 import com.mgsoft.invoicing.beans.SalesInvoice;
-import com.mgsoft.invoicing.beans.SoldItem;
+import com.mgsoft.invoicing.beans.SalesInvoiceItem;
 import com.mgsoft.invoicing.beans.Tax;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.repositories.DiscountRepository;
@@ -30,7 +29,6 @@ import com.mgsoft.invoicing.repositories.InvItemRepository;
 import com.mgsoft.invoicing.repositories.ItemCategoryRepository;
 import com.mgsoft.invoicing.repositories.SalesOrderRepository;
 import com.mgsoft.invoicing.repositories.TaxRepository;
-import com.mgsoft.invoicing.util.JsonUtil;
 
 @Controller
 @RequestMapping(value = "/sales")
@@ -113,12 +111,12 @@ public class SalesOrderController {
 	salesInvoice.setPayments(null);
 	salesInvoice.setPayStatus("U");
 	salesInvoice.setRecipientDesc(recipientDesc);
-	Set<SoldItem> soldItemSet = new HashSet<>();
+	Set<SalesInvoiceItem> soldItemSet = new HashSet<>();
 	//Set<InvoicePayment> paymentSet = new HashSet<>();
 	JsonParser parser = new JsonParser();
 	JsonArray jarr = parser.parse(items).getAsJsonArray();
 	for (JsonElement jsonElement : jarr) {
-	    SoldItem si = new SoldItem();
+	    SalesInvoiceItem si = new SalesInvoiceItem();
 	    JsonObject jo = jsonElement.getAsJsonObject();
 	    Long txId = null;
 	    if(jo.has("taxArr")) {
