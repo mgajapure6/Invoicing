@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
-public class InvoicePayment implements Serializable {
+public class SalesInvoicePayment implements Serializable {
     private static final long serialVersionUID = 1L;
     
     

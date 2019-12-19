@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
-public class SoldItem implements Serializable {
+public class SalesInvoiceItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
