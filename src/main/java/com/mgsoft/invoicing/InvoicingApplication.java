@@ -10,9 +10,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +21,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.ResourceUtils;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mgsoft.invoicing.beans.Customer;
 import com.mgsoft.invoicing.beans.InvItem;
 import com.mgsoft.invoicing.beans.ItemCategory;
@@ -176,41 +176,81 @@ public class InvoicingApplication extends SpringBootServletInitializer {
 			
 			invItemRepository.save(bottal);
 			
-			JSONParser parser = new JSONParser();
-			JSONArray a1 = (JSONArray) parser.parse(new FileReader(ResourceUtils.getFile("classpath:static/json_files/module.json")));//"C:\\Users\\EPS01\\Desktop\\JSON_DATA\\MODULE.json"));
-			JSONArray a2 = (JSONArray) parser.parse(new FileReader(ResourceUtils.getFile("classpath:static/json_files/menu.json")));//"C:\\Users\\EPS01\\Desktop\\JSON_DATA\\menu.json"));
-			for (int i = 0; i < a1.size(); i++) {
-				JSONObject obj = (JSONObject) a1.get(i);
-				System.out.println("obj module:"+obj.toString());
-				Module m = new Module();
-				m.setId((Long) obj.get("module_id"));
-				m.setModuleName((String) obj.get("module_name"));
-				m.setModuleIcon((String) obj.get("module_icon"));
-				m.setModuleUnder((String) obj.get("module_under"));
-				if((Long) obj.get("hasLink") == 1) {
-					m.setHasLink(true);
-				}else {
-					m.setHasLink(false);
-				}
-				m.setLink((String) obj.get("link"));
-				moduleRepository.save(m);
-			}
 			
-			for (int i = 0; i < a2.size(); i++) {
-				JSONObject obj = (JSONObject) a2.get(i);
-				Menu m = new Menu();
-				m.setId((Long) obj.get("id"));
-				m.setMenuName((String) obj.get("menuName"));
-				m.setParentMenuId((Long) obj.get("parentMenuId"));
-				m.setModuleId((Long) obj.get("moduleId"));
-				if((Long) obj.get("haslink") == 1) {
+//			JSONParser parser = new JSONParser();
+//			JSONArray a1 = (JSONArray) parser.parse(new FileReader(ResourceUtils.getFile("classpath:static/json_files/module.json")));//"C:\\Users\\EPS01\\Desktop\\JSON_DATA\\MODULE.json"));
+//			JSONArray a2 = (JSONArray) parser.parse(new FileReader(ResourceUtils.getFile("classpath:static/json_files/menu.json")));//"C:\\Users\\EPS01\\Desktop\\JSON_DATA\\menu.json"));
+//			for (int i = 0; i < a1.size(); i++) {
+//				JSONObject obj = (JSONObject) a1.get(i);
+//				System.out.println("obj module:"+obj.toString());
+//				Module m = new Module();
+//				m.setId((Long) obj.get("module_id"));
+//				m.setModuleName((String) obj.get("module_name"));
+//				m.setModuleIcon((String) obj.get("module_icon"));
+//				m.setModuleUnder((String) obj.get("module_under"));
+//				if((Long) obj.get("hasLink") == 1) {
+//					m.setHasLink(true);
+//				}else {
+//					m.setHasLink(false);
+//				}
+//				m.setLink((String) obj.get("link"));
+//				moduleRepository.save(m);
+//			}
+//			
+//			for (int i = 0; i < a2.size(); i++) {
+//				JSONObject obj = (JSONObject) a2.get(i);
+//				Menu m = new Menu();
+//				m.setId((Long) obj.get("id"));
+//				m.setMenuName((String) obj.get("menuName"));
+//				m.setParentMenuId((Long) obj.get("parentMenuId"));
+//				m.setModuleId((Long) obj.get("moduleId"));
+//				if((Long) obj.get("haslink") == 1) {
+//					m.setHasLink(true);
+//				}else {
+//					m.setHasLink(false);
+//				}
+//				m.setLink((String) obj.get("link"));
+//				Menu mr = menuRepository.save(m);
+//				System.out.println("obj menu:"+mr);
+//			}
+			
+			JsonParser p = new JsonParser();
+			JsonArray moArrays = p.parse(new FileReader(ResourceUtils.getFile("classpath:static/json_files/modules.json"))).getAsJsonArray();
+			//JSONArray a2 = (JSONArray) parser.parse(new FileReader(ResourceUtils.getFile("classpath:static/json_files/menu.json")));//"C:\\Users\\EPS01\\Desktop\\JSON_DATA\\menu.json"));
+			for (int i = 0; i < moArrays.size(); i++) {
+				JsonObject module = moArrays.get(i).getAsJsonObject();
+				//System.out.println("obj module:"+module.toString());
+				Module m = new Module();
+				m.setModuleName( module.has("module_name") ? module.get("module_name").getAsString() : null);
+				m.setModuleIcon( module.has("module_icon") ? module.get("module_icon").getAsString() : null);
+				if(module.has("isLink") && module.get("isLink").getAsBoolean()) {
 					m.setHasLink(true);
 				}else {
 					m.setHasLink(false);
 				}
-				m.setLink((String) obj.get("link"));
-				Menu mr = menuRepository.save(m);
-				System.out.println("obj menu:"+mr);
+				if(module.has("url")) {
+					m.setLink(module.get("url").getAsString());
+				}
+				
+				List<Menu> menus = new ArrayList<>();
+				if(module.has("menu")) {
+					JsonArray menuArrays = module.get("menu").getAsJsonArray();
+					//System.out.println("menuArrays::"+menuArrays);
+					for (int k = 0; k < menuArrays.size(); k++) {
+						JsonObject menu = menuArrays.get(k).getAsJsonObject();
+						Menu men = new Menu();
+						men.setMenuName(menu.has("menu_name") ? menu.get("menu_name").getAsString() : null);
+						men.setHasLink(menu.has("isLink") ? menu.get("isLink").getAsBoolean() : null);
+						men.setLink(menu.has("url") ? menu.get("url").getAsString() : null);
+						men.setModule(m);
+						menus.add(men);
+						
+						//System.out.println("menuuu:::"+men.toString());
+					}
+				}
+				
+				m.setMenus(menus);
+				moduleRepository.save(m);
 			}
 		};
 	}

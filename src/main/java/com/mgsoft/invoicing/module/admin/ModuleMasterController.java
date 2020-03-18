@@ -19,8 +19,8 @@ import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.repositories.ModuleRepository;
 
 @Controller
-@RequestMapping(value="/admin/moduleSetting")
-public class ModuleSettingController {
+@RequestMapping(value="/app/admin/moduleMaster")
+public class ModuleMasterController {
 	///admin/moduleSetting
 	
 	@Autowired

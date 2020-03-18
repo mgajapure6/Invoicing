@@ -3,13 +3,18 @@
 		"module_name": "Dashboard",
 		"isLink": true,
 		"module_icon": "shopping-bag",
-		"url" : "app/admin/dashboard"
+		"url" : "app/dashboard/s"
 	},
 	{
 		"module_name": "Admin",
 		"isLink": false,
 		"module_icon": "shopping-bag",
 		"menu" : [
+			{
+				"menu_name": "Entity Master",
+				"isLink":true,
+				"url": "app/admin/entityMaster"
+			},
 			{
 				"menu_name": "Module Master",
 				"isLink":true,

@@ -194,7 +194,7 @@
 			}
 			
 			$.ajax({
-				url : '/admin/moduleSetting/saveUpdateDeleteModule',
+				url : '/app/admin/moduleMaster/saveUpdateDeleteModule',
 				method : 'POST',
 				data : formData,
 				async : false,

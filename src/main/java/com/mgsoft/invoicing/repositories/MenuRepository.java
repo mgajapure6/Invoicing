@@ -6,14 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.mgsoft.invoicing.beans.Menu;
+import com.mgsoft.invoicing.beans.Module;
 
 @Repository
 public interface MenuRepository extends CrudRepository<Menu, Long> {
 	
-	List<Menu> findAllByModuleId(Long id);
-	
-	List<Menu> findAllByModuleIdAndParentMenuId(Long moid,Long pid);
-	
-	List<Menu> findAllByParentMenuId(Long id);
-	
+	List<Menu> findAllByModule(Module module);
 }

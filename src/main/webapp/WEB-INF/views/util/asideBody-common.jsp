@@ -81,36 +81,27 @@
 	<!-- aside-loggedin -->
 	<ul class="nav nav-aside navbar-common">
 		<c:set var="moduleCount" value="0"></c:set>
-		<c:set var="moduUnder" value="null"></c:set>
+		<li class="nav-label">MODULES</li>
 		<c:forEach items="${menu}" var="module">
 			<c:set var="moduleCount" value="${moduleCount+1}"></c:set>
-			<c:if test="${moduUnder=='null'}">
+			<%-- <c:if test="${moduUnder=='null'}">
 				<c:set var="moduUnder" value="${module.moduleUnder}"></c:set>
 				<li class="nav-label">${module.moduleUnder}</li>
-			</c:if>
-			<c:if test="${moduUnder!=module.moduleUnder}">
+			</c:if> --%>
+			<%-- <c:if test="${moduUnder!=module.moduleUnder}">
 				<c:set var="moduUnder" value="${module.moduleUnder}"></c:set>
 				<li class="nav-label mg-t-25">${module.moduleUnder}</li>
+			</c:if> --%>
+			
+			<c:if test="${fn:length(module.menus) le 0}">
+				<li class="moduleLi_${moduleCount} moduleLi nav-item ">
+					<a href="javascript:;" class="m-link_0 nav-link nav-link-new" onclick="loadPage(this,'${module.link}','m-link_0','moduleLi_${moduleCount}','${VorH}')">
+						<%-- <i data-feather="${module.moduleIcon}"></i> --%>
+						<span>${module.moduleName}</span>
+					</a>
+				</li>
 			</c:if>
-			<c:if test="${fn:length(module.subMenus) le 0}">
-				<c:if test="${module.id==1}">
-					<li class="moduleLi_${moduleCount} moduleLi nav-item ">
-						<a href="javascript:;" class="m-link_0 nav-link default-link nav-link-new" onclick="loadPage(this,'${module.link}','m-link_0','moduleLi_${moduleCount}','${VorH}')">
-							<%-- <i data-feather="${module.moduleIcon}"></i> --%>
-							<span>${module.moduleName}</span>
-						</a>
-					</li>
-				</c:if>
-				<c:if test="${module.id>1}">
-					<li class="moduleLi_${moduleCount} moduleLi nav-item ">
-						<a href="javascript:;" class="m-link_0 nav-link nav-link-new" onclick="loadPage(this,'${module.link}','m-link_0','moduleLi_${moduleCount}','${VorH}')">
-							<%-- <i data-feather="${module.moduleIcon}"></i> --%>
-							<span>${module.moduleName}</span>
-						</a>
-					</li>
-				</c:if>
-			</c:if>
-			<c:if test="${fn:length(module.subMenus) gt 0}">
+			<c:if test="${fn:length(module.menus) gt 0}">
 				<li class="moduleLi_${moduleCount} moduleLi nav-item with-sub">
 					<a href="javascript:;" class="nav-link ">
 						<%-- <i data-feather="${module.moduleIcon}"></i> --%>
@@ -118,43 +109,14 @@
 					</a>
 					<ul style="padding-left: 18px;">
 						<c:set var="m1Count" value="0"></c:set>
-						<c:forEach items="${module.subMenus}" var="m1" varStatus="c1">
+						<c:forEach items="${module.menus}" var="m1" varStatus="c1">
 							<c:set var="m1Count" value="${m1Count+1}"></c:set>
-							<c:if test="${fn:length(m1.subMenus) le 0}">
-								<!-- menu started -->
-								<li class="nav-item menuLi" style="display: flex;">
-									<a href="javascript:;" class="m-link_${m1Count} nav-link-new" data-linkcount="${m1Count}" onclick="loadPage(this,'${m1.link}','m-link_${m1Count}','moduleLi_${moduleCount}','${VorH}')">
-										<i class="fa fa-minus" style="margin-top: 6px; margin-right: 10px; font-size: 13px;"></i>
-										<span>${m1.menuName}</span>
-									</a>
-								</li>
-							</c:if>
-							<c:if test="${fn:length(m1.subMenus) gt 0}">
-								<li class="nav-item menuLi">
-									<a data-toggle="collapse" href="#menuCollapse${m1Count}" class="m-link_${m1Count} menuCollapse collapsed" data-linkcount="${m1Count}">
-										<i class="fa fa-plus" style="font-size: 13px; margin-right: 10px;"></i>
-										<span>${m1.menuName}</span>
-										<i class="fa fa-angle-right" style=""></i>
-									</a>
-									<div id="menuCollapse${m1Count}" class="collapse">
-										<ul class="" style="padding-left: 15px; padding-bottom: 0;">
-											<c:set var="m2Count" value="0"></c:set>
-											<c:forEach items="${m1.subMenus}" var="m2" varStatus="c1">
-												<c:set var="m2Count" value="${m2Count+1}"></c:set>
-												<c:if test="${fn:length(m2.subMenus) le 0}">
-													<!-- menu started -->
-													<li style="display: flex;">
-														<a href="javascript:;" class="m-link_${m2Count} nav-link-new" data-linkcount="${m2Count}" onclick="loadPage(this,'${m2.link}','m-link_${m2Count}','moduleLi_${moduleCount}','${VorH}')">
-															<i class="fa fa-minus" style="margin-top: 6px; margin-right: 7px; font-size: 13px;"></i>
-															<span>${m2.menuName}</span>
-														</a>
-													</li>
-												</c:if>
-											</c:forEach>
-										</ul>
-									</div>
-								</li>
-							</c:if>
+							<li class="nav-item menuLi" style="display: flex;">
+								<a href="javascript:;" class="m-link_${m1Count} nav-link-new" data-linkcount="${m1Count}" onclick="loadPage(this,'${m1.link}','m-link_${m1Count}','moduleLi_${moduleCount}','${VorH}')">
+									<i class="fa fa-minus" style="margin-top: 6px; margin-right: 10px; font-size: 13px;"></i>
+									<span>${m1.menuName}</span>
+								</a>
+							</li>
 						</c:forEach>
 					</ul>
 				</li>

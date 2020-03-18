@@ -46,7 +46,7 @@ public class EntryController {
 		request.setAttribute("activeLinkLiClass", activeLinkLiClass);
 		request.setAttribute("VorH","H" );
 		
-		request.setAttribute("menu", loadModuleList());
+		request.setAttribute("menu",  moduleRepository.findAll());
 		modelAndView.setViewName("index/Horizontal");
 		return modelAndView;
 	}
@@ -63,55 +63,55 @@ public class EntryController {
 		request.setAttribute("activeLinkClass", eleClass);
 		request.setAttribute("activeLinkLiClass", activeLinkLiClass);
 		request.setAttribute("VorH","V" );
-		request.setAttribute("menu", loadModuleList());
+		request.setAttribute("menu",  moduleRepository.findAll());
 		modelAndView.setViewName("index/Verticle");
 		return modelAndView;
 	}
 	
 	//
-	@RequestMapping(value = "/menu/getSubMenu")
+	//@RequestMapping(value = "/menu/getSubMenu")
 	@ResponseBody
 	public String getSubMenu(HttpServletRequest request, HttpServletResponse response) {
 		Long parentId=Long.parseLong(request.getParameter("parentId"));
 		Long moduleId=Long.parseLong(request.getParameter("moduleId"));
 		//String menuType=request.getParameter("menuType");
 		List<Menu> menuList = new ArrayList<>();
-		menuList = menuRepository.findAllByModuleIdAndParentMenuId(moduleId, parentId);
+		//menuList = menuRepository.findAllByModuleIdAndParentMenuId(moduleId, parentId);
 		Gson g = new Gson();
 		return g.toJson(menuList).toString();
 	}
 
 
-	public List<Module> loadModuleList() {
-		List<Module> modules = (List<Module>) moduleRepository.findAll();
-		for (Module module : modules) {
-			List<Menu> m1 = menuRepository.findAllByModuleIdAndParentMenuId(module.getId(),(long) 0);
-			if (m1.size() > 0) {
-				for (Menu me1 : m1) {
-					List<Menu> m2 = menuRepository.findAllByModuleIdAndParentMenuId(module.getId(),me1.getId());
-					if (m2.size() > 0) {
-						for (Menu me2 : m2) {
-							List<Menu> m3 = menuRepository.findAllByModuleIdAndParentMenuId(module.getId(),me2.getId());
-							for (Menu me3 : m3) {
-								me3.setSubMenus(new ArrayList<>());
-							}
-							me2.setSubMenus(m3);
-						}
-						me1.setSubMenus(m2);
-					} else {
-						me1.setSubMenus(new ArrayList<>());
-					}
-				}
-				module.setSubMenus(m1);
-			} else {
-				module.setSubMenus(new ArrayList<>());
-			}
-		}
-		
-		Gson gson = new Gson();
-		String jsonList = gson.toJson(modules);
-		System.out.println("jsonList Module :" + jsonList);
-		return modules;
-	}
+//	public List<Module> loadModuleList() {
+//		List<Module> modules = (List<Module>) moduleRepository.findAll();
+//		for (Module module : modules) {
+//			List<Menu> m1 = menuRepository.findAllByModuleIdAndParentMenuId(module.getId(),(long) 0);
+//			if (m1.size() > 0) {
+//				for (Menu me1 : m1) {
+//					List<Menu> m2 = menuRepository.findAllByModuleIdAndParentMenuId(module.getId(),me1.getId());
+//					if (m2.size() > 0) {
+//						for (Menu me2 : m2) {
+//							List<Menu> m3 = menuRepository.findAllByModuleIdAndParentMenuId(module.getId(),me2.getId());
+//							for (Menu me3 : m3) {
+//								me3.setSubMenus(new ArrayList<>());
+//							}
+//							me2.setSubMenus(m3);
+//						}
+//						me1.setSubMenus(m2);
+//					} else {
+//						me1.setSubMenus(new ArrayList<>());
+//					}
+//				}
+//				module.setSubMenus(m1);
+//			} else {
+//				module.setSubMenus(new ArrayList<>());
+//			}
+//		}
+//		
+//		Gson gson = new Gson();
+//		String jsonList = gson.toJson(modules);
+//		System.out.println("jsonList Module :" + jsonList);
+//		return modules;
+//	}
 
 }
