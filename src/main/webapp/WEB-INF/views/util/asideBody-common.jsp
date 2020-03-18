@@ -96,7 +96,7 @@
 				<c:if test="${module.id==1}">
 					<li class="moduleLi_${moduleCount} moduleLi nav-item ">
 						<a href="javascript:;" class="m-link_0 nav-link default-link nav-link-new" onclick="loadPage(this,'${module.link}','m-link_0','moduleLi_${moduleCount}','${VorH}')">
-							<i data-feather="${module.moduleIcon}"></i>
+							<%-- <i data-feather="${module.moduleIcon}"></i> --%>
 							<span>${module.moduleName}</span>
 						</a>
 					</li>
@@ -104,7 +104,7 @@
 				<c:if test="${module.id>1}">
 					<li class="moduleLi_${moduleCount} moduleLi nav-item ">
 						<a href="javascript:;" class="m-link_0 nav-link nav-link-new" onclick="loadPage(this,'${module.link}','m-link_0','moduleLi_${moduleCount}','${VorH}')">
-							<i data-feather="${module.moduleIcon}"></i>
+							<%-- <i data-feather="${module.moduleIcon}"></i> --%>
 							<span>${module.moduleName}</span>
 						</a>
 					</li>
@@ -113,7 +113,7 @@
 			<c:if test="${fn:length(module.subMenus) gt 0}">
 				<li class="moduleLi_${moduleCount} moduleLi nav-item with-sub">
 					<a href="javascript:;" class="nav-link ">
-						<i data-feather="${module.moduleIcon}"></i>
+						<%-- <i data-feather="${module.moduleIcon}"></i> --%>
 						<span>${module.moduleName}</span>
 					</a>
 					<ul style="padding-left: 18px;">

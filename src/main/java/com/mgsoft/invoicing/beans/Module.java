@@ -42,6 +42,8 @@ public class Module {
 	private String  printRight;  
 	@Column
 	private String  specialRight;
+	@Column
+	private String  status;
 	
 	@Transient
 	private List<Menu> subMenus = new ArrayList<>();
@@ -143,6 +145,12 @@ public class Module {
 	}
 	public void setSubMenus(List<Menu> subMenus) {
 		this.subMenus = subMenus;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	
