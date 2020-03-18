@@ -68,9 +68,9 @@
 			</div>
 		</form>
 	</div>
-	<div data-label="moduleForm" class="moduleTable-div">
+	<div data-label="module List" class="moduleTable-div df-example">
 		<div class="table-responsive">
-			<table class="table mg-b-0">
+			<table class="table mg-b-0" id="moduleListTable">
 				<thead>
 					<tr>
 						<th scope="col">#</th>
@@ -109,6 +109,14 @@
 	<script type="text/javascript">
 
 		var needPageReload = false;
+
+		$('#moduleListTable').DataTable({
+			  language: {
+			    searchPlaceholder: 'Search...',
+			    sSearch: '',
+			    lengthMenu: '_MENU_ items/page',
+			  }
+		});
 	
 		$('.listToFormBtn').on('click',function(){
 			if($('.moduleTable-div').hasClass('hide')){
@@ -121,6 +129,7 @@
 					$(this).find('span').text('Add new module');
 				}
 			}else{
+				clearForm();
 				$('.moduleTable-div').addClass('hide');
 				$('.moduleForm-div').removeClass('hide');
 				$(this).find('span').text('All modules');
@@ -147,6 +156,7 @@
 
 
 		function setFormData(btnObj,flg){
+			$('.listToFormBtn').click();
 			needPageReload = false;
 			$('.moduleForm-div').find('.alert').remove();
 			var tr = $(btnObj).closest('tr');
@@ -161,7 +171,6 @@
 			
 			$('#moduleForm').find('input.moduleId').val(modId); 
 			$('#moduleForm').find('.moduleSaveBtn').attr('data-flag',flg);
-			$('.listToFormBtn').click();
 			$('#moduleForm').parsley().validate();
 		}
 
@@ -214,8 +223,10 @@
 			$('#moduleForm').find('select').val('');
 			$('#moduleForm').find('.select2-hidden-accessible').val(null).trigger('change');
 			$('#moduleForm').find('textarea').val('');
+			$('#mStatusE').val('E');
+			$('#mStatusD').val('D');
+			$('#moduleForm').find('input[type="radio"]:first').prop('checked',true);
 			$('#moduleForm').find('.alert').remove();
-			
 			$('#moduleForm').find('.select2-hidden-accessible').removeClass('parsley-error');
 			$('#moduleForm').find('.parsley-error').removeClass('.parsley-error');
 			$('#moduleForm').find('.parsley-success').removeClass('.parsley-success');
