@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mgsoft.invoicing.module.admin.beans.Menu;
+import com.mgsoft.invoicing.module.admin.beans.Module;
 import com.mgsoft.invoicing.module.admin.repository.MenuRepository;
 import com.mgsoft.invoicing.module.admin.repository.ModuleRepository;
 
@@ -57,6 +58,10 @@ public class MenuMasterController {
 		String moduleName = request.getParameter("moduleName");
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
+		String pageUrl = request.getParameter("pageUrl");
+		
+		Module module = moduleRepository.getOne(moduleId);
+		
 		Menu menu = new Menu();
 		menu.setId(id);
 		menu.setMenuName(menuName);
@@ -65,16 +70,19 @@ public class MenuMasterController {
 		menu.setParentName(moduleName);
 		menu.setHasLink(false);
 		menu.setStatus(status);
+		menu.setModule(module);
+		menu.setLink(pageUrl);
+		module.getMenus().add(menu);
 		
-		System.out.println("In...>>>");
+		
 		if (flag.equals("D")) {
 			menuRepository.delete(menu);
 			res.put("status", "success");
 			res.put("msg", "Successfully deleted customer entry !");
 		} else {
-			System.out.println("1>>>");
-			Menu moRes = menuRepository.save(menu);
-			System.out.println("Menu res :" + moRes);
+
+			Module moRes = moduleRepository.save(module);
+			System.out.println("Module res :" + moRes);
 			if (moRes != null) {
 				if (flag.equals("N")) {
 					res.put("status", "success");
@@ -95,5 +103,4 @@ public class MenuMasterController {
 		}
 		return res;
 	}
-
 }
