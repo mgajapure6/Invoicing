@@ -77,6 +77,7 @@
 						<th scope="col">Module Name</th>
 						<th scope="col">Module Name Ol</th>
 						<th scope="col">Status</th>
+						<th scope="col" class="center">Total Menus</th>
 						<th scope="col" class="center">Action</th>
 					</tr>
 				</thead>
@@ -89,7 +90,8 @@
 							<td class="modName">${module.moduleName}</td>
 							<td class="modNameOl">${module.moduleNameOl}</td>
 							<td class="modStatus">${module.status} <span class="modStatus hide">${module.status}</span></td>
-							<td class="">
+							<td class="modTotMenu center">${fn:length(module.menus)}</td>
+							<td class="center">
 								<div class="text-center">
 									<button type="button" onclick="setFormData(this,'M')" data-moduleid="${module.id}" class="btn btn-success btn-icon btn-sm">
 										<i class="fa fa-pencil-alt" aria-hidden="true"></i>
