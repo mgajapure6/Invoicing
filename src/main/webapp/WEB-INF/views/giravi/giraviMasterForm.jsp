@@ -421,7 +421,7 @@
 		function openAddGiraviItemModal() {
 			clearGiraviItemForm();
 			$('#modalAddGiraviItem').modal('toggle');
-			
+			//$('#giraviItemForm').parsley().validate();
 		}
 
 		
