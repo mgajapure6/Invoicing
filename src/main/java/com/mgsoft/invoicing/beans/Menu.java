@@ -42,6 +42,13 @@ public class Menu {
 	private String specialRight;
 	@Column
 	private boolean hasLink;
+	@Column
+	private String status;
+	@Column
+	private Long parentId;
+	@Column
+	private String parentName;
+
 	@ManyToOne
 	private Module module;
 
@@ -155,6 +162,30 @@ public class Menu {
 
 	public void setModule(Module module) {
 		this.module = module;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String moduleName) {
+		this.parentName = moduleName;
+	}
+	
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long moduleId) {
+		this.parentId = moduleId;
 	}
 
 	@Override

@@ -1,10 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
 <html>
 <head>
 
 <style type="text/css">
-.hide{
-	display: none !important;
-}
+		.alert{
+			margin-top: 10px;
+		}
 </style>
 <body>
 	<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
@@ -35,101 +41,91 @@
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file wd-10 mg-r-5">
 					<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
 					<polyline points="13 2 13 9 20 9"></polyline></svg>
-				<span>All Menus</span>
+				<span>Add New Menu</span>
 			</button>
 		</div>
 	</div>
-	<div data-label="Entity Form" class="df-example demo-form">
-		<form>
+	<div data-label="Entity Form" class="df-example menu-form hide">
+		<form id="menuForm">
 			<div class="form-group row">
-				<label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+				<label for="inputEmail3" class="col-sm-2 col-form-label">Module Name</label>
 				<div class="col-sm-10">
-					<input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+					<!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Select Module Name"> -->
+					<select id="moduleList" class="form-control">
+						<c:forEach items="${moduleList}" var="module">
+							<c:set value="${rCount + 1}" var="rCount"></c:set>
+							<option value="${module.id}">${module.moduleName}</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Menu Name</label>
 				<div class="col-sm-10">
-					<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+					<input type="text" class="form-control mandatory" id="menuName" placeholder="Enter Menu Name">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-form-label col-sm-2 pt-0">Radios</label>
+				<label for="inputPassword3" class="col-sm-2 col-form-label">Menu Name Ol</label>
 				<div class="col-sm-10">
-					<div class="custom-control custom-radio">
-						<input type="radio" name="customRadio" class="custom-control-input" checked=""> <label class="custom-control-label">First radio</label>
-					</div>
-					<div class="custom-control custom-radio">
-						<input type="radio" name="customRadio" class="custom-control-input"> <label class="custom-control-label">Second radio</label>
-					</div>
-					<div class="custom-control custom-radio">
-						<input type="radio" name="customRadio" class="custom-control-input" disabled=""> <label class="custom-control-label">Third disabled radio</label>
-					</div>
+					<input type="text" class="form-control" id="menuNameOl" placeholder="Enter Menu Name Ol">
 				</div>
 			</div>
 			<div class="form-group row">
-				<div class="col-sm-2">Checkbox</div>
+				<label class="col-form-label col-sm-2 pt-0">Status</label>
 				<div class="col-sm-10">
-					<div class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input"> <label class="custom-control-label">Example checkbox</label>
+					<div class="custom-control custom-radio">
+						<input type="radio" id="mStatusE" value="E" name="mStatus" class="custom-control-input" checked> <label class="custom-control-label" for="mStatusE">Enable</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input type="radio" id="mStatusD" value="D" name="mStatus" class="custom-control-input"> <label class="custom-control-label" for="mStatusD">Disable</label>
 					</div>
 				</div>
 			</div>
 			<div class="form-group row mg-b-0">
+				<label class="col-form-label col-sm-2 pt-0"></label>
 				<div class="col-sm-10">
-					<button type="submit" class="btn btn-primary">Submit Form</button>
+					<button type="button" class="btn btn-primary menuSaveBtn" data-flag="N" onclick="saveMenu(this)">Save Menu</button>
+					<button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
 				</div>
 			</div>
 		</form>
 	</div>
-	<div data-label="Example" class="df-example demo-table hide">
+	<div data-label="menu List" class="menuTable-div df-example">
 		<div class="table-responsive">
-			<table class="table mg-b-0">
+			<table class="table mg-b-0" id="menuListTable">
 				<thead>
 					<tr>
-						<th scope="col">ID</th>
-						<th scope="col">Name</th>
-						<th scope="col">Job Title</th>
-						<th scope="col">Degree</th>
-						<th scope="col">Salary</th>
+						<th scope="col">#</th>
+						<th scope="col">Menu Name</th>
+						<th scope="col">Menu Name Ol</th>
+						<th scope="col">Module Name</th>
+						<th scope="col">Status</th>
+						<th scope="col" class="center">Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Adrian Monino</td>
-						<td>Front-End Engineer</td>
-						<td>Computer Science</td>
-						<td>$120,000</td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Socrates Itumay</td>
-						<td>Software Engineer</td>
-						<td>Computer Engineering</td>
-						<td>$150,000</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Reynante Labares</td>
-						<td>Product Manager</td>
-						<td>Business Management</td>
-						<td>$250,000</td>
-					</tr>
-					<tr>
-						<th scope="row">4</th>
-						<td>Hamza Macasindil</td>
-						<td>Software Engineer</td>
-						<td>Computer Engineering</td>
-						<td>$140,000</td>
-					</tr>
-					<tr>
-						<th scope="row">5</th>
-						<td>Roven Galeon</td>
-						<td>Project Manager</td>
-						<td>Accountancy</td>
-						<td>$160,000</td>
-					</tr>
+					<c:set value="0" var="rCount"></c:set>
+					<c:forEach items="${allMenus}" var="menu">
+						<c:set value="${rCount + 1}" var="rCount"></c:set>
+						<tr>
+							<td class="modCount">${rCount}</td>
+							<td class="modName">${menu.menuName}</td>
+							<td class="modNameOl">${menu.menuNameOl}</td>
+							<td class="modNameOl"></td>
+							<td class="modStatus">${menu.status} <span class="modStatus hide">${menu.status}</span></td>
+							<td class="">
+								<div class="text-center">
+									<button type="button" onclick="setFormData(this,'M')" data-menuid="${menu.id}" class="btn btn-success btn-icon btn-sm">
+										<i data-feather="edit-3"></i>
+									</button>
+									<button type="button" onclick="setFormData(this,'D')" data-menuid="${menu.id}" class="btn btn-danger btn-icon btn-sm">
+										<i data-feather="trash-2"></i>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -137,15 +133,17 @@
 	</div>
 	<script type="text/javascript">
 	
+		var needPageReload = false;
+	
 		$('.listToFormBtn').on('click',function(){
-			if($('.demo-table').hasClass('hide')){
-				$('.demo-table').removeClass('hide');
-				$('.demo-form').addClass('hide');
-				$(this).find('span').text('Add new Entity')
-			}else{
-				$('.demo-table').addClass('hide');
-				$('.demo-form').removeClass('hide');
+			if($('.menu-form').hasClass('hide')){
+				$('.menu-form').removeClass('hide');
+				$('.menuTable-div').addClass('hide');
 				$(this).find('span').text('All Menus')
+			}else{
+				$('.menu-form').addClass('hide');
+				$('.menuTable-div').removeClass('hide');
+				$(this).find('span').text('Add New Menu')
 			}
 		})
 		
@@ -157,6 +155,111 @@
 			    lengthMenu: '_MENU_ items/page',
 			  }
 		});
+		
+		
+		$('#menuForm').parsley().on('field:validated', function() {
+			var parsleyFieldLength = $('#menuForm').find('.mandatory').length;
+		    var isValidForm = false;
+			if($('#menuForm').find('.parsley-success').length==parsleyFieldLength){
+				isValidForm = true;
+			}else{
+				isValidForm = false;
+			}
+			if(isValidForm){
+				$('.menuSaveBtn').prop('disabled',false);
+			}else{
+				$('.menuSaveBtn').prop('disabled',true);
+			}
+		 }).on('form:submit', function() {
+		    return false; // Don't submit form 
+		 });
+		
+		
+		function setFormData(btnObj,flg){
+			$('.listToFormBtn').click();
+			needPageReload = false;
+			$('.menu-form').find('.alert').remove();
+			var tr = $(btnObj).closest('tr');
+			var modId = $(btnObj).attr('data-menuid');
+			$('#menuName').val($(tr).find('.modName').text().trim());                                           
+			$('#menuNameOl').val($(tr).find('.modNameOl').text().trim());  
+			if($(tr).find('span.modStatus').text()=="E")  {
+				$('#mStatusE').prop("checked",true);
+			}else{
+				$('#mStatusD').prop("checked",true);
+			}                                     
+			
+			$('#menuForm').find('input.menuId').val(modId); 
+			$('#menuForm').find('.menuSaveBtn').attr('data-flag',flg);
+			$('#menuForm').parsley().validate();
+		}
+		
+		
+		function saveMenu(btnObj){
+			var flag = $(btnObj).data('flag');
+			var menuId = null;
+			
+			if(flag=='N'){
+				menuId = 0;
+			}else{
+				menuId = $('#menuForm').find('.menuId').val();
+			}
+			
+			var formData = {
+				'menuName'   : 	$('#menuName').val(),
+				'menuNameOl' : 	$('#menuNameOl').val(),
+				'moduleId'   :  $('#moduleList option:selected').val(),
+				'moduleName' :  $('#moduleList option:selected').text(),
+				'status'     :	$('#menuForm').find('input[name="mStatus"]:checked').val(),
+				'menuId'     :  menuId,
+				'flag'       :  flag
+			}
+			
+			$.ajax({
+				url : '/app/admin/menuMaster/saveUpdateDeleteMenu',
+				method : 'POST',
+				data : formData,
+				async : false,
+				success : function(resp) {
+					console.log('resp',resp);
+					if(resp.status=="success"){
+						needPageReload=true;
+						clearForm($('#menuForm'));
+						$('.menu-form').append('<div class="alert alert-solid alert-success d-flex align-items-center mg-b-0" role="alert">'+
+					   '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
+					}else{
+						needPageReload=false;
+						$('.menu-form').find('.alert').remove();
+						$('.menu-form').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-b-0" role="alert">'+
+			           '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
+					}
+				}
+			});
+		}
+		
+		function clearForm(formObje){
+			var formObj = formObje ? formObje : $('#menuForm');
+			console.log('clearForm');
+			$('.menu-form').find('.alert').remove();
+			$('#menuForm').find('input').val('');
+			$('#menuForm').find('select').val('');
+			$('#menuForm').find('.select2-hidden-accessible').val(null).trigger('change');
+			$('#menuForm').find('textarea').val('');
+			$('#mStatusE').val('E');
+			$('#mStatusD').val('D');
+			$('#menuForm').find('input[type="radio"]:first').prop('checked',true);
+			$('#menuForm').find('.alert').remove();
+			$('#menuForm').find('.select2-hidden-accessible').removeClass('parsley-error');
+			$('#menuForm').find('.parsley-error').removeClass('.parsley-error');
+			$('#menuForm').find('.parsley-success').removeClass('.parsley-success');
+			$('#menuForm').find('.select2-selection').removeClass('.parsley-error');
+			$('#menuForm').find('input.menuId').val("0"),  
+			$('#menuForm').find('.menuSaveBtn').attr('data-flag',"N");
+			$('#menuForm').find('.menuSaveBtn').removeClass('btn-danger').addClass('btn-primary');
+			$('#menuForm').find('.menuSaveBtn').text('Save Menu');
+			$('#menuForm').find('.menuSaveBtn').prop('disabled',true);
+			$('#menuForm').parsley().reset();
+		}
 	</script>
 </body>
 </html>
