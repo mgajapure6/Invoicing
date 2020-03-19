@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.beans;
+package com.mgsoft.invoicing.module.sales.beans;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mgsoft.invoicing.beans.Discount;
+import com.mgsoft.invoicing.beans.Tax;
 
 @Entity
 @Table

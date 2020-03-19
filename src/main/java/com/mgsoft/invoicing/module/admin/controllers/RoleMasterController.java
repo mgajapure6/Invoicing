@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.admin;
+package com.mgsoft.invoicing.module.admin.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value="/app/admin/userMaster")
-public class UserMasterController {
+@RequestMapping(value="/app/admin/roleMaster")
+public class RoleMasterController {
 	///admin/menuSetting
 	
 	@RequestMapping(value= "")
@@ -25,7 +25,7 @@ public class UserMasterController {
 		}*/
 		
 		ModelAndView modelAndView =  new ModelAndView();
-		modelAndView.setViewName("admin/userSetting");
+		modelAndView.setViewName("admin/roleSetting");
 		return modelAndView;
 	}
 

@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.repositories;
+package com.mgsoft.invoicing.module.sales.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.mgsoft.invoicing.beans.Customer;
-import com.mgsoft.invoicing.beans.SalesInvoice;
+import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
 
 
 @Repository

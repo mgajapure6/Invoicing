@@ -92,10 +92,10 @@
 							<td class="">
 								<div class="text-center">
 									<button type="button" onclick="setFormData(this,'M')" data-moduleid="${module.id}" class="btn btn-success btn-icon btn-sm">
-										<i data-feather="edit-3"></i>
+										<i class="fa fa-pencil-alt" aria-hidden="true"></i>
 									</button>
 									<button type="button" onclick="setFormData(this,'D')" data-moduleid="${module.id}" class="btn btn-danger btn-icon btn-sm">
-										<i data-feather="trash-2"></i>
+										<i class="fa fa-trash-alt" aria-hidden="true"></i>
 									</button>
 								</div>
 							</td>

@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
+
 @Entity
 @Table
 public class Customer implements Serializable {

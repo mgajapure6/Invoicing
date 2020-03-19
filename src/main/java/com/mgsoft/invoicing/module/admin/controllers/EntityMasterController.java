@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.admin;
+package com.mgsoft.invoicing.module.admin.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

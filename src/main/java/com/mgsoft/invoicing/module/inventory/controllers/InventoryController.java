@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.inventory;
+package com.mgsoft.invoicing.module.inventory.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mgsoft.invoicing.beans.InvItem;
-import com.mgsoft.invoicing.beans.ItemCategory;
-import com.mgsoft.invoicing.repositories.InvItemRepository;
-import com.mgsoft.invoicing.repositories.ItemCategoryRepository;
+import com.mgsoft.invoicing.module.inventory.beans.InvItem;
+import com.mgsoft.invoicing.module.inventory.beans.ItemCategory;
+import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
+import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 
 @Controller
 @RequestMapping(value="/inventory")

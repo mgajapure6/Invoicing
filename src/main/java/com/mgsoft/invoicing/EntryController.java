@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.mgsoft.invoicing.beans.Menu;
-import com.mgsoft.invoicing.beans.Module;
-import com.mgsoft.invoicing.repositories.MenuRepository;
-import com.mgsoft.invoicing.repositories.ModuleRepository;
+import com.mgsoft.invoicing.module.admin.beans.Menu;
+import com.mgsoft.invoicing.module.admin.repository.MenuRepository;
+import com.mgsoft.invoicing.module.admin.repository.ModuleRepository;
 
 @Controller
 public class EntryController {

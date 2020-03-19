@@ -25,16 +25,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mgsoft.invoicing.beans.Customer;
-import com.mgsoft.invoicing.beans.InvItem;
-import com.mgsoft.invoicing.beans.ItemCategory;
-import com.mgsoft.invoicing.beans.Menu;
-import com.mgsoft.invoicing.beans.Module;
 import com.mgsoft.invoicing.beans.Tax;
+import com.mgsoft.invoicing.module.admin.beans.Menu;
+import com.mgsoft.invoicing.module.admin.beans.Module;
+import com.mgsoft.invoicing.module.admin.repository.MenuRepository;
+import com.mgsoft.invoicing.module.admin.repository.ModuleRepository;
+import com.mgsoft.invoicing.module.inventory.beans.InvItem;
+import com.mgsoft.invoicing.module.inventory.beans.ItemCategory;
+import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
+import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
-import com.mgsoft.invoicing.repositories.InvItemRepository;
-import com.mgsoft.invoicing.repositories.ItemCategoryRepository;
-import com.mgsoft.invoicing.repositories.MenuRepository;
-import com.mgsoft.invoicing.repositories.ModuleRepository;
 import com.mgsoft.invoicing.repositories.TaxRepository;
 
 @SpringBootApplication

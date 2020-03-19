@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.beans;
+package com.mgsoft.invoicing.module.inventory.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;

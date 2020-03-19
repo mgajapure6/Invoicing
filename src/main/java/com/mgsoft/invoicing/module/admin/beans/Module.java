@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.beans;
+package com.mgsoft.invoicing.module.admin.beans;
 
 import java.util.ArrayList;
 import java.util.Collection;

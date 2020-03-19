@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.sales;
+package com.mgsoft.invoicing.module.sales.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
