@@ -74,33 +74,33 @@ public class MenuMasterController {
 		menu.setLink(pageUrl);
 		module.getMenus().add(menu);
 		
-		
+		//System.out.println(">>>"+menu);
 		if (flag.equals("D")) {
 			menuRepository.delete(menu);
 			res.put("status", "success");
 			res.put("msg", "Successfully deleted customer entry !");
-		} else {
-
+		} else if (flag.equals("N")){
+			
 			Module moRes = moduleRepository.save(module);
-			System.out.println("Module res :" + moRes);
 			if (moRes != null) {
-				if (flag.equals("N")) {
-					res.put("status", "success");
-					res.put("msg", "Successfully save menu entry !");
-				} else {
-					res.put("status", "success");
-					res.put("msg", "Successfully updated menu entry !");
-				}
+				res.put("status", "success");
+				res.put("msg", "Successfully save menu entry !");
+			}else {
+				res.put("status", "failed");
+				res.put("msg", "Failed to save menu entry !");
+			}
+			
+		}else {
+			Menu me = menuRepository.save(menu);
+			if (me != null) {
+				res.put("status", "success");
+				res.put("msg", "Successfully updated menu entry !");
 			} else {
-				if (flag.equals("N")) {
-					res.put("status", "failed");
-					res.put("msg", "Failed to save menu entry !");
-				} else {
-					res.put("status", "failed");
-					res.put("msg", "Failed to update menu entry !");
-				}
+				res.put("status", "failed");
+				res.put("msg", "Failed to update menu entry !");
 			}
 		}
+			
 		return res;
 	}
 }

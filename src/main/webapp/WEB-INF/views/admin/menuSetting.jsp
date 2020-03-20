@@ -47,6 +47,7 @@
 	</div>
 	<div data-label="Entity Form" class="df-example menu-form hide">
 		<form id="menuForm">
+			<input type="text" id="menuId" class="menuId" hidden />
 			<div class="form-group row">
 				<label for="inputEmail3" class="col-sm-2 col-form-label">Module Name</label>
 				<div class="col-sm-10">
@@ -91,7 +92,7 @@
 			<div class="form-group row mg-b-0">
 				<label class="col-form-label col-sm-2 pt-0"></label>
 				<div class="col-sm-10">
-					<button type="button" class="btn btn-primary menuSaveBtn" data-flag="N" onclick="saveMenu(this)" disabled>Save Menu</button>
+					<button type="button" class="btn btn-primary menuSaveBtn" data-flag="N" data-menuid="" onclick="saveMenu(this)" disabled>Save Menu</button>
 					<button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
 				</div>
 			</div>
@@ -189,6 +190,7 @@
 			$('.menu-form').find('.alert').remove();
 			var tr = $(btnObj).closest('tr');
 			var modId = $(btnObj).attr('data-menuid');
+			
 			$('#menuName').val($(tr).find('.menuName').text().trim());                                           
 			$('#menuNameOl').val($(tr).find('.menuNameOl').text().trim());
 			$('#moduleList').val($(btnObj).attr('data-moduleid'));
@@ -207,12 +209,13 @@
 		
 		function saveMenu(btnObj){
 			var flag = $(btnObj).data('flag');
+			console.log();
 			var menuId = null;
 			
 			if(flag=='N'){
 				menuId = 0;
 			}else{
-				menuId = $('#menuForm').find('.menuId').val();
+				menuId = $("#menuId").attr('data-parsley-id');//$('#menuForm').find('.menuId').val();
 			}
 			
 			var formData = {
@@ -232,7 +235,7 @@
 				data : formData,
 				async : false,
 				success : function(resp) {
-					console.log('resp',resp);
+					
 					if(resp.status=="success"){
 						needPageReload=true;
 						clearForm($('#menuForm'));
@@ -250,7 +253,6 @@
 		
 		function clearForm(formObje){
 			var formObj = formObje ? formObje : $('#menuForm');
-			console.log('clearForm');
 			$('.menu-form').find('.alert').remove();
 			$('#menuForm').find('input').val('');
 			$('#menuForm').find('select').val('');
