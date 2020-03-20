@@ -215,7 +215,7 @@
 			if(flag=='N'){
 				menuId = 0;
 			}else{
-				menuId = $("#menuId").attr('data-parsley-id');//$('#menuForm').find('.menuId').val();
+				menuId = $("#menuId").attr('data-parsley-id');
 			}
 			
 			var formData = {
