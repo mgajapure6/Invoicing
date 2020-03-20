@@ -17,7 +17,7 @@
 <script src="lib/js-cookie/js.cookie.js"></script>
 <script src="lib/jquery.redirect/jquery.redirect.js"></script>
 <script src="lib/jquery-confirm/dist/jquery-confirm.min.js"></script>
-
+<script src="lib/jquery-validation/jquery.validate.min.js"></script>
 <script src="assets/vertical/js/dashforge.js"></script>
 <script src="assets/vertical/js/dashforge.aside.js"></script>
 <script src="assets/vertical/js/dashforge.settings.js"></script>

@@ -242,6 +242,7 @@ public class InvoicingApplication extends SpringBootServletInitializer {
 						men.setMenuName(menu.has("menu_name") ? menu.get("menu_name").getAsString() : null);
 						men.setHasLink(menu.has("isLink") ? menu.get("isLink").getAsBoolean() : null);
 						men.setLink(menu.has("url") ? menu.get("url").getAsString() : null);
+						men.setStatus(menu.has("status") ? menu.get("status").getAsString() : null);
 						men.setModule(m);
 						menus.add(men);
 						
