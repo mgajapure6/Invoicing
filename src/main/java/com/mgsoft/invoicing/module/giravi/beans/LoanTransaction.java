@@ -28,7 +28,6 @@ public class LoanTransaction implements Serializable {
 	String tranDesc;
 
 	@ManyToOne
-	@JsonIgnore
 	Loan loan;
 
 	public Integer getId() {

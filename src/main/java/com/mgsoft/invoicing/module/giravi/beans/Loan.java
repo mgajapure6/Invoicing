@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mgsoft.invoicing.beans.Customer;
 
 @Entity
 @Table
@@ -42,8 +43,7 @@ public class Loan implements Serializable {
 	Collection<LoanTransaction> loanTransactions;
 
 	@ManyToOne
-	@JsonIgnore
-	PartyAccount partyAccount;
+	Customer customer;
 
 	public Integer getId() {
 		return id;
@@ -84,24 +84,21 @@ public class Loan implements Serializable {
 	public void setLoanTransactions(List<LoanTransaction> loanTransactions) {
 		this.loanTransactions = loanTransactions;
 	}
-
-	public PartyAccount getPartyAccount() {
-		return partyAccount;
+	
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setPartyAccount(PartyAccount partyAccount) {
-		this.partyAccount = partyAccount;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
-	public Loan(Integer id, Float loanAmount, Float intrestRate, List<GiraviItem> giraviItems,
-			Collection<LoanTransaction> loanTransactions, PartyAccount partyAccount) {
-		super();
-		this.id = id;
-		this.loanAmount = loanAmount;
-		this.intrestRate = intrestRate;
+	public void setGiraviItems(Collection<GiraviItem> giraviItems) {
 		this.giraviItems = giraviItems;
+	}
+
+	public void setLoanTransactions(Collection<LoanTransaction> loanTransactions) {
 		this.loanTransactions = loanTransactions;
-		this.partyAccount = partyAccount;
 	}
 
 	public Loan() {

@@ -1,7 +1,10 @@
 package com.mgsoft.invoicing.module.giravi.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +20,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mgsoft.invoicing.beans.Customer;
+import com.mgsoft.invoicing.module.giravi.beans.GiraviItem;
+import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.giravi.beans.PartyAccount;
 import com.mgsoft.invoicing.module.giravi.repository.GiraviMasterRepository;
 import com.mgsoft.invoicing.module.giravi.repository.PartyAccountRepository;
@@ -24,7 +30,7 @@ import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.util.JsonUtil;
 
 @Controller
-@RequestMapping("/app/giravi")
+@RequestMapping("/app/giravi/giraviMaster")
 public class GiraviMasterController {
 
 	@Autowired
@@ -36,7 +42,7 @@ public class GiraviMasterController {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	@GetMapping("/giraviMaster")
+	@GetMapping("")
 	public String showPage(HttpServletRequest request, HttpServletResponse response) {
 		request.setAttribute("partyAccount", new PartyAccount());
 		List<PartyAccount> list = partyAccountRepository.findAll();
@@ -45,16 +51,71 @@ public class GiraviMasterController {
 		return "giravi/giraviMaster";
 	}
 
-	@PostMapping("/giraviMaster/save")
+	@PostMapping("/saveGiravi")
 	@ResponseBody
-	public String save(HttpServletRequest request, HttpServletResponse response) {
-		String jsonObj = request.getParameter("jsonData");
+	public Map<String, Object> save(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> res = new HashMap<>();
+		String giraviId = request.getParameter("giraviId");
+		String flag = request.getParameter("flag");
+		String customerId = request.getParameter("customerId");
+		String giraviNo = request.getParameter("giraviNo");
+		String giraviDate = request.getParameter("giraviDate");
+		String posoNo = request.getParameter("posoNo");
+		String payDueDate = request.getParameter("payDueDate");
+		String giraviAmt = request.getParameter("giraviAmt");
+		String grndTotAmt = request.getParameter("grndTotAmt");
+		String recipientDesc = request.getParameter("recipientDesc");
+		Float intrestRate = Float.valueOf(request.getParameter("intrestRate"));
+		Float loanAmount = Float.valueOf(request.getParameter("loanAmount"));
 		JsonParser parser = new JsonParser();
-		JsonElement jsonElement = parser.parse(jsonObj);
-		JsonObject jsonObject = jsonElement.getAsJsonObject();
-		JsonObject headObject = jsonObject.get("head").getAsJsonObject();
-		JsonArray lineArr = jsonObject.get("line").getAsJsonArray();
+		JsonElement jsonElement = parser.parse(request.getParameter("items"));
+		JsonArray itemsArr = jsonElement.getAsJsonArray();
+		
+		
+		Customer cus = customerRepository.getOne(Long.valueOf(customerId));
+		
+		Loan loan = new Loan();
+		loan.setId(Integer.valueOf(giraviId));
+		loan.setIntrestRate(intrestRate);
+		loan.setLoanAmount(loanAmount);
+		//loan.setLoanTransactions(null);
+		loan.setCustomer(cus);
+		
+		List<GiraviItem> itemsList = new ArrayList<>();
+		
+		if(itemsArr.size()>0) {
+			Iterator<JsonElement> itr = itemsArr.iterator();
+			while (itr.hasNext()) {
+				JsonObject jo = itr.next().getAsJsonObject();
+				GiraviItem gi = new GiraviItem();
+				gi.setId(jo.get("id").getAsInt());
+				gi.setItmName(jo.get("itmName").getAsString());
+				gi.setItmDesc(jo.get("itmDesc").getAsString());
+				gi.setItmEligibleAmount(jo.get("itmEligibleAmount").getAsFloat());
+				gi.setItmGrossWeight(jo.get("itmGrossWeight").getAsFloat());
+				gi.setItmGrossWeightUom(jo.get("itmGrossWeightUom").getAsString());
+				gi.setItmNetWeight(jo.get("itmNetWeight").getAsFloat());
+				gi.setItmNetWeightUom(jo.get("itmNetWeightUom").getAsString());
+				gi.setItmQty(jo.get("itmQty").getAsFloat());
+				gi.setItmValuation(jo.get("itmValuation").getAsFloat());
+				gi.setLoan(loan);
+				itemsList.add(gi);
+			}
+		}
+		
+		loan.setGiraviItems(itemsList);
+		
+		Customer customer = customerRepository.save(cus);
+		if (customer != null) {
+			res.put("status", "success");
+			res.put("msg", "Successfully save module entry !");
+		} else {
+			res.put("status", "failed");
+			res.put("msg", "Failed to save module entry !");
+		}
+		
+		System.out.println("itemsArr::"+itemsArr);
 
-		return "giravi/giraviMaster";
+		return res;
 	}
 }

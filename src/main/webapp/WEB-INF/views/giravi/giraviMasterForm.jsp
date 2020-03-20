@@ -264,39 +264,6 @@
 						<hr style="margin: 3px">
 						<div class="d-flex" style="align-items: center;">
 							<div class=" flex-grow-1">
-								<b>Discount Amount</b>
-							</div>
-							<!-- <div class="pd-10">Flex item</div> -->
-							<div class=" mg-l-auto">
-								<b>Rs :</b>
-								<b class="giraviMainDisAmt">0.00</b>
-							</div>
-						</div>
-						<hr style="margin: 3px">
-						<div class="d-flex" style="align-items: center;">
-							<div class=" flex-grow-1">
-								<b>Taxable Amount</b>
-							</div>
-							<!-- <div class="pd-10">Flex item</div> -->
-							<div class=" mg-l-auto">
-								<b>Rs :</b>
-								<b class="giraviMainTaxableAmt">0.00</b>
-							</div>
-						</div>
-						<hr style="margin: 3px">
-						<div class="d-flex" style="align-items: center;">
-							<div class=" flex-grow-1">
-								<b>Tax Amount</b>
-							</div>
-							<!-- <div class="pd-10">Flex item</div> -->
-							<div class=" mg-l-auto">
-								<b>Rs :</b>
-								<b class="giraviMainTaxAmt">0.00</b>
-							</div>
-						</div>
-						<hr style="margin: 3px">
-						<div class="d-flex" style="align-items: center;">
-							<div class=" flex-grow-1">
 								<b>Grand Total Amount</b>
 							</div>
 							<!-- <div class="pd-10">Flex item</div> -->
@@ -424,42 +391,11 @@
 			//$('#giraviItemForm').parsley().validate();
 		}
 
-		
-		function openItemModal(){
-			clearItemForm($('#itemForm')); //function written in include jsp files
-			$('#modalAddGiraviItem').modal('toggle');
-			$('#modalAddItem').modal('toggle');
-		}
-		
-		function openCategoryModal(){
-			clearCategoryForm($('#categoryForm')); //function written in include jsp files
-			$('#modalAddItem').modal('toggle');
-			$('#modalAddCategory').modal('toggle');
-			$('#categoryForm').find('.categoryName').focus();
-		}
-		
-		function openDiscountEntryModal(){
-			clearDiscountForm($('#discountForm'));
-			$('#modalAddGiraviItem').modal('toggle');
-			$('#modalAddDiscount').modal('toggle');
-		}
-		
-		function openTaxEntryModal(){
-			clearTaxForm($('#taxForm'));
-			$('#modalAddGiraviItem').modal('toggle');
-			$('#modalAddTax').modal('toggle');
-		}
-
 		function openAddCustomerModal(){
 			clearCustomerForm($('#customerForm'));
 			$(".customerSelect").select2("close");
 			$('#modalAddCustomer').modal('toggle');
 		}
-		
-		
-		
-
-		
 		
 		function updateTableSerialNumber(){
 			$('.giraviItemsTable tbody tr').each(function(i,trObj){
@@ -468,7 +404,6 @@
 		}
 		
 		function updateTfootTotal(){
-			
 			var qtyTot = 0.00;
 			var upTot = 0.00;
 			var taTot = 0.00;
@@ -525,9 +460,6 @@
 			}
 			
 		}
-		
-		
-		
 		
 		function editCustomer(){
 			$('.billToDetail').empty();
@@ -586,27 +518,26 @@
 				return;
 			}
 			
-			var soldItems = [];
+			var giraviItems = [];
 			$('.giraviItemsTable tbody tr').each(function(i,tr){
-				soldItems.push(JSON.parse($(tr).find('.rowItemObj').text()));
+				giraviItems.push(JSON.parse($(tr).find('.rowItemObj').text()));
 			});
 
 			
 			var formData = {
-					'giraviId'   : $('#giraviId').val(),
-					'flag'        : $('#giraviFlag').val(),
-					'items'       : JSON.stringify(soldItems),
-					'customerId'  : $('.customer-form-group').find('.customerSelect').val(),
-					'invNo'       : $('.giravi-detail-group').find('.giraviNum').val(),
-					'invDate'     : $('.giravi-detail-group').find('.giraviDate').val(),
-					'posoNo'      : $('.giravi-detail-group').find('.posonum').val(),
-					'payDueDate'  : $('.giravi-detail-group').find('.paymentDueDate').val(),
-					'invAmt'      : $('.bottom-total-group').find('.giraviMainTotAmt').text(),
-					'discountAmt' : $('.bottom-total-group').find('.giraviMainDisAmt').text(),
-					'taxableAmt'  : $('.bottom-total-group').find('.giraviMainTaxableAmt').text(),
-					'taxAmt'      : $('.bottom-total-group').find('.giraviMainTaxAmt').text(),
-					'grndTotAmt'  : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
-					'recipientDesc' : $('.recipientDesc').val()
+				'giraviId'    : $('#giraviId').val(),
+				'flag'        : $('#giraviFlag').val(),
+				'items'       : JSON.stringify(giraviItems),
+				'customerId'  : $('.customer-form-group').find('.customerSelect').val(),
+				'giraviNo'    : $('.giravi-detail-group').find('.giraviNum').val(),
+				'giraviDate'  : $('.giravi-detail-group').find('.giraviDate').val(),
+				'posoNo'      : $('.giravi-detail-group').find('.posonum').val(),
+				'payDueDate'  : $('.giravi-detail-group').find('.paymentDueDate').val(),
+				'giraviAmt'   : $('.bottom-total-group').find('.giraviMainTotAmt').text(),
+				'grndTotAmt'  : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
+				'recipientDesc' : $('.recipientDesc').val(),
+				'intrestRate' : '2.5',
+				'loanAmount'  : '15000.00'
 			}
 			
 			
@@ -614,7 +545,7 @@
 
 
 			$.ajax({
-				url : '/sales/saveUpdateDeleteSalesOrder',
+				url : '/app/giravi/giraviMaster/saveGiravi',
 				method : 'POST',
 				data : formData,
 				async : false,
@@ -663,69 +594,6 @@
 	
 
 	</script>
-	<script type="text/javascript">
-
 	
-	
-	/* function addTfootTotal(){
-	var taxAmt = $('#salesGiraviItemForm').find('.modalTotTaxAmt').text();
-
-	var OqtyTotTfoot =    	parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.qtyTotTfoot span:eq(0)').text())+parseFloat($('#salesGiraviItemForm').find('.qty').val());
-	var OupTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.upTotTfoot span:eq(0)').text())+parseFloat($('#salesGiraviItemForm').find('.unitPrice').val());
-	var OtaTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.taTotTfoot span:eq(0)').text())+parseFloat($('#salesGiraviItemForm').find('.modalTotAmt').text());
-	var OdTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.dTotTfoot span:eq(0)').text())+parseFloat($('#salesGiraviItemForm').find('.modalDiscountAmt').text());
-	var OtaxAmtTotTfoot = 	parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.taxAmtTotTfoot span:eq(0)').text())+parseFloat($('#salesGiraviItemForm').find('.modalTotAmt').text());
-	var OtaxTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.taxTotTfoot span:eq(0)').text())+parseFloat(taxAmt);
-	
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.qtyTotTfoot span:eq(0)').text(OqtyTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.upTotTfoot span:eq(0)').text(OupTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.taTotTfoot span:eq(0)').text(OtaTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.dTotTfoot span:eq(0)').text(OdTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.taxAmtTotTfoot span:eq(0)').text(OtaxAmtTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.taxTotTfoot span:eq(0)').text(OtaxTotTfoot.toFixed(2));
-	
-	var giraviMainTotAmt =    parseFloat($('.giraviMainTotAmt').text())+parseFloat($('#salesGiraviItemForm').find('.modalTotAmt').text());
-	var giraviMainTaxAmt =    parseFloat($('.giraviMainTaxAmt').text())+parseFloat(taxAmt);
-	var giraviMainDisAmt =    parseFloat($('.giraviMainDisAmt').text())+parseFloat($('#salesGiraviItemForm').find('.modalDiscountAmt').text());
-	var giraviMainGrandAmt =  parseFloat($('.giraviMainGrandAmt').text())+parseFloat($('#salesGiraviItemForm').find('.modalGrandTotAmt').text());
-	
-	$('.giraviMainTotAmt').text(giraviMainTotAmt.toFixed(2));
-	$('.giraviMainTaxAmt').text(giraviMainTaxAmt.toFixed(2));
-	$('.giraviMainDisAmt').text(giraviMainDisAmt.toFixed(2));
-	$('.giraviMainGrandAmt').text(giraviMainGrandAmt.toFixed(2));
-	
-	
-	if($('.giraviItemsTable tfoot').find('.totalTr').hasClass('hide')){
-		$('.giraviItemsTable tfoot').find('.totalTr').removeClass('hide');
-	}
-	
-}  */
-
-/* function substractTfootTotal(trObj){
-	var OqtyTotTfoot =    	parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.qtyTotTfoot span:eq(0)').text())-parseFloat($(trObj).find('.itemQtyTd span:eq(0)').text());
-	var OupTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.upTotTfoot span:eq(0)').text())-parseFloat($(trObj).find('.itemUPTd span:eq(0)').text());
-	var OtaTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.taTotTfoot span:eq(0)').text())-parseFloat($(trObj).find('.itemTATd span:eq(0)').text());
-	var OdTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.dTotTfoot span:eq(0)').text())-parseFloat($(trObj).find('.itemDisTd span:eq(0)').text());
-	var OtaxAmtTotTfoot = 	parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.taxAmtTotTfoot span:eq(0)').text())-parseFloat($(trObj).find('.itemTaxAmtTd span:eq(0)').text());
-	var OtaxTotTfoot = 		parseFloat($('.giraviItemsTable tfoot').find('.totalTr').find('.taxTotTfoot span:eq(0)').text())-parseFloat($(trObj).find('.itemTaxTd .rowTaxTotAmt').text()==""?"0.00":$(trObj).find('.itemTaxTd .rowTaxTotAmt').text());
-
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.qtyTotTfoot span:eq(0)').text(OqtyTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.upTotTfoot span:eq(0)').text(OupTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.taTotTfoot span:eq(0)').text(OtaTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.dTotTfoot span:eq(0)').text(OdTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.taxAmtTotTfoot span:eq(0)').text(OtaxAmtTotTfoot.toFixed(2));
-	$('.giraviItemsTable tfoot').find('.totalTr').find('.taxTotTfoot span:eq(0)').text(OtaxTotTfoot.toFixed(2));
-	
-	var giraviMainTotAmt =    parseFloat($('.giraviMainTotAmt').text())-parseFloat($(trObj).find('.itemTATd span:eq(0)').text());
-	var giraviMainTaxAmt =    parseFloat($('.giraviMainTaxAmt').text())-parseFloat($(trObj).find('.itemTaxTd .rowTaxTotAmt').text()==""?"0.00":$(trObj).find('.itemTaxTd .rowTaxTotAmt').text());
-	var giraviMainDisAmt =    parseFloat($('.giraviMainDisAmt').text())-parseFloat($(trObj).find('.itemDisTd span:eq(0)').text());
-	var giraviMainGrandAmt =  parseFloat($('.giraviMainGrandAmt').text())-parseFloat($(trObj).find('.itemGrandAmt').text());
-	
-	$('.giraviMainTotAmt').text(giraviMainTotAmt.toFixed(2));
-	$('.giraviMainTaxAmt').text(giraviMainTaxAmt.toFixed(2));
-	$('.giraviMainDisAmt').text(giraviMainDisAmt.toFixed(2));
-	$('.giraviMainGrandAmt').text(giraviMainGrandAmt.toFixed(2));
-}    */     
-	</script>
 </body>
 </html>

@@ -57,31 +57,7 @@
 				</div>
 				<div class="card-body">
 					<div class="chart-fifteen">
-						<div id="flotChart1" class="flot-chart" style="padding: 0px; position: relative;">
-							<canvas class="flot-base" width="732" height="200" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 732.656px; height: 200px;"></canvas>
-							<div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
-								<div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;">
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 6px; text-align: center;">Mar 10</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 101px; text-align: center;">Mar 11</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 195px; text-align: center;">Mar 12</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 289px; text-align: center;">Mar 13</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 383px; text-align: center;">Mar 14</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 477px; text-align: center;">Mar 15</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 571px; text-align: center;">Mar 16</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 91px; top: 188px; left: 665px; text-align: center;">Mar 17</div>
-								</div>
-								<div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;">
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 172px; left: 5px; text-align: right;">0</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 143px; left: 0px; text-align: right;">15</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 115px; left: 0px; text-align: right;">30</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 87px; left: 0px; text-align: right;">45</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 58px; left: 0px; text-align: right;">60</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 30px; left: 0px; text-align: right;">75</div>
-									<div class="flot-tick-label tickLabel" style="position: absolute; top: 2px; left: 0px; text-align: right;">90</div>
-								</div>
-							</div>
-							<canvas class="flot-overlay" width="732" height="200" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 732.656px; height: 200px;"></canvas>
-						</div>
+						<div id="flotChart1" class="flot-chart" style="width: 100%;height: 100%;"></div>
 					</div>
 				</div>
 				<!-- card-body -->
@@ -507,25 +483,7 @@
 								<p class="tx-12 tx-color-03 wd-60p">The total number of complaints that have been received.</p>
 							</div>
 							<div class="chart-sixteen">
-								<div id="flotChart2" class="flot-chart" style="padding: 0px; position: relative;">
-									<canvas class="flot-base" width="387" height="186" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 387.328px; height: 186px;"></canvas>
-									<div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
-										<div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;">
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 29px; text-align: center;">50</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 64px; text-align: center;">55</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 98px; text-align: center;">60</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 132px; text-align: center;">65</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 167px; text-align: center;">70</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 201px; text-align: center;">75</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 236px; text-align: center;">80</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 270px; text-align: center;">85</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 304px; text-align: center;">90</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 339px; text-align: center;">95</div>
-											<div class="flot-tick-label tickLabel" style="position: absolute; max-width: 29px; top: 186px; left: 371px; text-align: center;">100</div>
-										</div>
-									</div>
-									<canvas class="flot-overlay" width="387" height="186" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 387.328px; height: 186px;"></canvas>
-								</div>
+								<div id="flotChart2" class="flot-chart" style="width: 100%;height: 100%;"></div>
 							</div>
 						</div>
 						<!-- card-body -->
@@ -680,7 +638,7 @@
 	</div>
 	<script src="lib/jquery.flot/jquery.flot.js"></script>
 	<script src="lib/jquery.flot/jquery.flot.stack.js"></script>
-	<script src="lib/jquery.flot/jquery.flot.resize.js"></script>
+	<!-- <script src="lib/jquery.flot/jquery.flot.resize.js"></script> -->
 	<script src="lib/flot.curvedlines/curvedLines.js"></script>
 	<script src="lib/peity/jquery.peity.min.js"></script>
 	<script src="lib/chart.js/Chart.bundle.min.js"></script>

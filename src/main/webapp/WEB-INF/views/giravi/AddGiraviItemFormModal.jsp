@@ -305,7 +305,7 @@
 		
 		var tr = ' <tr>' +
 			' <td class="trCount">' + (rowCount + 1) + '</td>' +
-			' <td class="itemNameTd">' + itmName + ' ('+metalType+')</td>' +
+			' <td class="itemNameTd">' + itmName + ' '+(metalType=='G' ? '<span class="badge badge-warning">Gold</span>' : '<span class="badge badge-info">'+metalType+'</span>')+'</td>' +
 			' <td class="itemQtyTd">' + qty + '</td>' +
 			' <td class="itemGrossWeightTd col-up"><span>' + grossWeight + '</span> <span>' + grossWeightUom + '</span></td>' +
 			' <td class="itemNetWeightTd"><span>' + netWeight + '</span> <span>' + netWeightUom + '</span></td>' +

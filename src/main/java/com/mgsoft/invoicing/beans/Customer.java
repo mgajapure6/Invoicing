@@ -15,116 +15,130 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
 
 @Entity
 @Table
 public class Customer implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column
-    private String cusName;
-    @Column
-    private String cusAddrL1;
-    @Column
-    private String cusAddrL2;
-    @Column
-    private String state;
-    @Column
-    private String city;
-    @Column
-    private String pincode;
-    @Column
-    private String mobile;
-    @Column
-    private String email;
-    
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "customer_salesInvoice", joinColumns = {
-	    @JoinColumn(name = "customer_id") }, inverseJoinColumns = { @JoinColumn(name = "salesInvoice_id") })
-    private Collection<SalesInvoice> salesInvoices = new ArrayList<SalesInvoice>();
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column
+	private String cusName;
+	@Column
+	private String cusAddrL1;
+	@Column
+	private String cusAddrL2;
+	@Column
+	private String state;
+	@Column
+	private String city;
+	@Column
+	private String pincode;
+	@Column
+	private String mobile;
+	@Column
+	private String email;
 
-    public Long getId() {
-	return id;
-    }
+	@OneToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "customer_salesInvoice", joinColumns = {
+			@JoinColumn(name = "customer_id") }, inverseJoinColumns = { @JoinColumn(name = "salesInvoice_id") })
+	private Collection<SalesInvoice> salesInvoices = new ArrayList<SalesInvoice>();
 
-    public void setId(Long id) {
-	this.id = id;
-    }
+	@OneToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "customer_loan", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "loan_id") })
+	private Collection<Loan> loans = new ArrayList<Loan>();
 
-    public String getCusName() {
-	return cusName;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setCusName(String cusName) {
-	this.cusName = cusName;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getCusAddrL1() {
-	return cusAddrL1;
-    }
+	public String getCusName() {
+		return cusName;
+	}
 
-    public void setCusAddrL1(String cusAddrL1) {
-	this.cusAddrL1 = cusAddrL1;
-    }
+	public void setCusName(String cusName) {
+		this.cusName = cusName;
+	}
 
-    public String getCusAddrL2() {
-	return cusAddrL2;
-    }
+	public String getCusAddrL1() {
+		return cusAddrL1;
+	}
 
-    public void setCusAddrL2(String cusAddrL2) {
-	this.cusAddrL2 = cusAddrL2;
-    }
+	public void setCusAddrL1(String cusAddrL1) {
+		this.cusAddrL1 = cusAddrL1;
+	}
 
-    public String getState() {
-	return state;
-    }
+	public String getCusAddrL2() {
+		return cusAddrL2;
+	}
 
-    public void setState(String state) {
-	this.state = state;
-    }
+	public void setCusAddrL2(String cusAddrL2) {
+		this.cusAddrL2 = cusAddrL2;
+	}
 
-    public String getCity() {
-	return city;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public void setCity(String city) {
-	this.city = city;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public String getPincode() {
-	return pincode;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setPincode(String pincode) {
-	this.pincode = pincode;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public String getMobile() {
-	return mobile;
-    }
+	public String getPincode() {
+		return pincode;
+	}
 
-    public void setMobile(String mobile) {
-	this.mobile = mobile;
-    }
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
 
-    public String getEmail() {
-	return email;
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    public void setEmail(String email) {
-	this.email = email;
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
-    public Collection<SalesInvoice> getSalesInvoices() {
-        return salesInvoices;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setSalesInvoices(Collection<SalesInvoice> salesInvoices) {
-        this.salesInvoices = salesInvoices;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Collection<SalesInvoice> getSalesInvoices() {
+		return salesInvoices;
+	}
+
+	public void setSalesInvoices(Collection<SalesInvoice> salesInvoices) {
+		this.salesInvoices = salesInvoices;
+	}
+
+	public Collection<Loan> getLoans() {
+		return loans;
+	}
+
+	public void setLoans(Collection<Loan> loans) {
+		this.loans = loans;
+	}
 
 }
