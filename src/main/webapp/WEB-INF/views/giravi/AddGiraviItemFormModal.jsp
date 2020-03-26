@@ -209,6 +209,7 @@
 		$('#giraviItemForm').find('.select2-selection').removeClass('.parsley-error');
 		$('#giraviItemForm').find('.addItemToGiraviBtn').attr('onclick', "addItemToGiravi(this,'N')");
 		$('#giraviItemForm').find('.addItemToGiraviBtn').prop('disabled', true);
+		$('#giraviItemForm').find('input.itmId').val(0);
 		$('#giraviItemForm').parsley().reset();
 
 	}

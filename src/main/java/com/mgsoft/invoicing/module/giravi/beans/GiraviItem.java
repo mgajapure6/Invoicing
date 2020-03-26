@@ -23,6 +23,10 @@ public class GiraviItem implements Serializable {
 
 	@Column
 	String itmName;
+	
+	@Column
+	String itmMetalType;
+	
 
 	@Column
 	String itmDesc;
@@ -139,9 +143,18 @@ public class GiraviItem implements Serializable {
 		this.loan = loan;
 	}
 
+	public String getItmMetalType() {
+		return itmMetalType;
+	}
+
+	public void setItmMetalType(String itmMetalType) {
+		this.itmMetalType = itmMetalType;
+	}
+
 	public GiraviItem() {
 		super();
 	}
+	
 
 	public GiraviItem(Integer id, String itmName, String itmDesc, Float itmQty, Float itmGrossWeight,
 			String itmGrossWeightUom, Float itmNetWeight, String itmNetWeightUom, Float itmValuation,

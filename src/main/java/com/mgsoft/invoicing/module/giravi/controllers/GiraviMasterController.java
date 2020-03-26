@@ -87,17 +87,19 @@ public class GiraviMasterController {
 			Iterator<JsonElement> itr = itemsArr.iterator();
 			while (itr.hasNext()) {
 				JsonObject jo = itr.next().getAsJsonObject();
+				System.out.println("jo::"+jo);
 				GiraviItem gi = new GiraviItem();
 				gi.setId(jo.get("id").getAsInt());
-				gi.setItmName(jo.get("itmName").getAsString());
-				gi.setItmDesc(jo.get("itmDesc").getAsString());
-				gi.setItmEligibleAmount(jo.get("itmEligibleAmount").getAsFloat());
-				gi.setItmGrossWeight(jo.get("itmGrossWeight").getAsFloat());
-				gi.setItmGrossWeightUom(jo.get("itmGrossWeightUom").getAsString());
-				gi.setItmNetWeight(jo.get("itmNetWeight").getAsFloat());
-				gi.setItmNetWeightUom(jo.get("itmNetWeightUom").getAsString());
-				gi.setItmQty(jo.get("itmQty").getAsFloat());
-				gi.setItmValuation(jo.get("itmValuation").getAsFloat());
+				gi.setItmName(jo.get("name").getAsString());
+				gi.setItmMetalType(jo.get("metalType").getAsString());
+				gi.setItmDesc(jo.has("desc") && !jo.get("desc").isJsonNull() ? jo.get("desc").getAsString() : null);
+				gi.setItmEligibleAmount(jo.get("payableAmt").getAsFloat());
+				gi.setItmGrossWeight(jo.get("grossWeight").getAsFloat());
+				gi.setItmGrossWeightUom(jo.get("grossWeightUom").getAsString());
+				gi.setItmNetWeight(jo.get("netWeight").getAsFloat());
+				gi.setItmNetWeightUom(jo.get("netWeightUom").getAsString());
+				gi.setItmQty(jo.get("qty").getAsFloat());
+				gi.setItmValuation(jo.get("valuationAmt").getAsFloat());
 				gi.setLoan(loan);
 				itemsList.add(gi);
 			}
