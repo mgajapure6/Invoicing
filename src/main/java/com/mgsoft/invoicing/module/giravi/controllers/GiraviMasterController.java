@@ -1,6 +1,7 @@
 package com.mgsoft.invoicing.module.giravi.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.mgsoft.invoicing.module.giravi.beans.PartyAccount;
 import com.mgsoft.invoicing.module.giravi.repository.GiraviMasterRepository;
 import com.mgsoft.invoicing.module.giravi.repository.PartyAccountRepository;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
+import com.mgsoft.invoicing.util.DateUtil;
 import com.mgsoft.invoicing.util.JsonUtil;
 
 @Controller
@@ -47,8 +49,18 @@ public class GiraviMasterController {
 		request.setAttribute("partyAccount", new PartyAccount());
 		List<PartyAccount> list = partyAccountRepository.findAll();
 		request.setAttribute("customers", customerRepository.findAll());
+		request.setAttribute("giraviList", giraviMasterRepository.findAll());
 		request.setAttribute("partyAccountList", list.size()>0 ? JsonUtil.javaCollectionToJson(list) : new ArrayList<>());
 		return "giravi/giraviMaster";
+	}
+	
+	@PostMapping(value = "/getGiraviById")
+	@ResponseBody
+	public Map<String, Object> getSalesOrderById(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> res = new HashMap<>();
+		Integer loanid = Integer.parseInt(request.getParameter("loanid"));
+		res.put("data",giraviMasterRepository.getOne(loanid));
+		return res;
 	}
 
 	@PostMapping("/saveGiravi")
@@ -60,10 +72,10 @@ public class GiraviMasterController {
 		String customerId = request.getParameter("customerId");
 		String giraviNo = request.getParameter("giraviNo");
 		String giraviDate = request.getParameter("giraviDate");
-		String posoNo = request.getParameter("posoNo");
-		String payDueDate = request.getParameter("payDueDate");
-		String giraviAmt = request.getParameter("giraviAmt");
-		String grndTotAmt = request.getParameter("grndTotAmt");
+		//String posoNo = request.getParameter("posoNo");
+		//String payDueDate = request.getParameter("payDueDate");
+		//String giraviAmt = request.getParameter("giraviAmt");
+		//String grndTotAmt = request.getParameter("grndTotAmt");
 		String recipientDesc = request.getParameter("recipientDesc");
 		Float intrestRate = Float.valueOf(request.getParameter("intrestRate"));
 		Float loanAmount = Float.valueOf(request.getParameter("loanAmount"));
@@ -76,8 +88,10 @@ public class GiraviMasterController {
 		
 		Loan loan = new Loan();
 		loan.setId(Integer.valueOf(giraviId));
+		loan.setLoanNumber(giraviNo);
 		loan.setIntrestRate(intrestRate);
 		loan.setLoanAmount(loanAmount);
+		loan.setLoanDate(DateUtil.stringToDate(giraviDate, "dd-MM-yyyy"));
 		//loan.setLoanTransactions(null);
 		loan.setCustomer(cus);
 		
@@ -106,14 +120,16 @@ public class GiraviMasterController {
 		}
 		
 		loan.setGiraviItems(itemsList);
-		
+		ArrayList<Loan> loanList = new ArrayList<>();
+		loanList.add(loan);
+		cus.setLoans(loanList);
 		Customer customer = customerRepository.save(cus);
 		if (customer != null) {
 			res.put("status", "success");
-			res.put("msg", "Successfully save module entry !");
+			res.put("msg", "Giravi entry save successfully !");
 		} else {
 			res.put("status", "failed");
-			res.put("msg", "Failed to save module entry !");
+			res.put("msg", "Failed to save giravi entry !");
 		}
 		
 		System.out.println("itemsArr::"+itemsArr);

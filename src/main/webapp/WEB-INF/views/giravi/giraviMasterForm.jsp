@@ -85,18 +85,19 @@
 .customer-form-group .select2-container {
 	z-index: 1001 !important;
 }
-.containtStart{
+
+.containtStart {
 	padding-top: 65px;
 }
 
-.fixed-header{
+.fixed-header {
 	width: 100%;
-    position: fixed;
-    top: 60px;
-    bottom: auto;
-    padding: 5px;
-    background: #fff;
-    z-index:1040;
+	position: fixed;
+	top: 60px;
+	bottom: auto;
+	padding: 5px;
+	background: #fff;
+	z-index: 1040;
 }
 </style>
 </head>
@@ -118,165 +119,165 @@
 			<button type="button" data-flag="N" class="btn btn-primary giraviSave" id="giraviSaveBtn" onclick="saveGiravi(this)">Save Giravi</button>
 		</div>
 	</div>
-	<div class="row containtStart">
-		<div class="col-md-6">
-			<h5>Bill To</h5>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group mg-b-0 customer-form-group">
-						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Select customer</label>
-						<div class="parsley-select">
-							<div class="form-group has-search">
-								<span class="fa fa-search form-control-feedback newentry"></span>
-								<select class="form-control mandatory customerSelect parsleyField" required data-parsley-trigger="input" data-parsley-validation-threshold="0">
-									<c:forEach items="${customers}" var="cus">
-										<c:set var="newCus" value="${cus }" />
-										<option value="${cus.id}" data-obj='<%= new ObjectMapper().writeValueAsString(pageContext.getAttribute("newCus"))%>'>${cus.cusName}</option>
-									</c:forEach>
-								</select>
+	<form id="mainForm">
+		<div class="row containtStart">
+
+			<div class="col-md-6">
+				<h5>Bill To</h5>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group mg-b-0 customer-form-group">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Select customer</label>
+							<div class="parsley-select">
+								<div class="form-group has-search">
+									<span class="fa fa-search form-control-feedback newentry"></span> <select class="form-control mandatory customerSelect parsleyField" required data-parsley-trigger="input" data-parsley-validation-threshold="0">
+										<c:forEach items="${customers}" var="cus">
+											<c:set var="newCus" value="${cus }" />
+											<option value="${cus.id}" data-obj='<%= new ObjectMapper().writeValueAsString(pageContext.getAttribute("newCus"))%>'>${cus.cusName}</option>
+										</c:forEach>
+									</select>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="billToDetail"></div>
-				</div>
-			</div>
-		</div>
-		<!-- <div class="divider-text divider-vertical" data-text="and"></div> -->
-		<div class="col-md-6 giravi-detail-group">
-			<h5>Giravi Detail</h5>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group mg-b-5">
-						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Number</label>
-						<input type="text" class="form-control mandatory giraviNum parsleyField" placeholder="Enter giravi number" autocomplete="off" required data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="18" data-parsley-minlength-message="Enter at least 2 character. " data-parsley-maxlength-message="Cannot exist more than 18 character">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group mg-b-5">
-						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Date</label>
-						<input type="text" class="form-control mandatory giraviDate dateCleave parsleyField" readonly placeholder="Select giravi date" autocomplete="off" required data-parsley-trigger="change" data-parsley-trigger="keyup"  data-parsley-minlength="10" data-parsley-validation-threshold="0" data-parsley-maxlength="10" data-parsley-minlength-message="Date is incorrect" data-parsley-maxlength-message="Date is incorrect">
+						<div class="billToDetail"></div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group mg-b-5">
-						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">P.O/S.O Number</label>
-						<input type="text" class="form-control posonum" placeholder="Enter P.O. / S.O. number " autocomplete="off">
+			<!-- <div class="divider-text divider-vertical" data-text="and"></div> -->
+			<div class="col-md-6 giravi-detail-group">
+				<h5>Giravi Detail</h5>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group mg-b-5">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Number</label> <input type="text" class="form-control mandatory giraviNum parsleyField" placeholder="Enter giravi number" autocomplete="off" required data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="18" data-parsley-minlength-message="Enter at least 2 character. " data-parsley-maxlength-message="Cannot exist more than 18 character">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group mg-b-5">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Date</label> <input type="text" class="form-control mandatory giraviDate dateCleave parsleyField" readonly placeholder="Select giravi date" autocomplete="off" required data-parsley-trigger="change" data-parsley-trigger="keyup" data-parsley-minlength="10" data-parsley-validation-threshold="0" data-parsley-maxlength="10" data-parsley-minlength-message="Date is incorrect" data-parsley-maxlength-message="Date is incorrect">
+						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group mg-b-5">
-						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Payment Due Date</label>
-						<input type="text" class="form-control paymentDueDate dateCleave" placeholder="Select payment due date" autocomplete="off" readonly>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group mg-b-5">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">P.O/S.O Number</label> <input type="text" class="form-control posonum" placeholder="Enter P.O. / S.O. number " autocomplete="off">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group mg-b-5">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Payment Due Date</label> <input type="text" class="form-control paymentDueDate dateCleave" placeholder="Select payment due date" autocomplete="off" readonly>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<hr>
-		<div class="col-md-12">
 			<hr>
-			<div class="d-flex" style="align-items: center;">
-				<div class="pd-10 flex-grow-1">
-					<h5 class="mandlabel">Giravi Items</h5>
+			<div class="col-md-12">
+				<hr>
+				<div class="d-flex" style="align-items: center;">
+					<div class="pd-10 flex-grow-1">
+						<h5 class="mandlabel">Giravi Items</h5>
+					</div>
 				</div>
-			</div>
-			<div class="table-responsive">
-				<table class="table giraviItemsTable border-b">
-					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">Item</th>
-							<th scope="col">Quantity</th>
-							<th scope="col">Gross Weight</th>
-							<th scope="col">Net Weight</th>
-							<th scope="col">Valuation</th>
-							<th scope="col">Payable Amount</th>
-							<th scope="col" style="text-align: center;">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-					<tfoot>
-						<!-- <tr class="totalTr hide">
-							<th colspan="3" style="text-align: right;">
+				<div class="table-responsive">
+					<table class="table giraviItemsTable border-b">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Item</th>
+								<th scope="col">Quantity</th>
+								<th scope="col">Gross Weight</th>
+								<th scope="col">Net Weight</th>
+								<th scope="col">Valuation</th>
+								<th scope="col">Payable Amount</th>
+								<th scope="col" style="text-align: center;">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+							<tr class="totalTr hide">
+							<th class="right" colspan="2" style="text-align: right;">
 								<b>Total :</b>
 							</th>
 							<th class="qtyTotTfoot">
 								<span>0</span>
 								items
 							</th>
-							<th class="upTotTfoot col-up">
+							<th class="gwTotTfoot col-up">
 								Rs:
 								<span>0</span>
 							</th>
-							<th class="taTotTfoot">
+							<th class="nwTotTfoot col-up">
 								Rs:
 								<span>0</span>
 							</th>
-							<th class="dTotTfoot col-disc">
+							<th class="vTotTfoot">
 								Rs:
 								<span>0</span>
 							</th>
-							<th class="taxAmtTotTfoot">
+							<th class="payAmtTotTfoot">
 								Rs:
 								<span>0</span>
 							</th>
-							<th class="taxTotTfoot col-tax">
-								Rs:
-								<span>0</span>
-							</th>
+							
 							<th class=""></th>
-						</tr> -->
-					</tfoot>
-				</table>
-			</div>
-			<div style="text-align: right; padding: 20px 0px;">
-				<a href="javascript:;" onclick="openAddGiraviItemModal()" class="btn btn-outline-primary">
-					<i class="fa fa-plus"></i>
-					&nbsp; &nbsp; Add Item
-				</a>
-			</div>
-			<hr style="margin-top: 0;">
-		</div>
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-md-7">
-					<div class="accordion accordion-style1">
-						<h6 class="recipientDescCollapse">Write a description to the recipient (will be printed at the footer of an giravi).......</h6>
-						<div style="padding: 0;">
-							<textarea class="form-control recipientDesc" style="border: 0; border-top: 1px solid #e6e6e6;" rows="5" placeholder="Write a description to the recipient..."></textarea>
-						</div>
-					</div>
+						</tr>
+						</tfoot>
+					</table>
 				</div>
-				<div class="col-md-5">
-					<div class="form-control-like-div bottom-total-group">
-						<div class="d-flex" style="align-items: center;">
-							<div class=" flex-grow-1">
-								<b>Giravi Amount</b>
-							</div>
-							<!-- <div class="pd-10">Flex item</div> -->
-							<div class="mg-l-auto">
-								<b>Rs :</b>
-								<b class="giraviMainTotAmt">0.00</b>
-							</div>
-						</div>
-						<hr style="margin: 3px">
-						<div class="d-flex" style="align-items: center;">
-							<div class=" flex-grow-1">
-								<b>Grand Total Amount</b>
-							</div>
-							<!-- <div class="pd-10">Flex item</div> -->
-							<div class=" mg-l-auto">
-								<b>Rs :</b>
-								<b class="giraviMainGrandAmt">0.00</b>
+				<div style="text-align: right; padding: 20px 0px;">
+					<a href="javascript:;" onclick="openAddGiraviItemModal()" class="btn btn-outline-primary"> <i class="fa fa-plus"></i> &nbsp; &nbsp; Add Item
+					</a>
+				</div>
+				<hr style="margin-top: 0;">
+			</div>
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-7">
+						<div class="accordion accordion-style1">
+							<h6 class="recipientDescCollapse">Write a description to the recipient (will be printed at the footer of an giravi).......</h6>
+							<div style="padding: 0;">
+								<textarea class="form-control recipientDesc" style="border: 0; border-top: 1px solid #e6e6e6;" rows="5" placeholder="Write a description to the recipient..."></textarea>
 							</div>
 						</div>
 					</div>
+					<div class="col-md-5">
+						<div class="form-control-like-div bottom-total-group">
+							<div class="d-flex" style="align-items: center;">
+								<div class=" flex-grow-1">
+									<b>Total Giravi Amount</b>
+								</div>
+								<!-- <div class="pd-10">Flex item</div> -->
+								<div class="mg-l-auto">
+									<b>Rs :</b> <b class="giraviMainTotAmt">0.00</b>
+								</div>
+							</div>
+							<hr style="margin: 3px">
+							<div class="d-flex" style="align-items: center;">
+								<div class=" flex-grow-1">
+									<b>Tax Amount</b>
+								</div>
+								<!-- <div class="pd-10">Flex item</div> -->
+								<div class="mg-l-auto">
+									<b>Rs :</b> <b class="giraviMainTaxAmt">0.00</b>
+								</div>
+							</div>
+							<hr style="margin: 3px">
+							<div class="d-flex" style="align-items: center;">
+								<div class=" flex-grow-1">
+									<b>Grand Giravi Amount</b>
+								</div>
+								<!-- <div class="pd-10">Flex item</div> -->
+								<div class=" mg-l-auto">
+									<b>Rs :</b> <b class="giraviMainGrandAmt">0.00</b>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- <div class="col-md-12">
+			<!-- <div class="col-md-12">
 			<div class="accordion mg-t-20 accordion-style1">
 				<h6 class="recipientDescCollapse">Write a description to the recipient (will be printed at the footer of an giravi).......</h6>
 				<div style="padding: 0;">
@@ -284,14 +285,16 @@
 				</div>
 			</div>
 		</div> -->
-		<div class="col-md-12">
-			<hr>
-			<div style="float: right;" class="hide">
-				<button type="button" class="btn btn-white" onclick="cancelGiravi()">Cancel</button>
-				<button type="button" data-flag="N" class="btn btn-primary giraviSave" id="giraviSaveBtn" onclick="saveGiravi(this)" disabled>Save Giravi</button>
+			<div class="col-md-12">
+				<hr>
+				<div style="float: right;" class="hide">
+					<button type="button" class="btn btn-white" onclick="cancelGiravi()">Cancel</button>
+					<button type="button" data-flag="N" class="btn btn-primary giraviSave" id="giraviSaveBtn" onclick="saveGiravi(this)" disabled>Save Giravi</button>
+				</div>
 			</div>
+
 		</div>
-	</div>
+	</form>
 	<jsp:include page="AddGiraviItemFormModal.jsp"></jsp:include>
 	<jsp:include page="AddGiraviCategoryFormModal.jsp"></jsp:include>
 	<jsp:include page="AddGiraviCustomerFormModal.jsp"></jsp:include>
@@ -313,7 +316,7 @@
 	
 		$(function(){
 
-			$('.parsleyField.mandatory').parsley();
+			$('#mainForm').parsley();
 
 			
 			$('.accordion').accordion({
@@ -405,37 +408,38 @@
 		
 		function updateTfootTotal(){
 			var qtyTot = 0.00;
-			var upTot = 0.00;
-			var taTot = 0.00;
-			var dTot = 0.00;
-			var taxAmtTot = 0.00;
-			var taxTot = 0.00;
-			var discTot = 0.00;
+			var gwTot = 0.00;
+			var nwTot = 0.00;
+			var vTot = 0.00;
+			var payAmtTot = 0.00;
+			var txTot = 0.00;
+			
 			
 			$('.giraviItemsTable tbody tr').each(function(i,trObj){
 				//$(trObj).find('.trCount').text(i+1)
-				qtyTot = qtyTot + parseFloat($(this).find('.itemQtyTd span').text());
-				upTot = upTot + parseFloat($(this).find('.itemUPTd span').text());
-				taTot = taTot + parseFloat($(this).find('.itemTATd span').text());
-				dTot = dTot + parseFloat($(this).find('.itemDisTd .discamt').text());
-				taxAmtTot = taxAmtTot + parseFloat($(this).find('.itemTaxAmtTd .txamt').text());
-				taxTot = taxTot + parseFloat($(this).find('.itemTaxTd .rowTaxTotAmt').text());
-				discTot = discTot + parseFloat($(this).find('.itemTaxTd .rowDiscTotAmt').text());
+				//{"id":4,"name":"Men Ring","qty":1,"metalType":"G","grossWeight":5,
+				//"grossWeightUom":"gm","netWeight":4.5,"netWeightUom":"gm",
+				//"valuationAmt":22000,"payableAmt":16000,"grandAmt":16000}
+				var itmObj = JSON.parse($(trObj).find('span.rowItemObj').text());
+				qtyTot = qtyTot + parseFloat(itmObj.qty);
+				gwTot = gwTot + parseFloat(itmObj.grossWeight);
+				nwTot = nwTot + parseFloat(itmObj.netWeight);
+				vTot = vTot + parseFloat(itmObj.valuationAmt);
+				payAmtTot = payAmtTot + parseFloat(itmObj.payableAmt);
+				
 			});
 			
 			$('.giraviItemsTable tfoot').find('.totalTr').find('.qtyTotTfoot span:eq(0)').text(qtyTot.toFixed(2));
-			$('.giraviItemsTable tfoot').find('.totalTr').find('.upTotTfoot span:eq(0)').text(upTot.toFixed(2));
-			$('.giraviItemsTable tfoot').find('.totalTr').find('.taTotTfoot span:eq(0)').text(taTot.toFixed(2));
-			$('.giraviItemsTable tfoot').find('.totalTr').find('.dTotTfoot span:eq(0)').text(dTot.toFixed(2));
-			$('.giraviItemsTable tfoot').find('.totalTr').find('.taxAmtTotTfoot span:eq(0)').text(taxAmtTot.toFixed(2));
-			$('.giraviItemsTable tfoot').find('.totalTr').find('.taxTotTfoot span:eq(0)').text(taxTot.toFixed(2));
+			$('.giraviItemsTable tfoot').find('.totalTr').find('.gwTotTfoot span:eq(0)').text(gwTot.toFixed(2));
+			$('.giraviItemsTable tfoot').find('.totalTr').find('.nwTotTfoot span:eq(0)').text(nwTot.toFixed(2));
+			$('.giraviItemsTable tfoot').find('.totalTr').find('.vTotTfoot span:eq(0)').text(vTot.toFixed(2));
+			$('.giraviItemsTable tfoot').find('.totalTr').find('.payAmtTotTfoot span:eq(0)').text(payAmtTot.toFixed(2));
+
+			var grandAmt = txTot + payAmtTot;
 			
-			var giraviMainGrandAmt = (taTot + taxTot)-dTot;
-			
-			$('.giraviMainTotAmt').text(taTot.toFixed(2));
-			$('.giraviMainTaxAmt').text(taxTot.toFixed(2));
-			$('.giraviMainDisAmt').text(discTot.toFixed(2));
-			$('.giraviMainGrandAmt').text(giraviMainGrandAmt.toFixed(2));
+			$('.giraviMainTotAmt').text(payAmtTot.toFixed(2));
+			$('.giraviMainTaxAmt').text((0).toFixed(2));
+			$('.giraviMainGrandAmt').text(grandAmt.toFixed(2));
 			
 			
 			if($('.giraviItemsTable tfoot').find('.totalTr').hasClass('hide')){
@@ -537,8 +541,8 @@
 				'grndTotAmt'  : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
 				'recipientDesc' : $('.recipientDesc').val(),
 				'intrestRate' : '2.5',
-				'loanAmount'  : '15000.00',
-				'id'		  : '8'
+				'loanAmount'  : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
+				'id'		  : $('#giraviId').val()
 			}
 			
 			
@@ -575,8 +579,6 @@
 		$('.customer-form-group, .giravi-detail-group').find('.form-control.mandatory').on('change input keyup', function(){
 			setTimeout(function(){
 				var parsleyFieldLength = $('.customer-form-group, .giravi-detail-group').find('.parsleyField.mandatory').length;
-				console.log('parsleyFieldLength',parsleyFieldLength)
-				console.log('parsleyFieldLengthsuccess',$('.customer-form-group, .giravi-detail-group').find('.parsley-success').length)
 			    var isValidForm = false;
 				if($('.customer-form-group, .giravi-detail-group').find('.parsley-success').length==parsleyFieldLength){
 					isValidForm = true;
@@ -595,6 +597,6 @@
 	
 
 	</script>
-	
+
 </body>
 </html>

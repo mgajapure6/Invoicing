@@ -53,6 +53,7 @@ public class GiraviItem implements Serializable {
 	Float itmEligibleAmount;
 	
 	@ManyToOne
+	@JsonIgnore
 	Loan loan;
 
 	public Integer getId() {

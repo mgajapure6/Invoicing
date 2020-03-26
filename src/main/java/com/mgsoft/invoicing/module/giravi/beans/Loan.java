@@ -2,6 +2,7 @@ package com.mgsoft.invoicing.module.giravi.beans;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mgsoft.invoicing.beans.Customer;
 
@@ -27,6 +29,13 @@ public class Loan implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
+	
+	@Column
+	String loanNumber;
+	
+	@Column
+	@JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
+	Date loanDate;
 
 	@Column
 	Float loanAmount;
@@ -43,6 +52,7 @@ public class Loan implements Serializable {
 	Collection<LoanTransaction> loanTransactions;
 
 	@ManyToOne
+	@JsonIgnore
 	Customer customer;
 
 	public Integer getId() {
@@ -99,6 +109,22 @@ public class Loan implements Serializable {
 
 	public void setLoanTransactions(Collection<LoanTransaction> loanTransactions) {
 		this.loanTransactions = loanTransactions;
+	}
+
+	public String getLoanNumber() {
+		return loanNumber;
+	}
+
+	public void setLoanNumber(String loanNumber) {
+		this.loanNumber = loanNumber;
+	}
+
+	public Date getLoanDate() {
+		return loanDate;
+	}
+
+	public void setLoanDate(Date loanDate) {
+		this.loanDate = loanDate;
 	}
 
 	public Loan() {

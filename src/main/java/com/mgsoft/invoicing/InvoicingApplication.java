@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -22,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.util.ResourceUtils;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mgsoft.invoicing.beans.Customer;
@@ -30,12 +33,15 @@ import com.mgsoft.invoicing.module.admin.beans.Menu;
 import com.mgsoft.invoicing.module.admin.beans.Module;
 import com.mgsoft.invoicing.module.admin.repository.MenuRepository;
 import com.mgsoft.invoicing.module.admin.repository.ModuleRepository;
+import com.mgsoft.invoicing.module.giravi.beans.GiraviItem;
+import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.inventory.beans.InvItem;
 import com.mgsoft.invoicing.module.inventory.beans.ItemCategory;
 import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
 import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.repositories.TaxRepository;
+import com.mgsoft.invoicing.util.DateUtil;
 
 @SpringBootApplication
 @EnableConfigurationProperties
@@ -104,6 +110,39 @@ public class InvoicingApplication extends SpringBootServletInitializer {
 			customer.setMobile("8055880605");
 			customer.setCusName("Mayur G Gajapure");
 			customer.setEmail("mgg@gmail.com");
+			customer = customerRepository.save(customer);
+			
+			Loan loan = new Loan();
+			loan.setId(0);
+			loan.setLoanNumber("L-43434");
+			loan.setIntrestRate((float) 2.5);
+			loan.setLoanAmount((float) 12000.00);
+			loan.setLoanDate(DateUtil.stringToDate(DateUtil.getCurrentDate(), "dd-MM-yyyy"));
+			//loan.setLoanTransactions(null);
+			loan.setCustomer(customer);
+			
+			List<GiraviItem> itemsList = new ArrayList<>();
+			
+			GiraviItem gi = new GiraviItem();
+			gi.setId(0);
+			gi.setItmName("Men Ring");
+			gi.setItmMetalType("G");
+			gi.setItmDesc("Gold Men Ring");
+			gi.setItmEligibleAmount((float) 15000.00);
+			gi.setItmGrossWeight((float) 5.0);
+			gi.setItmGrossWeightUom("gm");
+			gi.setItmNetWeight((float) 4.5);
+			gi.setItmNetWeightUom("gm");
+			gi.setItmQty((float) 1);
+			gi.setItmValuation((float) 20000);
+			gi.setLoan(loan);
+			itemsList.add(gi);
+			
+			loan.setGiraviItems(itemsList);
+			ArrayList<Loan> loanList = new ArrayList<>();
+			loanList.add(loan);
+			customer.setLoans(loanList);
+			
 			customerRepository.save(customer);
 			
 			ItemCategory category1 = new ItemCategory();

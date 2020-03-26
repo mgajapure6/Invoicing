@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-	<div class="row invoiceTable">
+	<div class="row giraviTable">
 		<div class="col-md-12">
 			<ul class="nav nav-line" id="myTab6" role="tablist">
 				<li class="nav-item">
@@ -57,24 +57,26 @@
 						</thead>
 						<tbody>
 							<c:set var="rCount" value="0"></c:set>
-							<c:forEach items="${salesInvoiceList}" var="inv">
+							<c:forEach items="${giraviList}" var="lon">
 								<c:set var="rCount" value="${rCount+1 }"></c:set>
 								<tr>
 									<td scope="col" class="">${rCount}</td>
-									<td scope="col" class="">${inv.invNum}</td>
-									<td scope="col" class="">${inv.invDate}</td>
-									<td scope="col" class="">${inv.invVal}</td>
-									<td scope="col" class="">${inv.customer.cusName} <input type="hidden" class="customerId" value="${inv.customer.id}"></td>
+									<td scope="col" class="">${lon.loanNumber}</td>
+									<td scope="col" class=""><fmt:formatDate pattern = "dd-MM-yyyy" value="${lon.loanDate}" /></td>
+									<td scope="col" class="right bold">${lon.loanAmount}</td>
+									<td scope="col" class="">${lon.customer.cusName} <input type="hidden" class="customerId" value="${lon.customer.id}"></td>
 									<td scope="col" class=""></td>
-									<td scope="col" class=""></td>
+									<td scope="col" class=""><button type="button" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
+												<i class="fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp; PAY
+											</button></td>
 									<td scope="col" class="">
-										<span class="invId hide">${inv.id}</span>
+										<span class="loanId hide">${lon.id}</span>
 										<div class="text-center">
-											<button type="button" onclick="viewGiraviForm(this,'M')" data-invid="${inv.id}" data-customerId="${inv.customer.id}" class="btn btn-success btn-icon btn-sm">
-												<i data-feather="edit-3"></i>
+											<button type="button" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-success btn-icon btn-sm">
+												<i class="fa fa-pencil-alt"></i>
 											</button>
-											<button type="button" onclick="viewGiraviForm(this,'D')" data-invid="${inv.id}" data-customerId="${inv.customer.id}" class="btn btn-danger btn-icon btn-sm">
-												<i data-feather="trash-2"></i>
+											<button type="button" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-danger btn-icon btn-sm">
+												<i class="fa fa-trash-alt"></i>
 											</button>
 										</div>
 									</td>
@@ -96,7 +98,7 @@
 		</div>
 	</div>
 	
-	<div class="invoiceForm hide">
+	<div class="giraviForm hide">
 		<jsp:include page="giraviMasterForm.jsp"></jsp:include>
 	</div>
 	
@@ -183,134 +185,94 @@
 	
 	function viewGiraviForm(btnObj, flg){
 		if(flg !="N"){
-			var invid = $(btnObj).data('invid');
-			var customerid = $(btnObj).data('customerid');
-			loadGiraviForUpdateDeleteByGiraviId(invid,customerid);
+			var loanid = $(btnObj).attr('data-loanid');
+			var customerid = $(btnObj).attr('data-customerid');
+			loadGiraviForUpdateDeleteByGiraviId(loanid,customerid);
 		}else{
-			$('.invoiceTable').toggleClass('hide');
-			$('.invoiceForm').toggleClass('hide');
+			$('.giraviTable').toggleClass('hide');
+			$('.giraviForm').toggleClass('hide');
 		}
 		
 	}
 
-	function loadGiraviForUpdateDeleteByGiraviId(invid,customerid){
+	function loadGiraviForUpdateDeleteByGiraviId(loanid,customerid){
 		$.ajax({
-			url : '/sales/getSalesOrderById',
+			url : '/app/giravi/giraviMaster/getGiraviById',
 			method : 'POST',
 			data : {
-				'invid' : invid,
-				'customerid' : customerid
+				'loanid' : loanid
 			},
 			async : false,
 			success : function(resp) {
 				console.log('loadGiraviForUpdateDeleteByGiraviId resp',resp);
 				if(resp && resp.data){
-					var itemObj = {};
-					var itemId = 0;
-					$('.invoiceItemsTable tbody').find('.noDataTr').remove();
+					$('.giraviItemsTable tbody').find('.noDataTr').remove();
 
-					$('#invoiceId').val();
-					$('#invoiceFlag').val();
+					$('#giraviId').val(resp.data.id);
+					$('#giraviFlag').val("M");
+					$('#mainForm').parsley().validate();
 					$('.customer-form-group').find('.customerSelect').val(customerid).trigger('change');
-					$('.invoice-detail-group').find('.invoiceNum').val(resp.data.invNum);
-					$('.invoice-detail-group').find('.invoiceDate').val(resp.data.invDate);
-					$('.invoice-detail-group').find('.posonum').val(resp.data.posoNum);
-					$('.invoice-detail-group').find('.paymentDueDate').val(resp.data.payDueDate);
-					$('.bottom-total-group').find('.invoiceMainTotAmt').text(resp.data.invVal);
-					$('.bottom-total-group').find('.invoiceMainDisAmt').text(0);
-					$('.bottom-total-group').find('.invoiceMainTaxableAmt').text(resp.data.taxableVal);
-					$('.bottom-total-group').find('.invoiceMainTaxAmt').text(resp.data.taxVal);
-					$('.bottom-total-group').find('.invoiceMainGrandAmt').text(0);
-					$('.recipientDesc').text(resp.data.recipientDesc);
+					$('.giravi-detail-group').find('.giraviNum').val(resp.data.loanNumber).trigger('input');
+					$('.giravi-detail-group').find('.giraviDate').val(resp.data.loanDate).trigger('input');
+					//$('.giravi-detail-group').find('.posonum').val().trigger('input');
+					//$('.giravi-detail-group').find('.paymentDueDate').val().trigger('input');
+					/* $('.bottom-total-group').find('.giraviMainTotAmt').text(resp.data.invVal);
+					$('.bottom-total-group').find('.giraviMainDisAmt').text(0);
+					$('.bottom-total-group').find('.giraviMainTaxableAmt').text(resp.data.taxableVal);
+					$('.bottom-total-group').find('.giraviMainTaxAmt').text(resp.data.taxVal);
+					$('.bottom-total-group').find('.giraviMainGrandAmt').text(0); */
+					//$('.recipientDesc').text(resp.data.recipientDesc);
 					
-					$.each(resp.data.items,function(i,itm){
+					$.each(resp.data.giraviItems,function(i,itm){
 						console.log('found itm::',itm);
+						
+						var rowCount = $('.giraviItemsTable tbody tr').length;
+						//{"id":4,"itmName":"Men Ring","itmMetalType":"G","itmDesc":"Gold Men Ring","itmQty":1,
+						//"itmGrossWeight":5,"itmGrossWeightUom":"gm","itmNetWeight":4.5,
+						//"itmNetWeightUom":"gm","itmValuation":20000,"itmEligibleAmount":15000}
+						
+						var itemObj = {};
 						itemObj.id = itm.id;
-						itemObj.invItemid = itm.inventoryItemId;
-						itemObj.categoryid = itm.categoryId ? itm.categoryId: "";
-						itemObj.name = itm.itemName ? itm.itemName : "";
-						itemObj.hsn = itm.hsnNo ? itm.hsnNo : "";
-						itemObj.qty = itm.qty ? itm.qty : "0.00";
-						itemObj.mu = itm.measurementUnit ? itm.measurementUnit : "";
-						itemObj.uPrice = itm.unitAmt ? itm.unitAmt : "0.00";
-						itemObj.qtyAmt = itm.qtyAmt ? itm.qtyAmt : "0.00";
-						itemObj.discAmt = itm.discountVal ? itm.discountVal : "0.00";
-						itemObj.taxableAmt =  itm.taxableAmt ? itm.taxableAmt : "0.00";
-						itemObj.totAmt = itm.totalAmt ? itm.totalAmt : "0.00";
-						itemObj.taxArr = itm.taxes ? itm.taxes : null;
-						itemObj.discArr = itm.discounts ? itm.discounts : null;
-
-						console.log('itemObj',itemObj)
-						var qty = itemObj.qty == "" ? 0 : itemObj.qty;
-						var uPrice = itemObj.uPrice == "" ? "0.00" : itemObj.uPrice;
-						var rowCount = i+1;
-
-
-						var discPercentArry = itemObj.discArr;
-						var discTd = "";
-						var discObjArray = [];
-						var rowDiscTotAmt = 0;
-						if (discPercentArry.length > 0) {
-							discPercentArry.forEach(function (objDisc, i) {
-								var discr = objDisc.discountRateInPercent;
-								var discAmtNew = parseFloat(discr) / 100;
-								discTd = discTd + '<span> Rs: <b class="discamt">' + (discAmtNew * parseFloat(itemObj.qtyAmt)) + '</b></span>';
-								rowDiscTotAmt = rowDiscTotAmt + (discAmtNew * parseFloat(itemObj.qtyAmt));
-							});
-						}
-
-						discTd = discTd + '<small class="hide rowDiscTotAmt">' + rowDiscTotAmt + '</small>';
-
-
-						var taxPercentArry = itemObj.taxArr;
-						var taxTd = "";
-						var taxObjArray = [];
-						var rowTaxTotAmt = 0;
-						if (taxPercentArry.length > 0) {
-							taxPercentArry.forEach(function (objTx, i) {
-								var txr = objTx.taxRate;
-								var txName = objTx.taxName;
-								var taxAmtNew = parseFloat(txr) / 100;
-								taxTd = taxTd + '<span>' + txName + ' Rs: <b class="txamt">' + (taxAmtNew * parseFloat(resp.data.taxableVal)) + '</b></span>';
-								rowTaxTotAmt = rowTaxTotAmt + (taxAmtNew * parseFloat(resp.data.taxableVal));
-							});
-						}
-
-						taxTd = taxTd + '<small class="hide rowTaxTotAmt">' + rowTaxTotAmt + '</small>';
-
+						itemObj.name = itm.itmName;
+						itemObj.qty = itm.itmQty;
+						itemObj.metalType = itm.itmMetalType;
+						itemObj.grossWeight = itm.itmGrossWeight;
+						itemObj.grossWeightUom = itm.itmGrossWeightUom;
+						itemObj.netWeight = itm.itmNetWeight;
+						itemObj.netWeightUom = itm.itmNetWeightUom;
+						itemObj.valuationAmt = itm.itmValuation;
+						itemObj.payableAmt = itm.itmEligibleAmount;
+						itemObj.grandAmt = itm.itmEligibleAmount;
+						
 						var tr = ' <tr>' +
-						' <td class="trCount">' + (rowCount) + '</td>' +
-						' <td class="itemNameTd">' + itemObj.name + '</td>' +
-						' <td class="itemHSNTd col-hsn">' + itemObj.hsn + '</td>' +
-						' <td class="itemQtyTd"><span>' + itemObj.qty + '</span> ' + itemObj.mu + '</td>' +
-						' <td class="itemUPTd col-up">Rs: <span>' + itemObj.uPrice + '</span></td>' +
-						' <td class="itemTATd">Rs: <span>' + itemObj.qtyAmt + '</span></td>' +
-						' <td class="itemDisTd col-disc">' + discTd + '</td>' +
-						' <td class="itemTaxAmtTd">Rs: <span>' + itemObj.taxableAmt + '</span></td>' +
-						' <td class="itemTaxTd col-tax">' + taxTd + '</td>' +
+						' <td class="trCount">' + (rowCount + 1) + '</td>' +
+						' <td class="itemNameTd">' + itm.itmName + ' '+(itm.itmMetalType=='G' ? '<span class="badge badge-warning">Gold</span>' : '<span class="badge badge-info">'+itm.itmMetalType+'</span>')+'</td>' +
+						' <td class="itemQtyTd">' + itm.itmQty + '</td>' +
+						' <td class="itemGrossWeightTd col-up"><span>' + itm.itmGrossWeight + '</span> <span>' + itm.itmGrossWeightUom + '</span></td>' +
+						' <td class="itemNetWeightTd"><span>' + itm.itmNetWeight + '</span> <span>' + itm.itmNetWeightUom + '</span></td>' +
+						' <td class="itemValuationTd">Rs: ' + itm.itmValuation + '</td>' +
+						' <td class="itemPayableAmtTd">Rs: ' + itm.itmEligibleAmount + '</td>' +
 						' <td class="">' +
-						'<span class="itemGrandAmt hide">' + itemObj.totAmt + '</span>' +
-						'<span class="itemId hide">' + itemObj.invItemid + '</span>' +
-						'<span class="rowTaxObjArray hide">' + (JSON.stringify(itemObj.taxArr)) + '</span>' +
-						'<span class="rowDiscountObjArray hide">' + (JSON.stringify(itemObj.discArr)) + '</span>' +
 						'<span class="rowItemObj hide">' + (JSON.stringify(itemObj)) + '</span>' +
 						'<div class="text-center">' +
 						'<button type="button" onclick=updateGiraviItm(this) class="btn btn-success btn-icon btn-sm editBtn">' +
-						'<i data-feather="edit-3"></i>' +
-						'</button>' +
+						'<i class="fa fa-pencil-alt"></i>' +
+						'</button>&nbsp;' +
 						'<button type="button" onclick=deleteGiraviItm(this) class="btn btn-danger btn-icon btn-sm deleteBtn">' +
-						'<i data-feather="trash-2"></i>' +
+						'<i class="fa fa-trash-alt"></i>' +
 						'</button>' +
 						'</div>' +
 						'</td></tr>';
 
-						$('.invoiceItemsTable tbody').append(tr);
-						updateTfootTotal();
-						feather.replace();
+						$('.giraviItemsTable>tbody').append(tr);
+						
+						
 					});
 
-					$('.invoiceTable').toggleClass('hide');
-					$('.invoiceForm').toggleClass('hide');
+					updateTfootTotal();
+
+					$('.giraviTable').toggleClass('hide');
+					$('.giraviForm').toggleClass('hide');
 				}
 			}
 		});

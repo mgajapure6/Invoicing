@@ -141,4 +141,12 @@ public class Customer implements Serializable {
 		this.loans = loans;
 	}
 
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", cusName=" + cusName + ", cusAddrL1=" + cusAddrL1 + ", cusAddrL2=" + cusAddrL2
+				+ ", state=" + state + ", city=" + city + ", pincode=" + pincode + ", mobile=" + mobile + ", email="
+				+ email + "]";
+	}
+
+	
 }

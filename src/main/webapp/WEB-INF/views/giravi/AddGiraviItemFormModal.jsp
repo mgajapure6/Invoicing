@@ -67,15 +67,7 @@
 							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Payable Amount</label> <input type="text" onkeyup="" class="form-control right mandatory payableAmountInput payableAmountCleave" required placeholder="Enter Payable Amount" data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-validation-threshold="0" data-parsley-maxlength="10" data-parsley-minlength-message="Enter proper amount. ">
 						</div>
 					</div>
-					<div class="modalTotDiv mg-t-20" style="text-align: right;">
-						<p class="">
-							Total Payable Amount : Rs <b class="modalTotAmt">0.00</b>
-						</p>
-						<p class="">
-							Grand Total Amount : Rs <b class="modalGrandTotAmt">0.00</b>
-						</p>
-					</div>
-					<div class="row row-sm">
+					<div class="row row-sm mg-t-50">
 						<div class="col-sm mg-t-10" style="text-align: right;">
 							<button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
 							<button type="button" class="btn btn-primary addItemToGiraviBtn" data-flag="N" onclick="addItemToGiravi(this,'N')" disabled>Add item to giravi</button>
@@ -215,67 +207,6 @@
 	}
 
 
-	function calculateTotalInModal() {
-		var qty = $('#giraviItemForm').find('.qty').val() == "" ? 0 : $('#giraviItemForm').find('.qty').val().split(",").join("");
-		var uPrice = $('#giraviItemForm').find('.unitPrice').val() == "" ? 0 : $('#giraviItemForm').find('.unitPrice').val().split(",").join("");
-		var taxPercentArry = $('#giraviItemForm').find('.taxSelect').val();
-		var discountPercent = $('#giraviItemForm').find('.discountSelect').find('option:selected').data('discount') == "" || $('#giraviItemForm').find('.discountSelect').find('option:selected').data('discount') == null ? 0 : $('#giraviItemForm').find('.discountSelect').find('option:selected').data('discount');
-		var discountIsPercent = $('#giraviItemForm').find('.discountSelect').find('option:selected').data('distype') == "P";
-
-
-		var totAmt = (parseFloat(qty) * parseFloat(uPrice));
-
-		var taxObjArray = [];
-		var totalTaxAmount = 0;
-		if (taxPercentArry.length > 0) {
-			taxPercentArry.forEach(function (obj, i) {
-				var txr = $('#giraviItemForm').find('option[value="' + obj + '"]').data('taxrate');
-				var txName = $('#giraviItemForm').find('option[value="' + obj + '"]').text();
-				var taxAmtNew = parseFloat(txr) / 100;
-				totalTaxAmount = totalTaxAmount + (taxAmtNew * parseFloat(totAmt));
-				taxObjArray.push({ "taxId": obj, "taxAmt": taxAmtNew * parseFloat(totAmt), "taxName": txName, "taxRate": txr });
-			});
-		}
-
-		$('#giraviItemForm').find('.taxObjectArray').empty().text(JSON.stringify(taxObjArray));
-		if ($('#giraviItemForm').find('.discountSelect').val() != "" && $('#giraviItemForm').find('.discountSelect').val() != null) {
-			$('#giraviItemForm').find('.discountObject').empty().text(JSON.stringify({
-				"id": $('#giraviItemForm').find('.discountSelect').val(),
-				"discount": $('#giraviItemForm').find('.discountSelect').find('option:selected').data('discount'),
-				"discode": $('#giraviItemForm').find('.discountSelect').find('option:selected').data('discode'),
-				"distype": $('#giraviItemForm').find('.discountSelect').find('option:selected').data('distype')
-			}));
-		}
-
-
-
-		//console.log('totalTaxAmount', totalTaxAmount);
-		//console.log('taxObjArray', taxObjArray);
-
-		var discountAmt = 0;
-
-		if (discountIsPercent) {
-			var p = parseFloat(discountPercent) / 100;
-			discountAmt = p * parseFloat(totAmt);
-			//console.log('discountAmt',discountAmt);
-		} else {
-			discountAmt = discountPercent;
-		}
-
-		var grandTotAmt = (totAmt + totalTaxAmount) - discountAmt;
-
-		$('#giraviItemForm').find('.modalTotAmt').text(totAmt.toFixed(2));
-		$('#giraviItemForm').find('.modalTotTaxAmt').text(totalTaxAmount.toFixed(2));
-		$('#giraviItemForm').find('.modalDiscountAmt').text(discountAmt.toFixed(2));
-		$('#giraviItemForm').find('.modalGrandTotAmt').text(grandTotAmt.toFixed(2));
-
-	}
-
-
-
-
-
-
 	function addItemToGiravi(obj, flag) {
 		$('.giraviItemsTable tbody').find('.noDataTr').remove();
 		var itemId = $('#giraviItemForm').find('.itmId').val();
@@ -324,8 +255,6 @@
 			'</div>' +
 			'</td></tr>';
 
-		console.log('adding tr')
-
 		if (flag == 'N') {
 			$('.giraviItemsTable tbody').append(tr);
 		} else if (flag == 'M') {
@@ -343,7 +272,6 @@
 		}
 
 		updateTfootTotal();
-		//addTfootTotal()
 		$('#modalAddGiraviItem').modal('toggle');
 
 	}
