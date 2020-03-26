@@ -4,10 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mgsoft.invoicing.module.admin.beans.Module;
-import com.mgsoft.invoicing.module.giravi.beans.Loan;
+import com.mgsoft.invoicing.module.admin.beans.EntityMaster;
 
 @Repository
-public interface ModuleRepository extends CrudRepository<Module, Long>, JpaRepository<Module, Long> {
+public interface EntityRepository extends CrudRepository<EntityMaster, Long>, JpaRepository<EntityMaster, Long> {
 
 }

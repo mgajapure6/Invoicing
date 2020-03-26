@@ -47,6 +47,7 @@
 	</div>
 	<div data-label="Entity Form" class="df-example menu-form hide">
 		<form id="menuForm">
+			<input type="text" id="menuId" class="menuId" hidden />
 			<div class="form-group row">
 				<label for="inputEmail3" class="col-sm-2 col-form-label">Module Name</label>
 				<div class="col-sm-10">
@@ -60,15 +61,21 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Menu Name</label>
+				<label for="inputPassword3" class="col-sm-2 col-form-label mandlabel">Menu Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control mandatory" id="menuName" placeholder="Enter Menu Name">
+					<input type="text" class="form-control mandatory" id="menuName" placeholder="Enter Menu Name" data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="100" data-parsley-minlength-message="please enter at least 2 character.">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="inputPassword3" class="col-sm-2 col-form-label">Menu Name Ol</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="menuNameOl" placeholder="Enter Menu Name Ol">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="inputPassword3" class="col-sm-2 col-form-label mandlabel">Page URL</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control mandatory" id="pageUrl" placeholder="Enter Page URL" data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="100" data-parsley-minlength-message="please enter at least 2 character. ">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -85,7 +92,7 @@
 			<div class="form-group row mg-b-0">
 				<label class="col-form-label col-sm-2 pt-0"></label>
 				<div class="col-sm-10">
-					<button type="button" class="btn btn-primary menuSaveBtn" data-flag="N" onclick="saveMenu(this)">Save Menu</button>
+					<button type="button" class="btn btn-primary menuSaveBtn" data-flag="N" data-menuid="" onclick="saveMenu(this)" disabled>Save Menu</button>
 					<button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
 				</div>
 			</div>
@@ -100,6 +107,7 @@
 						<th scope="col">Menu Name</th>
 						<th scope="col">Menu Name Ol</th>
 						<th scope="col">Module Name</th>
+						<th scope="col">Page URL</th>
 						<th scope="col">Status</th>
 						<th scope="col" class="center">Action</th>
 					</tr>
@@ -109,18 +117,19 @@
 					<c:forEach items="${allMenus}" var="menu">
 						<c:set value="${rCount + 1}" var="rCount"></c:set>
 						<tr>
-							<td class="modCount">${rCount}</td>
-							<td class="modName">${menu.menuName}</td>
-							<td class="modNameOl">${menu.menuNameOl}</td>
-							<td class="modNameOl"></td>
-							<td class="modStatus">${menu.status} <span class="modStatus hide">${menu.status}</span></td>
+							<td class="menuCount">${rCount}</td>
+							<td class="menuName">${menu.menuName}</td>
+							<td class="menuNameOl">${menu.menuNameOl}</td>
+							<td class="modName">${menu.module.moduleName}</td>
+							<td class="menulink">${menu.link}</td>
+							<td class="menuStatus">${menu.status} <span class="menuStatus hide">${menu.status}</span></td>
 							<td class="">
 								<div class="text-center">
-									<button type="button" onclick="setFormData(this,'M')" data-menuid="${menu.id}" class="btn btn-success btn-icon btn-sm">
-										<i data-feather="edit-3"></i>
+									<button type="button" onclick="setFormData(this,'M')" data-menuid="${menu.id}" data-moduleid="${menu.module.id}" class="btn btn-success btn-icon btn-sm">
+										<i class="fa fa-pencil-alt" aria-hidden="true"></i>
 									</button>
 									<button type="button" onclick="setFormData(this,'D')" data-menuid="${menu.id}" class="btn btn-danger btn-icon btn-sm">
-										<i data-feather="trash-2"></i>
+										<i class="fa fa-trash-alt" aria-hidden="true"></i>
 									</button>
 								</div>
 							</td>
@@ -181,9 +190,12 @@
 			$('.menu-form').find('.alert').remove();
 			var tr = $(btnObj).closest('tr');
 			var modId = $(btnObj).attr('data-menuid');
-			$('#menuName').val($(tr).find('.modName').text().trim());                                           
-			$('#menuNameOl').val($(tr).find('.modNameOl').text().trim());  
-			if($(tr).find('span.modStatus').text()=="E")  {
+			
+			$('#menuName').val($(tr).find('.menuName').text().trim());                                           
+			$('#menuNameOl').val($(tr).find('.menuNameOl').text().trim());
+			$('#moduleList').val($(btnObj).attr('data-moduleid'));
+			$('#pageUrl').val($(tr).find('.menulink').text().trim());
+			if($(tr).find('span.menuStatus').text()=="E")  {
 				$('#mStatusE').prop("checked",true);
 			}else{
 				$('#mStatusD').prop("checked",true);
@@ -197,12 +209,13 @@
 		
 		function saveMenu(btnObj){
 			var flag = $(btnObj).data('flag');
+			console.log();
 			var menuId = null;
 			
 			if(flag=='N'){
 				menuId = 0;
 			}else{
-				menuId = $('#menuForm').find('.menuId').val();
+				menuId = $("#menuId").attr('data-parsley-id');
 			}
 			
 			var formData = {
@@ -212,7 +225,8 @@
 				'moduleName' :  $('#moduleList option:selected').text(),
 				'status'     :	$('#menuForm').find('input[name="mStatus"]:checked').val(),
 				'menuId'     :  menuId,
-				'flag'       :  flag
+				'flag'       :  flag,
+				'pageUrl'    :  $('#pageUrl').val(),
 			}
 			
 			$.ajax({
@@ -221,7 +235,7 @@
 				data : formData,
 				async : false,
 				success : function(resp) {
-					console.log('resp',resp);
+					
 					if(resp.status=="success"){
 						needPageReload=true;
 						clearForm($('#menuForm'));
@@ -239,7 +253,6 @@
 		
 		function clearForm(formObje){
 			var formObj = formObje ? formObje : $('#menuForm');
-			console.log('clearForm');
 			$('.menu-form').find('.alert').remove();
 			$('#menuForm').find('input').val('');
 			$('#menuForm').find('select').val('');

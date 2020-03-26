@@ -193,7 +193,7 @@ public class Menu {
 		return "Menu [id=" + id + ", menuName=" + menuName + ", menuNameOl=" + menuNameOl + ", link=" + link
 				+ ", menuCount=" + menuCount + ", menuIcon=" + menuIcon + ", addRight=" + addRight + ", modRight="
 				+ modRight + ", delRight=" + delRight + ", viewRight=" + viewRight + ", printRight=" + printRight
-				+ ", specialRight=" + specialRight + ", hasLink=" + hasLink + "]";
+				+ ", specialRight=" + specialRight + ", hasLink=" + hasLink + ", status=" + status + "]";
 	}
 	
 	

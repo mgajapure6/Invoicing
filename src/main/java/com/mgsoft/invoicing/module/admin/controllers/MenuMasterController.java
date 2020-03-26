@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mgsoft.invoicing.module.admin.beans.Menu;
+import com.mgsoft.invoicing.module.admin.beans.Module;
 import com.mgsoft.invoicing.module.admin.repository.MenuRepository;
 import com.mgsoft.invoicing.module.admin.repository.ModuleRepository;
 
@@ -57,6 +58,10 @@ public class MenuMasterController {
 		String moduleName = request.getParameter("moduleName");
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
+		String pageUrl = request.getParameter("pageUrl");
+		
+		Module module = moduleRepository.getOne(moduleId);
+		
 		Menu menu = new Menu();
 		menu.setId(id);
 		menu.setMenuName(menuName);
@@ -65,35 +70,37 @@ public class MenuMasterController {
 		menu.setParentName(moduleName);
 		menu.setHasLink(false);
 		menu.setStatus(status);
+		menu.setModule(module);
+		menu.setLink(pageUrl);
+		module.getMenus().add(menu);
 		
-		System.out.println("In...>>>");
+		//System.out.println(">>>"+menu);
 		if (flag.equals("D")) {
 			menuRepository.delete(menu);
 			res.put("status", "success");
 			res.put("msg", "Successfully deleted customer entry !");
-		} else {
-			System.out.println("1>>>");
-			Menu moRes = menuRepository.save(menu);
-			System.out.println("Menu res :" + moRes);
+		} else if (flag.equals("N")){
+			
+			Module moRes = moduleRepository.save(module);
 			if (moRes != null) {
-				if (flag.equals("N")) {
-					res.put("status", "success");
-					res.put("msg", "Successfully save menu entry !");
-				} else {
-					res.put("status", "success");
-					res.put("msg", "Successfully updated menu entry !");
-				}
+				res.put("status", "success");
+				res.put("msg", "Successfully save menu entry !");
+			}else {
+				res.put("status", "failed");
+				res.put("msg", "Failed to save menu entry !");
+			}
+			
+		}else {
+			Menu me = menuRepository.save(menu);
+			if (me != null) {
+				res.put("status", "success");
+				res.put("msg", "Successfully updated menu entry !");
 			} else {
-				if (flag.equals("N")) {
-					res.put("status", "failed");
-					res.put("msg", "Failed to save menu entry !");
-				} else {
-					res.put("status", "failed");
-					res.put("msg", "Failed to update menu entry !");
-				}
+				res.put("status", "failed");
+				res.put("msg", "Failed to update menu entry !");
 			}
 		}
+			
 		return res;
 	}
-
 }
