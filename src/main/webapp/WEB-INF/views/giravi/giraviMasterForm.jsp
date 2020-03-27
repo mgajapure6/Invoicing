@@ -296,7 +296,6 @@
 		</div>
 	</form>
 	<jsp:include page="AddGiraviItemFormModal.jsp"></jsp:include>
-	<jsp:include page="AddGiraviCategoryFormModal.jsp"></jsp:include>
 	<jsp:include page="AddGiraviCustomerFormModal.jsp"></jsp:include>
 	<script type="text/javascript">
 		function manageColumn(obj,colName){

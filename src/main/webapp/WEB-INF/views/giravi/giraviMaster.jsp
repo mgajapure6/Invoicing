@@ -66,7 +66,7 @@
 									<td scope="col" class="right bold">${lon.loanAmount}</td>
 									<td scope="col" class="">${lon.customer.cusName} <input type="hidden" class="customerId" value="${lon.customer.id}"></td>
 									<td scope="col" class=""></td>
-									<td scope="col" class=""><button type="button" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
+									<td scope="col" class=""><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
 												<i class="fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp; PAY
 											</button></td>
 									<td scope="col" class="">
@@ -101,7 +101,7 @@
 	<div class="giraviForm hide">
 		<jsp:include page="giraviMasterForm.jsp"></jsp:include>
 	</div>
-	
+	<jsp:include page="AddPayment.jsp"></jsp:include>
 	<script src="lib/datatable/js/jquery.dataTables.yadcf.0.9.2.js"></script>
 	<script type="text/javascript">
 	var allGiraviTable=null;
@@ -276,6 +276,12 @@
 				}
 			}
 		});
+	}
+
+	function openAddPaymentModal(obj) {
+		clearPaymentForm();
+		$('#modalAddPayment').modal('toggle');
+		//$('#giraviItemForm').parsley().validate();
 	}
 	
 	
