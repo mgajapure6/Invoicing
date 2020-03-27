@@ -2,6 +2,7 @@ package com.mgsoft.invoicing.module.giravi.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.google.gson.JsonParser;
 import com.mgsoft.invoicing.beans.Customer;
 import com.mgsoft.invoicing.module.giravi.beans.GiraviItem;
 import com.mgsoft.invoicing.module.giravi.beans.Loan;
+import com.mgsoft.invoicing.module.giravi.beans.LoanTransaction;
 import com.mgsoft.invoicing.module.giravi.beans.PartyAccount;
 import com.mgsoft.invoicing.module.giravi.repository.GiraviMasterRepository;
 import com.mgsoft.invoicing.module.giravi.repository.PartyAccountRepository;
@@ -95,7 +97,7 @@ public class GiraviMasterController {
 		//loan.setLoanTransactions(null);
 		loan.setCustomer(cus);
 		
-		List<GiraviItem> itemsList = new ArrayList<>();
+		//List<GiraviItem> itemsList = new ArrayList<>();
 		
 		if(itemsArr.size()>0) {
 			Iterator<JsonElement> itr = itemsArr.iterator();
@@ -115,14 +117,16 @@ public class GiraviMasterController {
 				gi.setItmQty(jo.get("qty").getAsFloat());
 				gi.setItmValuation(jo.get("valuationAmt").getAsFloat());
 				gi.setLoan(loan);
-				itemsList.add(gi);
+				
+				loan.getGiraviItems().add(gi);
+				//itemsList.add(gi);
 			}
 		}
 		
-		loan.setGiraviItems(itemsList);
+		//loan.setGiraviItems(itemsList);
 		ArrayList<Loan> loanList = new ArrayList<>();
 		loanList.add(loan);
-		cus.setLoans(loanList);
+		cus.getLoans().add(loan);
 		Customer customer = customerRepository.save(cus);
 		if (customer != null) {
 			res.put("status", "success");
@@ -132,8 +136,44 @@ public class GiraviMasterController {
 			res.put("msg", "Failed to save giravi entry !");
 		}
 		
-		System.out.println("itemsArr::"+itemsArr);
+		//System.out.println("itemsArr::"+itemsArr);
 
+		return res;
+	}
+	
+	
+	@PostMapping("/saveGiraviPayment")
+	@ResponseBody
+	public Map<String, Object> saveGiraviPayment(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> res = new HashMap<>();
+		String giraviId = request.getParameter("loanId");
+		String flag = request.getParameter("flag");
+		String receAmt = request.getParameter("receAmt");
+		String payMethod = request.getParameter("payMethod");
+		
+		Loan loan = giraviMasterRepository.getOne(Integer.parseInt(giraviId));
+		
+		LoanTransaction loanTransaction = new LoanTransaction();
+		loanTransaction.setId(0);
+		loanTransaction.setTranAmount(Float.parseFloat(receAmt));
+		loanTransaction.setTranMethod(payMethod);
+		loanTransaction.setTranDate(new Date());
+		loanTransaction.setTranDesc("Transaction made of Rs. "+Float.parseFloat(receAmt));
+		loanTransaction.setLoan(loan);
+		
+		loan.getLoanTransactions().add(loanTransaction);
+		
+		Loan respLoan = giraviMasterRepository.save(loan);
+		
+		if (respLoan != null) {
+			res.put("status", "success");
+			res.put("msg", "Payment For Giravi No : "+respLoan.getLoanNumber()+" Saved Successfully !");
+		} else {
+			res.put("status", "failed");
+			res.put("msg", "Failed to save payment for Giravi No : "+respLoan.getLoanNumber());
+		}
+		
+		
 		return res;
 	}
 }

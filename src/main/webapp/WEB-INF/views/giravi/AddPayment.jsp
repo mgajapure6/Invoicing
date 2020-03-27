@@ -24,7 +24,7 @@
 					<div class="form-group mg-b-0">
 						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Enter Receivable Amount</label>
 						<input type="text" placeholder="Enter Receivable Amount" class="form-control mandatory addPaymentReceivableAmountInput receivableAmountCleave" required data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-validation-threshold="0" data-parsley-minlength-message="Enter proper amount." data-parsley-required-message="Receivable Amount must be required.">
-						<input type="hidden" class="itmId" value="0">
+						<input type="hidden" class="loanId" value="0">
 					</div>
 					<div class="form-group mg-b-0 mg-t-20">
 						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Payment Mode / Method</label> <select onkeyup="" class="form-control payModeSelect">
@@ -36,7 +36,7 @@
 					<div class="row row-sm">
 						<div class="col-sm mg-t-10" style="text-align: right;">
 							<button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
-							<button type="button" class="btn btn-primary savePaymentBtn" data-flag="N" onclick="savePayment(this,'N')" disabled>Save Payment</button>
+							<button type="button" class="btn btn-primary savePaymentBtn" data-flag="N" onclick="saveGiraviPayment(this,'N')" disabled>Save Payment</button>
 						</div>
 					</div>
 				</div>
@@ -87,19 +87,52 @@
 		$('#addPaymentForm').find('select').find('option:first').prop('selected',true).trigger('change');
 		$('#addPaymentForm').find('.select2-hidden-accessible').val(null).trigger('change');
 		$('#addPaymentForm').find('textarea').val('');
-		$('#addPaymentForm').find('.alert').remove();
+		$('#modalAddPayment').find('.alert').remove();
 		$('#addPaymentForm').find('.select2-hidden-accessible').removeClass('parsley-error');
 		$('#addPaymentForm').find('.parsley-error').removeClass('.parsley-error');
 		$('#addPaymentForm').find('.parsley-success').removeClass('.parsley-success');
 		$('#addPaymentForm').find('.select2-selection').removeClass('.parsley-error');
-		$('#addPaymentForm').find('.savePaymentBtn').attr('onclick', "addItemToGiravi(this,'N')");
-		$('#addPaymentForm').find('.savePaymentBtn').prop('disabled', true);
+		$('#modalAddPayment').find('.savePaymentBtn').attr('onclick', "saveGiraviPayment(this,'N')");
+		$('#modalAddPayment').find('.savePaymentBtn').prop('disabled', true);
 		$('#addPaymentForm').parsley().reset();
 	}
 
 
 
-	function savePayment(obj,flg) {
+	function saveGiraviPayment(obj,flg) {
+		var loanId 		= $('#addPaymentForm').find('input.loanId').val();
+		var receAmt 	= $('#addPaymentForm').find('input.addPaymentReceivableAmountInput').val().split(",").join("");
+		var payMethod 	= $('#addPaymentForm').find('select.payModeSelect').val();
+
 		
+		var formData = {
+				'loanId' : loanId,
+				'receAmt' : receAmt,
+				'payMethod' : payMethod,
+				'flag' : "N"
+			}
+
+		
+	
+		$.ajax({
+			url : '/app/giravi/giraviMaster/saveGiraviPayment',
+			method : 'POST',
+			data : formData,
+			async : false,
+			success : function(resp) {
+				console.log('resp',resp);
+				if(resp.status=="success"){
+					//needReloadCustomer=true;
+					clearPaymentForm($('#addPaymentForm'));
+					$('#modalAddPayment').find('.modal-content').append('<div class="alert alert-solid alert-success d-flex align-items-center mg-t-10 mg-b-0" role="alert">'+
+				    '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
+				}else{
+					//needReloadCustomer=false;
+					$('#modalAddPayment').find('.modal-content').find('.alert').remove();
+					$('#modalAddPayment').find('.modal-content').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-t-10 mg-b-0" role="alert">'+
+		            '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
+				}
+			}
+		});
 	}
 </script>

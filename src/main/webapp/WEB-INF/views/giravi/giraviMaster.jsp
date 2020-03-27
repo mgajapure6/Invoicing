@@ -51,8 +51,8 @@
 								<th scope="col">Giravi Amount</th>
 								<th scope="col">Customer</th>
 								<th scope="col">Payment Status</th>
-								<th scope="col">Pay Now</th>
-								<th scope="col">Action</th>
+								<th scope="col" class="center">Pay Now</th>
+								<th scope="col" class="center">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,12 +66,15 @@
 									<td scope="col" class="right bold">${lon.loanAmount}</td>
 									<td scope="col" class="">${lon.customer.cusName} <input type="hidden" class="customerId" value="${lon.customer.id}"></td>
 									<td scope="col" class=""></td>
-									<td scope="col" class=""><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
+									<td scope="col" class="center"><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
 												<i class="fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp; PAY
 											</button></td>
 									<td scope="col" class="">
 										<span class="loanId hide">${lon.id}</span>
 										<div class="text-center">
+											<button type="button" onclick="viewGiraviForm(this,'V')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-info btn-icon btn-sm">
+												<i class="fa fa-eye"></i>
+											</button>
 											<button type="button" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-success btn-icon btn-sm">
 												<i class="fa fa-pencil-alt"></i>
 											</button>
@@ -280,6 +283,8 @@
 
 	function openAddPaymentModal(obj) {
 		clearPaymentForm();
+		var loanId = $(obj).attr('data-loanid');
+		$('#addPaymentForm').find('input.loanId').val(loanId)
 		$('#modalAddPayment').modal('toggle');
 		//$('#giraviItemForm').parsley().validate();
 	}
