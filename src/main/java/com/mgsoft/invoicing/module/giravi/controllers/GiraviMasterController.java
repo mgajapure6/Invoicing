@@ -74,10 +74,10 @@ public class GiraviMasterController {
 		String customerId = request.getParameter("customerId");
 		String giraviNo = request.getParameter("giraviNo");
 		String giraviDate = request.getParameter("giraviDate");
-		//String posoNo = request.getParameter("posoNo");
-		//String payDueDate = request.getParameter("payDueDate");
-		//String giraviAmt = request.getParameter("giraviAmt");
-		//String grndTotAmt = request.getParameter("grndTotAmt");
+		Float intrestAmount = Float.valueOf(request.getParameter("intrestAmount"));
+		Float netPayableAmount = Float.valueOf(request.getParameter("netPayableAmount"));
+		Float tenurePeriod = Float.valueOf(request.getParameter("tenurePeriod"));
+		String tenureType = request.getParameter("tenureType");
 		String recipientDesc = request.getParameter("recipientDesc");
 		Float intrestRate = Float.valueOf(request.getParameter("intrestRate"));
 		Float loanAmount = Float.valueOf(request.getParameter("loanAmount"));
@@ -94,10 +94,16 @@ public class GiraviMasterController {
 		loan.setIntrestRate(intrestRate);
 		loan.setLoanAmount(loanAmount);
 		loan.setLoanDate(DateUtil.stringToDate(giraviDate, "dd-MM-yyyy"));
+		loan.setIntrestAmount(intrestAmount);
+		loan.setNetPayableAmount(netPayableAmount);
+		loan.setTenurePeriod(tenurePeriod);
+		loan.setTenureType(tenureType);
+		loan.setDescription(recipientDesc);
+		loan.setStatus("U");
 		//loan.setLoanTransactions(null);
 		loan.setCustomer(cus);
 		
-		//List<GiraviItem> itemsList = new ArrayList<>();
+		List<GiraviItem> itemsList = new ArrayList<>();
 		
 		if(itemsArr.size()>0) {
 			Iterator<JsonElement> itr = itemsArr.iterator();
@@ -118,12 +124,12 @@ public class GiraviMasterController {
 				gi.setItmValuation(jo.get("valuationAmt").getAsFloat());
 				gi.setLoan(loan);
 				
-				loan.getGiraviItems().add(gi);
-				//itemsList.add(gi);
+				//loan.getGiraviItems().add(gi);
+				itemsList.add(gi);
 			}
 		}
 		
-		//loan.setGiraviItems(itemsList);
+		loan.setGiraviItems(itemsList);
 		ArrayList<Loan> loanList = new ArrayList<>();
 		loanList.add(loan);
 		cus.getLoans().add(loan);
@@ -172,8 +178,16 @@ public class GiraviMasterController {
 			res.put("status", "failed");
 			res.put("msg", "Failed to save payment for Giravi No : "+respLoan.getLoanNumber());
 		}
-		
-		
+	
 		return res;
+	}
+	
+	@GetMapping("/getGiraviTransactions")
+	public String getGiraviTransactions(HttpServletRequest request, HttpServletResponse response) {
+		Integer loanId = Integer.parseInt(request.getParameter("loadId"));
+		Loan loan = giraviMasterRepository.getOne(loanId);
+		request.setAttribute("giraviNumber", loan.getLoanNumber());
+		request.setAttribute("giraviTransactions", loan.getLoanTransactions());
+		return "giravi/GiraviTransactions";
 	}
 }

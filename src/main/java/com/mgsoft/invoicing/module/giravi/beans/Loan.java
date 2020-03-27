@@ -39,9 +39,27 @@ public class Loan implements Serializable {
 
 	@Column
 	Float loanAmount;
+	
+	@Column
+	Float tenurePeriod;
+	
+	@Column
+	String tenureType;
 
 	@Column
 	Float intrestRate;
+	
+	@Column
+	Float intrestAmount;
+	
+	@Column
+	Float netPayableAmount;
+	
+	@Column
+	String description;
+	
+	@Column
+	String status;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="loan_giraviitem", joinColumns = {@JoinColumn(name="loan_id")}, inverseJoinColumns = {@JoinColumn(name="giraviitem_id")})
@@ -127,14 +145,64 @@ public class Loan implements Serializable {
 		this.loanDate = loanDate;
 	}
 
+	public Float getTenurePeriod() {
+		return tenurePeriod;
+	}
+
+	public void setTenurePeriod(Float tenurePeriod) {
+		this.tenurePeriod = tenurePeriod;
+	}
+
+	public String getTenureType() {
+		return tenureType;
+	}
+
+	public void setTenureType(String tenureType) {
+		this.tenureType = tenureType;
+	}
+
+	public Float getIntrestAmount() {
+		return intrestAmount;
+	}
+
+	public void setIntrestAmount(Float intrestAmount) {
+		this.intrestAmount = intrestAmount;
+	}
+
+	public Float getNetPayableAmount() {
+		return netPayableAmount;
+	}
+
+	public void setNetPayableAmount(Float netPayableAmount) {
+		this.netPayableAmount = netPayableAmount;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Loan() {
 		super();
 	}
 
 	@Override
 	public String toString() {
-		return "Loan [id=" + id + ", loanAmount=" + loanAmount + ", intrestRate=" + intrestRate + ", giraviItems="
-				+ giraviItems + ", loanTransactions=" + loanTransactions + "]";
+		return "Loan [id=" + id + ", loanNumber=" + loanNumber + ", loanDate=" + loanDate + ", loanAmount=" + loanAmount
+				+ ", tenurePeriod=" + tenurePeriod + ", tenureType=" + tenureType + ", intrestRate=" + intrestRate
+				+ ", intrestAmount=" + intrestAmount + ", netPayableAmount=" + netPayableAmount + "]";
 	}
 
+	
 }

@@ -34,7 +34,7 @@
 					</div>
 					<hr class="mg-t-20 mg-b-20">
 					<div class="row row-sm">
-						<div class="col-sm mg-t-10" style="text-align: right;">
+						<div class="col-sm mg-t-10 mg-b-10" style="text-align: right;">
 							<button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
 							<button type="button" class="btn btn-primary savePaymentBtn" data-flag="N" onclick="saveGiraviPayment(this,'N')" disabled>Save Payment</button>
 						</div>

@@ -149,24 +149,36 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Number</label> <input type="text" class="form-control mandatory giraviNum parsleyField" placeholder="Enter giravi number" autocomplete="off" required data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="18" data-parsley-minlength-message="Enter at least 2 character. " data-parsley-maxlength-message="Cannot exist more than 18 character">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Number</label> 
+							<input type="text" class="form-control mandatory giraviNum parsleyField" placeholder="Enter giravi number" autocomplete="off" required data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="18" data-parsley-minlength-message="Enter at least 2 character. " data-parsley-maxlength-message="Cannot exist more than 18 character">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Date</label> <input type="text" class="form-control mandatory giraviDate dateCleave parsleyField" readonly placeholder="Select giravi date" autocomplete="off" required data-parsley-trigger="change" data-parsley-trigger="keyup" data-parsley-minlength="10" data-parsley-validation-threshold="0" data-parsley-maxlength="10" data-parsley-minlength-message="Date is incorrect" data-parsley-maxlength-message="Date is incorrect">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Date</label> 
+							<input type="text" class="form-control mandatory giraviDate dateCleave parsleyField" readonly placeholder="Select giravi date" autocomplete="off" required data-parsley-trigger="change" data-parsley-trigger="keyup" data-parsley-minlength="10" data-parsley-validation-threshold="0" data-parsley-maxlength="10" data-parsley-minlength-message="Date is incorrect" data-parsley-maxlength-message="Date is incorrect">
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">P.O/S.O Number</label> <input type="text" class="form-control posonum" placeholder="Enter P.O. / S.O. number " autocomplete="off">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Rate Of Interest</label> 
+							<select class="form-control roi" onchange="calculateInterest()">
+						  		<option value="1" selected>1 %</option>
+						  		<option value="2">2 %</option>
+						  		<option value="2.5">2.5 %</option>
+						  	</select>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Payment Due Date</label> <input type="text" class="form-control paymentDueDate dateCleave" placeholder="Select payment due date" autocomplete="off" readonly>
+						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Tenure Period</label>
+						<div class="input-group mg-b-5">
+						  	<input type="text" value="06" onkeyup="calculateInterest()" placeholder="Enter Tenure Period" class="form-control tenurePeriod" required data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-validation-threshold="0" data-parsley-maxlength="2" data-parsley-minlength-message="Enter valid period. " data-parsley-maxlength-message="Cannot exist more than 2 character">
+						  	<select class="form-control tenurePeriodType">
+						  		<option value="M" selected>Monthly</option>
+						  		<option value="Y">Yearly</option>
+						  	</select>
 						</div>
 					</div>
 				</div>
@@ -246,7 +258,7 @@
 						<div class="form-control-like-div bottom-total-group">
 							<div class="d-flex" style="align-items: center;">
 								<div class=" flex-grow-1">
-									<b>Total Giravi Amount</b>
+									<b>Total Giravi / Loan Amount</b>
 								</div>
 								<!-- <div class="pd-10">Flex item</div> -->
 								<div class="mg-l-auto">
@@ -256,7 +268,7 @@
 							<hr style="margin: 3px">
 							<div class="d-flex" style="align-items: center;">
 								<div class=" flex-grow-1">
-									<b>Tax Amount</b>
+									<b>Interest Amount</b>
 								</div>
 								<!-- <div class="pd-10">Flex item</div> -->
 								<div class="mg-l-auto">
@@ -266,7 +278,7 @@
 							<hr style="margin: 3px">
 							<div class="d-flex" style="align-items: center;">
 								<div class=" flex-grow-1">
-									<b>Grand Giravi Amount</b>
+									<b>Grand Payable Amount</b>
 								</div>
 								<!-- <div class="pd-10">Flex item</div> -->
 								<div class=" mg-l-auto">
@@ -434,15 +446,38 @@
 			$('.giraviItemsTable tfoot').find('.totalTr').find('.vTotTfoot span:eq(0)').text(vTot.toFixed(2));
 			$('.giraviItemsTable tfoot').find('.totalTr').find('.payAmtTotTfoot span:eq(0)').text(payAmtTot.toFixed(2));
 
-			var grandAmt = txTot + payAmtTot;
+			//var grandAmt = txTot + payAmtTot;
 			
 			$('.giraviMainTotAmt').text(payAmtTot.toFixed(2));
-			$('.giraviMainTaxAmt').text((0).toFixed(2));
-			$('.giraviMainGrandAmt').text(grandAmt.toFixed(2));
+			//$('.giraviMainTaxAmt').text((0).toFixed(2));
+			//$('.giraviMainGrandAmt').text(grandAmt.toFixed(2));
 			
 			
 			if($('.giraviItemsTable tfoot').find('.totalTr').hasClass('hide')){
 				$('.giraviItemsTable tfoot').find('.totalTr').removeClass('hide');
+			}
+
+			calculateInterest();
+		}
+
+		function calculateInterest() {
+			var loanAmt = 0;
+			$('table.giraviItemsTable tbody tr').each(function(i,tr){
+				var trObj = JSON.parse($(tr).find('span.rowItemObj').text());
+				loanAmt = loanAmt + parseFloat(trObj.payableAmt ? trObj.payableAmt : 0);
+			});
+			var tenurePeriodType = parseFloat($("select.tenurePeriodType").val());
+			var tenurePeriod = parseFloat($("input.tenurePeriod").val());
+			var interestRate = parseFloat($("select.roi").val());
+			console.log('loanAmt , tenurePeriod , interestRate::',loanAmt , tenurePeriod , interestRate)
+			if(loanAmt > 0 && tenurePeriod > 0 && interestRate > 0){
+				var interestAmt = (tenurePeriod*interestRate)/100*loanAmt;
+				console.log('interestAmt::'+interestAmt);
+				$('.giraviMainTaxAmt').text(interestAmt.toFixed(2));
+				$('.giraviMainGrandAmt').text((loanAmt+interestAmt).toFixed(2));
+			}else{
+				$(".giraviMainTaxAmt").text((0).toFixed(2));
+				$(".giraviMainGrandAmt").text((loanAmt).toFixed(2));
 			}
 		}
 		                                                                                                                                                                                                                    
@@ -528,20 +563,19 @@
 
 			
 			var formData = {
-				'giraviId'    : $('#giraviId').val(),
-				'flag'        : $('#giraviFlag').val(),
-				'items'       : JSON.stringify(giraviItems),
-				'customerId'  : $('.customer-form-group').find('.customerSelect').val(),
-				'giraviNo'    : $('.giravi-detail-group').find('.giraviNum').val(),
-				'giraviDate'  : $('.giravi-detail-group').find('.giraviDate').val(),
-				'posoNo'      : $('.giravi-detail-group').find('.posonum').val(),
-				'payDueDate'  : $('.giravi-detail-group').find('.paymentDueDate').val(),
-				'giraviAmt'   : $('.bottom-total-group').find('.giraviMainTotAmt').text(),
-				'grndTotAmt'  : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
-				'recipientDesc' : $('.recipientDesc').val(),
-				'intrestRate' : '2.5',
-				'loanAmount'  : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
-				'id'		  : $('#giraviId').val()
+				'id'		         : $('#giraviId').val(),
+				'flag'               : $('#giraviFlag').val(),
+				'items'              : JSON.stringify(giraviItems),
+				'customerId'         : $('.customer-form-group').find('.customerSelect').val(),
+				'giraviNo'           : $('.giravi-detail-group').find('.giraviNum').val(),
+				'giraviDate'         : $('.giravi-detail-group').find('.giraviDate').val(),
+				'intrestRate'        : $('.giravi-detail-group').find('select.roi').val(),
+				'netPayableAmount'   : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
+				'loanAmount'         : $('.bottom-total-group').find('.giraviMainGrandAmt').text(),
+				'intrestAmount'      : $('.bottom-total-group').find('.giraviMainTaxAmt').text(),
+			 	'tenurePeriod' 		 : $('.giravi-detail-group').find('input.tenurePeriod').val(),
+			 	'tenureType' 		 : $('.giravi-detail-group').find('select.tenurePeriodType').val(),
+			 	'recipientDesc' 	 : $('.recipientDesc').val(),
 			}
 			
 			

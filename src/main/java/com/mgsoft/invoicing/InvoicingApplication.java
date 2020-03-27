@@ -119,6 +119,12 @@ public class InvoicingApplication extends SpringBootServletInitializer {
 			loan.setLoanAmount((float) 12000.00);
 			loan.setLoanDate(DateUtil.stringToDate(DateUtil.getCurrentDate(), "dd-MM-yyyy"));
 			//loan.setLoanTransactions(null);
+			loan.setIntrestAmount((float) 230.00);
+			loan.setNetPayableAmount((float) 2340.00);
+			loan.setTenurePeriod((float) 6);
+			loan.setTenureType("M");
+			loan.setDescription("xyz");
+			loan.setStatus("U");
 			loan.setCustomer(customer);
 			
 			List<GiraviItem> itemsList = new ArrayList<>();
