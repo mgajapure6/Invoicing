@@ -6,11 +6,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<style type="text/css">
-		.alert{
-			margin-top: 10px;
-		}
-	</style>
+<style type="text/css">
+.alert {
+	margin-top: 10px;
+}
+</style>
 </head>
 <body>
 	<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
@@ -44,21 +44,23 @@
 			<div class="form-group row">
 				<label for="inputPassword3" class="col-sm-2 col-form-label">Module name ol </label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control mandatory" id="moduleNameOl" placeholder="Module name other language" >
+					<input type="text" class="form-control mandatory" id="moduleNameOl" placeholder="Module name other language">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-form-label col-sm-2 pt-0">Status</label>
 				<div class="col-sm-10">
 					<div class="custom-control custom-radio">
-						<input type="radio" id="mStatusE" value="E" name="mStatus" class="custom-control-input" checked> <label class="custom-control-label" for="mStatusE">Enable</label>
+						<input type="radio" id="mStatusE" value="E" name="mStatus" class="custom-control-input" checked>
+						<label class="custom-control-label" for="mStatusE">Enable</label>
 					</div>
 					<div class="custom-control custom-radio">
-						<input type="radio" id="mStatusD" value="D" name="mStatus" class="custom-control-input"> <label class="custom-control-label" for="mStatusD">Disable</label>
+						<input type="radio" id="mStatusD" value="D" name="mStatus" class="custom-control-input">
+						<label class="custom-control-label" for="mStatusD">Disable</label>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="form-group row mg-b-0">
 				<label class="col-form-label col-sm-2 pt-0"></label>
 				<div class="col-sm-10">
@@ -89,7 +91,7 @@
 							<td class="modCount">${rCount}</td>
 							<td class="modName">${module.moduleName}</td>
 							<td class="modNameOl">${module.moduleNameOl}</td>
-							<td class="modStatus">${module.status} <span class="modStatus hide">${module.status}</span></td>
+							<td class="modStatus">${module.status}<span class="modStatus hide">${module.status}</span></td>
 							<td class="modTotMenu center">${fn:length(module.menus)}</td>
 							<td class="center">
 								<div class="text-center">
@@ -109,28 +111,27 @@
 		<!-- table-responsive -->
 	</div>
 	<script type="text/javascript">
-
 		var needPageReload = false;
 
 		$('#moduleListTable').DataTable({
-			  language: {
-			    searchPlaceholder: 'Search...',
-			    sSearch: '',
-			    lengthMenu: '_MENU_ items/page',
-			  }
+			language : {
+				searchPlaceholder : 'Search...',
+				sSearch : '',
+				lengthMenu : '_MENU_ items/page',
+			}
 		});
-	
-		$('.listToFormBtn').on('click',function(){
-			if($('.moduleTable-div').hasClass('hide')){
-				if(needPageReload){
+
+		$('.listToFormBtn').on('click', function() {
+			if ($('.moduleTable-div').hasClass('hide')) {
+				if (needPageReload) {
 					reloadPage();
-				}else{
+				} else {
 					needPageReload = false;
 					$('.moduleTable-div').removeClass('hide');
 					$('.moduleForm-div').addClass('hide');
 					$(this).find('span').text('Add new module');
 				}
-			}else{
+			} else {
 				clearForm();
 				$('.moduleTable-div').addClass('hide');
 				$('.moduleForm-div').removeClass('hide');
@@ -138,106 +139,123 @@
 			}
 		});
 
+		$('#moduleForm')
+				.parsley()
+				.on(
+						'field:validated',
+						function() {
+							var parsleyFieldLength = $('#moduleForm').find(
+									'.mandatory').length;
+							var isValidForm = false;
+							if ($('#moduleForm').find('.parsley-success').length == parsleyFieldLength) {
+								isValidForm = true;
+							} else {
+								isValidForm = false;
+							}
+							if (isValidForm) {
+								$('.moduleSaveBtn').prop('disabled', false);
+							} else {
+								$('.moduleSaveBtn').prop('disabled', true);
+							}
+						}).on('form:submit', function() {
+					return false; // Don't submit form 
+				});
 
-		$('#moduleForm').parsley().on('field:validated', function() {
-			var parsleyFieldLength = $('#moduleForm').find('.mandatory').length;
-		    var isValidForm = false;
-			if($('#moduleForm').find('.parsley-success').length==parsleyFieldLength){
-				isValidForm = true;
-			}else{
-				isValidForm = false;
-			}
-			if(isValidForm){
-				$('.moduleSaveBtn').prop('disabled',false);
-			}else{
-				$('.moduleSaveBtn').prop('disabled',true);
-			}
-		 }).on('form:submit', function() {
-		    return false; // Don't submit form 
-		 });
-
-
-		function setFormData(btnObj,flg){
+		function setFormData(btnObj, flg) {
 			$('.listToFormBtn').click();
 			needPageReload = false;
 			$('.moduleForm-div').find('.alert').remove();
 			var tr = $(btnObj).closest('tr');
 			var modId = $(btnObj).attr('data-moduleid');
-			$('#moduleName').val($(tr).find('.modName').text().trim());                                           
-			$('#moduleNameOl').val($(tr).find('.modNameOl').text().trim());  
-			if($(tr).find('span.modStatus').text()=="E")  {
-				$('#mStatusE').prop("checked",true);
-			}else{
-				$('#mStatusD').prop("checked",true);
-			}                                     
-			
-			$('#moduleForm').find('input.moduleId').val(modId); 
-			$('#moduleForm').find('.moduleSaveBtn').attr('data-flag',flg);
+			$('#moduleName').val($(tr).find('.modName').text().trim());
+			$('#moduleNameOl').val($(tr).find('.modNameOl').text().trim());
+			if ($(tr).find('span.modStatus').text() == "E") {
+				$('#mStatusE').prop("checked", true);
+			} else {
+				$('#mStatusD').prop("checked", true);
+			}
+
+			$('#moduleForm').find('input.moduleId').val(modId);
+			$('#moduleForm').find('.moduleSaveBtn').attr('data-flag', flg);
 			$('#moduleForm').parsley().validate();
 		}
 
-
-		function saveModule(btnObj){
+		function saveModule(btnObj) {
 			var flag = $(btnObj).data('flag');
 			var moduleId = null;
-			
-			if(flag=='N'){
+
+			if (flag == 'N') {
 				moduleId = 0;
-			}else{
+			} else {
 				moduleId = $('#moduleForm').find('.moduleId').val();
 			}
-			
+
 			var formData = {
-				'moduleName'   : 	$('#moduleName').val(),
-				'moduleNameOl' : 	$('#moduleNameOl').val(),
-				'status'       :	$('#moduleForm').find('input[name="mStatus"]:checked').val(),
-				'moduleId'     :    moduleId,
-				'flag'         :    flag
+				'moduleName' : $('#moduleName').val(),
+				'moduleNameOl' : $('#moduleNameOl').val(),
+				'status' : $('#moduleForm').find(
+						'input[name="mStatus"]:checked').val(),
+				'moduleId' : moduleId,
+				'flag' : flag
 			}
-			
-			$.ajax({
-				url : '/app/admin/moduleMaster/saveUpdateDeleteModule',
-				method : 'POST',
-				data : formData,
-				async : false,
-				success : function(resp) {
-					console.log('resp',resp);
-					if(resp.status=="success"){
-						needPageReload=true;
-						clearForm($('#moduleForm'));
-						$('.moduleForm-div').append('<div class="alert alert-solid alert-success d-flex align-items-center mg-b-0" role="alert">'+
-					   '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
-					}else{
-						needPageReload=false;
-						$('.moduleForm-div').find('.alert').remove();
-						$('.moduleForm-div').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-b-0" role="alert">'+
-			           '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
-					}
-				}
-			});
+
+			$
+					.ajax({
+						url : '/app/admin/moduleMaster/saveUpdateDeleteModule',
+						method : 'POST',
+						data : formData,
+						async : false,
+						success : function(resp) {
+							console.log('resp', resp);
+							if (resp.status == "success") {
+								needPageReload = true;
+								clearForm($('#moduleForm'));
+								$('.moduleForm-div')
+										.append(
+												'<div class="alert alert-solid alert-success d-flex align-items-center mg-b-0" role="alert">'
+														+ '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '
+														+ resp.msg + '</div>')
+							} else {
+								needPageReload = false;
+								$('.moduleForm-div').find('.alert').remove();
+								$('.moduleForm-div')
+										.append(
+												'<div class="alert alert-solid alert-danger d-flex align-items-center mg-b-0" role="alert">'
+														+ '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '
+														+ resp.msg + '</div>')
+							}
+						}
+					});
 		}
 
-		function clearForm(formObje){
+		function clearForm(formObje) {
 			var formObj = formObje ? formObje : $('#moduleForm');
 			console.log('clearForm');
 			$('.moduleForm-div').find('.alert').remove();
 			$('#moduleForm').find('input').val('');
 			$('#moduleForm').find('select').val('');
-			$('#moduleForm').find('.select2-hidden-accessible').val(null).trigger('change');
+			$('#moduleForm').find('.select2-hidden-accessible').val(null)
+					.trigger('change');
 			$('#moduleForm').find('textarea').val('');
 			$('#mStatusE').val('E');
 			$('#mStatusD').val('D');
-			$('#moduleForm').find('input[type="radio"]:first').prop('checked',true);
+			$('#moduleForm').find('input[type="radio"]:first').prop('checked',
+					true);
 			$('#moduleForm').find('.alert').remove();
-			$('#moduleForm').find('.select2-hidden-accessible').removeClass('parsley-error');
-			$('#moduleForm').find('.parsley-error').removeClass('.parsley-error');
-			$('#moduleForm').find('.parsley-success').removeClass('.parsley-success');
-			$('#moduleForm').find('.select2-selection').removeClass('.parsley-error');
-			$('#moduleForm').find('input.moduleId').val("0"),  
-			$('#moduleForm').find('.moduleSaveBtn').attr('data-flag',"N");
-			$('#moduleForm').find('.moduleSaveBtn').removeClass('btn-danger').addClass('btn-primary');
+			$('#moduleForm').find('.select2-hidden-accessible').removeClass(
+					'parsley-error');
+			$('#moduleForm').find('.parsley-error').removeClass(
+					'.parsley-error');
+			$('#moduleForm').find('.parsley-success').removeClass(
+					'.parsley-success');
+			$('#moduleForm').find('.select2-selection').removeClass(
+					'.parsley-error');
+			$('#moduleForm').find('input.moduleId').val("0"), $('#moduleForm')
+					.find('.moduleSaveBtn').attr('data-flag', "N");
+			$('#moduleForm').find('.moduleSaveBtn').removeClass('btn-danger')
+					.addClass('btn-primary');
 			$('#moduleForm').find('.moduleSaveBtn').text('Save Module');
-			$('#moduleForm').find('.moduleSaveBtn').prop('disabled',true);
+			$('#moduleForm').find('.moduleSaveBtn').prop('disabled', true);
 			$('#moduleForm').parsley().reset();
 		}
 	</script>

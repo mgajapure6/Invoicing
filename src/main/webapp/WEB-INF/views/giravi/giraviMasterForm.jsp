@@ -130,7 +130,8 @@
 							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Select customer</label>
 							<div class="parsley-select">
 								<div class="form-group has-search">
-									<span class="fa fa-search form-control-feedback newentry"></span> <select class="form-control mandatory customerSelect parsleyField" required data-parsley-trigger="input" data-parsley-validation-threshold="0">
+									<span class="fa fa-search form-control-feedback newentry"></span>
+									<select class="form-control mandatory customerSelect parsleyField" required data-parsley-trigger="input" data-parsley-validation-threshold="0">
 										<c:forEach items="${customers}" var="cus">
 											<c:set var="newCus" value="${cus }" />
 											<option value="${cus.id}" data-obj='<%= new ObjectMapper().writeValueAsString(pageContext.getAttribute("newCus"))%>'>${cus.cusName}</option>
@@ -149,13 +150,13 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Number</label> 
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Number</label>
 							<input type="text" class="form-control mandatory giraviNum parsleyField" placeholder="Enter giravi number" autocomplete="off" required data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="18" data-parsley-minlength-message="Enter at least 2 character. " data-parsley-maxlength-message="Cannot exist more than 18 character">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Date</label> 
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Giravi Date</label>
 							<input type="text" class="form-control mandatory giraviDate dateCleave parsleyField" readonly placeholder="Select giravi date" autocomplete="off" required data-parsley-trigger="change" data-parsley-trigger="keyup" data-parsley-minlength="10" data-parsley-validation-threshold="0" data-parsley-maxlength="10" data-parsley-minlength-message="Date is incorrect" data-parsley-maxlength-message="Date is incorrect">
 						</div>
 					</div>
@@ -163,23 +164,27 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group mg-b-5">
-							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Rate Of Interest</label> 
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Rate Of Interest</label>
 							<select class="form-control roi" onchange="calculateInterest()">
-						  		<option value="1" selected>1 %</option>
-						  		<option value="2">2 %</option>
-						  		<option value="2.5">2.5 %</option>
-						  	</select>
+								<option value="1" selected>1 %</option>
+								<option value="2">2 %</option>
+								<option value="2.5">2.5 %</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03">Tenure Period</label>
-						<div class="input-group mg-b-5">
-						  	<input type="text" value="06" onkeyup="calculateInterest()" placeholder="Enter Tenure Period" class="form-control tenurePeriod" required data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-validation-threshold="0" data-parsley-maxlength="2" data-parsley-minlength-message="Enter valid period. " data-parsley-maxlength-message="Cannot exist more than 2 character">
-						  	<select class="form-control tenurePeriodType">
-						  		<option value="M" selected>Monthly</option>
-						  		<option value="Y">Yearly</option>
-						  	</select>
+						<div class="form-group">
+							<label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-0 tx-color-03 mandlabel">Tenure Period</label>
+							<div class="input-group mg-b-5">
+								<input type="text" value="06" onkeyup="calculateInterest()" placeholder="Enter Tenure Period" class="form-control tenurePeriod mandatory tenurePeriodCleave" required data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-validation-threshold="0" data-parsley-minlength-message="Enter valid period. " data-parsley-errors-container="#errMsgFortenurePeriod">
+								<select class="form-control tenurePeriodType">
+									<option value="M" selected>Monthly</option>
+									<option value="Y">Yearly</option>
+								</select>
+							</div>
+							<div id="errMsgFortenurePeriod"></div>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -209,32 +214,19 @@
 						</tbody>
 						<tfoot>
 							<tr class="totalTr hide">
-							<th class="right" colspan="2" style="text-align: right;">
-								<b>Total :</b>
-							</th>
-							<th class="qtyTotTfoot">
-								<span>0</span>
-								items
-							</th>
-							<th class="gwTotTfoot col-up">
-								Rs:
-								<span>0</span>
-							</th>
-							<th class="nwTotTfoot col-up">
-								Rs:
-								<span>0</span>
-							</th>
-							<th class="vTotTfoot">
-								Rs:
-								<span>0</span>
-							</th>
-							<th class="payAmtTotTfoot">
-								Rs:
-								<span>0</span>
-							</th>
-							
-							<th class=""></th>
-						</tr>
+								<th class="right" colspan="2" style="text-align: right;"><b>Total :</b></th>
+								<th class="qtyTotTfoot"><span>0</span> items</th>
+								<th class="gwTotTfoot col-up">Rs: <span>0</span>
+								</th>
+								<th class="nwTotTfoot col-up">Rs: <span>0</span>
+								</th>
+								<th class="vTotTfoot">Rs: <span>0</span>
+								</th>
+								<th class="payAmtTotTfoot">Rs: <span>0</span>
+								</th>
+
+								<th class=""></th>
+							</tr>
 						</tfoot>
 					</table>
 				</div>
@@ -365,6 +357,13 @@
 				 delimiter: '-',
 				 datePattern: ['d', 'm', 'Y']
 			});
+
+			new Cleave('.tenurePeriodCleave', {
+				numeral: true,
+	        	numeralIntegerScale: 2,
+	        	numeralPositiveOnly: true,
+	        	delimiter: ''
+			});
 			 
 			
 			
@@ -462,10 +461,12 @@
 
 		function calculateInterest() {
 			var loanAmt = 0;
-			$('table.giraviItemsTable tbody tr').each(function(i,tr){
-				var trObj = JSON.parse($(tr).find('span.rowItemObj').text());
-				loanAmt = loanAmt + parseFloat(trObj.payableAmt ? trObj.payableAmt : 0);
-			});
+			if($('table.giraviItemsTable tbody tr').length > 0 && !$('table.giraviItemsTable tbody tr:first').hasClass('noDataTr')){
+				$('table.giraviItemsTable tbody tr').each(function(i,tr){
+					var trObj = JSON.parse($(tr).find('span.rowItemObj').text());
+					loanAmt = loanAmt + parseFloat(trObj.payableAmt ? trObj.payableAmt : 0);
+				});
+			}
 			var tenurePeriodType = parseFloat($("select.tenurePeriodType").val());
 			var tenurePeriod = parseFloat($("input.tenurePeriod").val());
 			var interestRate = parseFloat($("select.roi").val());
@@ -545,7 +546,8 @@
 			$('.containtStart').find('.giraviSave').removeClass('btn-danger').addClass('btn-primary');
 			$('.containtStart').find('.giraviSave').text('Save Giravi');
 			$('.containtStart').find('.giraviSave').prop('disabled',true);
-			$('.parsleyField.mandatory').parsley();
+			//$('.parsleyField.mandatory').parsley();
+			$('#mainForm').parsley();
 		}
 
 
@@ -609,11 +611,13 @@
 			
 		}
 
-		$('.customer-form-group, .giravi-detail-group').find('.form-control.mandatory').on('change input keyup', function(){
+		$('#mainForm').find('.form-control.mandatory').on('change input keyup paste', function(){
 			setTimeout(function(){
-				var parsleyFieldLength = $('.customer-form-group, .giravi-detail-group').find('.parsleyField.mandatory').length;
+				var parsleyFieldLength = $('#mainForm').find('.mandatory').length;
+				console.log('mainForm parsleyFieldLength',parsleyFieldLength)
+				console.log('mainForm parsleyFieldLength success',$('#mainForm').find('.parsley-success').length)
 			    var isValidForm = false;
-				if($('.customer-form-group, .giravi-detail-group').find('.parsley-success').length==parsleyFieldLength){
+				if($('#mainForm').find('.parsley-success').length==parsleyFieldLength){
 					isValidForm = true;
 				}else{
 					isValidForm = false;

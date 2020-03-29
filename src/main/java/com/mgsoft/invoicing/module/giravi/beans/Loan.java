@@ -60,6 +60,9 @@ public class Loan implements Serializable {
 	
 	@Column
 	String status;
+	
+	@Column
+	String closeStatus;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="loan_giraviitem", joinColumns = {@JoinColumn(name="loan_id")}, inverseJoinColumns = {@JoinColumn(name="giraviitem_id")})
@@ -191,6 +194,14 @@ public class Loan implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getCloseStatus() {
+		return closeStatus;
+	}
+
+	public void setCloseStatus(String closeStatus) {
+		this.closeStatus = closeStatus;
 	}
 
 	public Loan() {

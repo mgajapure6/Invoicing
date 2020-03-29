@@ -2,6 +2,7 @@ package com.mgsoft.invoicing.module.giravi.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,6 +102,7 @@ public class GiraviMasterController {
 		loan.setTenureType(tenureType);
 		loan.setDescription(recipientDesc);
 		loan.setStatus("U");
+		loan.setCloseStatus("N");
 		//loan.setLoanTransactions(null);
 		loan.setCustomer(cus);
 		
@@ -186,8 +189,50 @@ public class GiraviMasterController {
 	public String getGiraviTransactions(HttpServletRequest request, HttpServletResponse response) {
 		Integer loanId = Integer.parseInt(request.getParameter("loadId"));
 		Loan loan = giraviMasterRepository.getOne(loanId);
-		request.setAttribute("giraviNumber", loan.getLoanNumber());
+		System.out.println("getCurrentMonthDayCount::"+DateUtil.getCurrentMonthDayCount());
+		System.out.println("getCurrentYearDayCount::"+DateUtil.getCurrentYearDayCount());
+		Float perDayInterestRate = loan.getTenureType().equalsIgnoreCase("M") ? loan.getIntrestRate() / DateUtil.getCurrentMonthDayCount() : loan.getIntrestRate() / DateUtil.getCurrentYearDayCount();
+		System.out.println("perDayInterestRate::"+perDayInterestRate);
+		Long totalDays = DateUtil.getDayCountBetweenDates(loan.getLoanDate(), new Date());
+		totalDays = totalDays == 0 ? 1 : totalDays;
+		System.out.println("totalDays::"+totalDays);
+		Float currentInterestAmt = (totalDays*perDayInterestRate)/100*loan.getLoanAmount();
+		System.out.println("currentInterestAmt::"+currentInterestAmt);
+		request.setAttribute("currentInterestAmt", currentInterestAmt);
+		request.setAttribute("paidAmt", 0);
+		request.setAttribute("balanceAmt", 0);
+		request.setAttribute("loan", loan);
 		request.setAttribute("giraviTransactions", loan.getLoanTransactions());
-		return "giravi/GiraviTransactions";
+		return "giravi/giraviDetail";
+	}
+	
+	@GetMapping("/getWebcamModal")
+	public String getWebcamModal(HttpServletRequest request, HttpServletResponse response) {
+		Integer loanId = Integer.parseInt(request.getParameter("loadId"));
+		Loan loan = giraviMasterRepository.getOne(loanId);
+		request.setAttribute("loan", loan);
+		return "giravi/webcamModal";
+	}
+	
+	@PostMapping("/saveWebcamImage")
+	@ResponseBody
+	public Map<String, Object> saveWebcamImage(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> res = new HashMap<>();
+		String customerId = request.getParameter("customerId");
+		String dataURI = request.getParameter("dataURI");
+		
+		Customer customer = customerRepository.getOne(Long.parseLong(customerId));
+		customer.setImage(Base64.getDecoder().decode(dataURI.getBytes()));
+		Customer respCustomer = customerRepository.save(customer);
+		if (respCustomer != null) {
+			res.put("status", "success");
+			res.put("msg", "Image Saved Successfully !");
+			res.put("respBytes", respCustomer.getImage());
+		} else {
+			res.put("status", "failed");
+			res.put("msg", "Failed to save image");
+		}
+	
+		return res;
 	}
 }

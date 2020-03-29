@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-	<div class="row giraviTable">
+	<div class="row giraviTable ">
 		<div class="col-md-12">
 			<ul class="nav nav-line" id="myTab6" role="tablist">
 				<li class="nav-item">
@@ -36,7 +36,7 @@
 				<li class="nav-item">
 					<a class="nav-link" id="draftGiravi-tab5" data-toggle="tab" href="#draftGiraviTabPane" role="tab" aria-controls="draftGiravi" aria-selected="false">Draft Giravi</a>
 				</li>
-				<li class="float-right" style="margin-left: auto;"><a href="javascript:;" style="float: right;" onclick="viewGiraviForm(this,'N')" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5">
+				<li class="float-right" style="margin-left: auto;"><a href="javascript:;" style="float: right;" onclick="viewGiraviFormNew(this)" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5">
 								<i class="fa fa-plus"></i> <span class="spinner-border spinner-border-sm hide spinIcon" ></span> Add New Giravi</a></li>
 			</ul>
 			<div class="tab-content mg-t-20" id="myTabContent6">
@@ -48,12 +48,12 @@
 								<th scope="col">#</th>
 								<th scope="col">Giravi No</th>
 								<th scope="col">Date</th>
-								<th scope="col">Principle Amount</th>
-								<th scope="col">RoI</th>
-								<th scope="col">Intrest Amount</th>
+								<th scope="col" class="center">Principle Amount</th>
+								<th scope="col" class="center">RoI</th>
+								<th scope="col" class="center">Intrest Amount</th>
 								<th scope="col">Customer</th>
-								<th scope="col">Status</th>
-								<th scope="col" class="center">Pay Now</th>
+								<th scope="col" class="center">Status</th>
+								<!-- <th scope="col" class="center">Pay Now</th> -->
 								<th scope="col" class="center">Action</th>
 							</tr>
 						</thead>
@@ -61,13 +61,13 @@
 							<c:set var="rCount" value="0"></c:set>
 							<c:forEach items="${giraviList}" var="lon">
 								<c:set var="rCount" value="${rCount+1 }"></c:set>
-								<tr>
+								<tr class="tr-id-${lon.id}">
 									<td scope="col" class="">${rCount}</td>
 									<td scope="col" class="">${lon.loanNumber}</td>
-									<td scope="col" class=""><fmt:formatDate pattern = "dd-MM-yyyy" value="${lon.loanDate}" /></td>
-									<td scope="col" class="right bold">${lon.loanAmount}</td>
-									<td scope="col" class="right">${lon.intrestRate} %</td>
-									<td scope="col" class="right bold">${lon.intrestAmount}</td>
+									<td scope="col" class=""><fmt:formatDate pattern="dd-MM-yyyy" value="${lon.loanDate}" /></td>
+									<td scope="col" class="right bold"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.loanAmount}" /></td>
+									<td scope="col" class="right"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.intrestRate}" /> %</td>
+									<td scope="col" class="right bold"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.intrestAmount}" /></td>
 									<td scope="col" class="">${lon.customer.cusName} <input type="hidden" class="customerId" value="${lon.customer.id}"></td>
 									<td scope="col" class="center">
 									<c:choose>
@@ -80,18 +80,18 @@
 									</c:choose>
 										
 									</td>
-									<td scope="col" class="center"><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
+									<%-- <td scope="col" class="center"><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
 												<i class="fa fa-credit-card"></i>
-											</button></td>
+											</button></td> --%>
 									<td scope="col" class="center">
 										<span class="loanId hide">${lon.id}</span>
 										<div class="dropdown">
-											<button type="button" class="btn btn-default btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" style="font-size: 1.2rem;"></i></button>
+											<button type="button" class="btn btn-default btn-icon btn-sm actionIconBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" style="font-size: 1.2rem;"></i><span class="spinner-border spinner-border-sm hide spinIcon"></span></button>
 											<div class="dropdown-menu dropdown-menu-right">
-												<button class="dropdown-item" onclick="viewGiraviTransactions(this,'V')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-eye"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span> &nbsp;&nbsp;View Transactions</button>
-											    <button class="dropdown-item" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-pencil-alt"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span> &nbsp;&nbsp;Edit</button>
+												<button class="dropdown-item giraviDetailBtn" onclick="viewGiraviTransactions(this,'V')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-eye"></i>&nbsp;&nbsp;View Detail</button>
+											    <button class="dropdown-item" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;Edit</button>
 											    <div class="dropdown-divider"></div>
-											    <button class="dropdown-item" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-trash-alt"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span> &nbsp;&nbsp;Delete</button>
+											    <button class="dropdown-item" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>
 											</div>
 										</div>
 										
@@ -129,7 +129,7 @@
 		<jsp:include page="giraviMasterForm.jsp"></jsp:include>
 	</div>
 	<jsp:include page="AddPayment.jsp"></jsp:include>
-	<div class="transactionPalceholder"></div>
+	<div class="transactionPalceholder hide"></div>
 	<script src="lib/datatable/js/jquery.dataTables.yadcf.0.9.2.js"></script>
 	<script type="text/javascript">
 	var allGiraviTable=null;
@@ -152,6 +152,7 @@
         	allGiraviTable = $('.allGiraviTable').DataTable();
 		}else{
 			allGiraviTable = $('.allGiraviTable').DataTable({
+				responsive: true,
 		    	language : {
 					searchPlaceholder : 'Search anything...',
 					sSearch : '',
@@ -210,46 +211,38 @@
         
        
 	});
-	
-	function viewGiraviForm(btnObj, flg){
+
+	function viewGiraviFormNew(btnObj){
 		$(btnObj).find('.fa').toggleClass('hide');
 		$(btnObj).find('.spinIcon').toggleClass('hide');
 		setTimeout(function() {
-			if(flg !="N"){
+			$('.giraviTable').toggleClass('hide');
+			$('.giraviForm').toggleClass('hide');
+			$(btnObj).find('.fa').toggleClass('hide');
+			$(btnObj).find('.spinIcon').toggleClass('hide');
+		},500);
+		
+	}
+	
+	function viewGiraviForm(btnObj, flg){
+		$(btnObj).closest('tr').find('.actionIconBtn').find('.fa').toggleClass('hide');
+		$(btnObj).closest('tr').find('.actionIconBtn').find('.spinIcon').toggleClass('hide');
+		setTimeout(function() {
+			if(flg =="M"){
 				var loanid = $(btnObj).attr('data-loanid');
 				var customerid = $(btnObj).attr('data-customerid');
-				loadGiraviForUpdateDeleteByGiraviId(loanid,customerid);
-			}else{
-				$('.giraviTable').toggleClass('hide');
-				$('.giraviForm').toggleClass('hide');
+				loadGiraviForUpdateByGiraviId(loanid,customerid);
+			}else if(flg =="D"){
+
 			}
+			$(btnObj).closest('tr').find('.actionIconBtn').find('.fa').toggleClass('hide');
+			$(btnObj).closest('tr').find('.actionIconBtn').find('.spinIcon').toggleClass('hide');
 		},500);
 	}
 
-	function viewGiraviTransactions(btnObj,flg){
-		$(btnObj).find('.fa').toggleClass('hide');
-		$(btnObj).find('.spinIcon').toggleClass('hide');
-		var loanid = $(btnObj).attr('data-loanid');
-		$.ajax({
-			url : '/app/giravi/giraviMaster/getGiraviTransactions',
-			method : 'GET',
-			data : {
-				'loadId' : loanid
-			},
-			async : false,
-			success : function(resp) {
-				$('.transactionPalceholder').empty();
-				$('.transactionPalceholder').html(resp);
-				setTimeout(function() {
-					$('#modalGiraviTransactionModal').modal('toggle');
-					$(btnObj).find('.fa').toggleClass('hide');
-					$(btnObj).find('.spinIcon').toggleClass('hide');
-				},500);
-			}
-		});
-	}
+	
 
-	function loadGiraviForUpdateDeleteByGiraviId(loanid,customerid){
+	function loadGiraviForUpdateByGiraviId(loanid,customerid){
 		$.ajax({
 			url : '/app/giravi/giraviMaster/getGiraviById',
 			method : 'POST',
@@ -268,14 +261,15 @@
 					$('.customer-form-group').find('.customerSelect').val(customerid).trigger('change');
 					$('.giravi-detail-group').find('.giraviNum').val(resp.data.loanNumber).trigger('input');
 					$('.giravi-detail-group').find('.giraviDate').val(resp.data.loanDate).trigger('input');
-					//$('.giravi-detail-group').find('.posonum').val().trigger('input');
-					//$('.giravi-detail-group').find('.paymentDueDate').val().trigger('input');
+					$('.giravi-detail-group').find('select.roi').val(resp.data.intrestRate).trigger('change');
+					$('.giravi-detail-group').find('.tenurePeriod').val(resp.data.tenurePeriod).trigger('input');
+					$('.giravi-detail-group').find('select.tenurePeriodType').val(resp.data.tenureType).trigger('change');
 					/* $('.bottom-total-group').find('.giraviMainTotAmt').text(resp.data.invVal);
 					$('.bottom-total-group').find('.giraviMainDisAmt').text(0);
 					$('.bottom-total-group').find('.giraviMainTaxableAmt').text(resp.data.taxableVal);
 					$('.bottom-total-group').find('.giraviMainTaxAmt').text(resp.data.taxVal);
 					$('.bottom-total-group').find('.giraviMainGrandAmt').text(0); */
-					//$('.recipientDesc').text(resp.data.recipientDesc);
+					$('.recipientDesc').text(resp.data.description);
 					
 					$.each(resp.data.giraviItems,function(i,itm){
 						console.log('found itm::',itm);
@@ -332,12 +326,30 @@
 		});
 	}
 
-	function openAddPaymentModal(obj) {
-		clearPaymentForm();
-		var loanId = $(obj).attr('data-loanid');
-		$('#addPaymentForm').find('input.loanId').val(loanId)
-		$('#modalAddPayment').modal('toggle');
-		//$('#giraviItemForm').parsley().validate();
+	function viewGiraviTransactions(btnObj,flg){
+		$(btnObj).closest('tr').find('.actionIconBtn').find('.fa').toggleClass('hide');
+		$(btnObj).closest('tr').find('.actionIconBtn').find('.spinIcon').toggleClass('hide');
+		setTimeout(function() {
+			var loanid = $(btnObj).attr('data-loanid');
+			$.ajax({
+				url : '/app/giravi/giraviMaster/getGiraviTransactions',
+				method : 'GET',
+				data : {
+					'loadId' : loanid
+				},
+				success : function(resp) {
+					$('.transactionPalceholder').empty();
+					$('.transactionPalceholder').html(resp);
+					setTimeout(function() {
+						$('.giraviTable').toggleClass('hide');
+						$('.transactionPalceholder').toggleClass('hide');
+						$('#modalGiraviTransactionModal').modal('toggle');
+						$(btnObj).closest('tr').find('.actionIconBtn').find('.fa').toggleClass('hide');
+						$(btnObj).closest('tr').find('.actionIconBtn').find('.spinIcon').toggleClass('hide');
+					},500);
+				}
+			});
+		},200);
 	}
 	
 	

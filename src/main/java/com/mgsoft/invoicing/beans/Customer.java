@@ -2,6 +2,7 @@ package com.mgsoft.invoicing.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -12,8 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
+
+import org.springframework.util.Base64Utils;
 
 import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
@@ -42,6 +48,9 @@ public class Customer implements Serializable {
 	private String mobile;
 	@Column
 	private String email;
+	@Lob
+	private byte[] image;
+	
 
 	@OneToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "customer_salesInvoice", joinColumns = {
@@ -140,6 +149,25 @@ public class Customer implements Serializable {
 	public void setLoans(Collection<Loan> loans) {
 		this.loans = loans;
 	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	
+	@Transient
+	public String imageString() {
+		if(getImage()!=null) {
+			return "data:image/png;base64," +Base64.getEncoder().encodeToString(getImage());
+		}else {
+			return "";
+		}
+		
+	}
+
 
 	@Override
 	public String toString() {

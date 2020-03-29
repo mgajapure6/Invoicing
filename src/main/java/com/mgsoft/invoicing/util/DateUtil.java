@@ -3,6 +3,8 @@ package com.mgsoft.invoicing.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -56,7 +58,20 @@ public class DateUtil {
 		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
 		Date date = new Date();
 		return dateFormat.format(date);
-
+	}
+	
+	public static Integer getCurrentMonthDayCount(){
+		Calendar calendar = Calendar.getInstance();
+		return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+	}
+	
+	public static Integer getCurrentYearDayCount(){
+		Calendar calendar = Calendar.getInstance();
+		return calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
+	}
+	
+	public static Long getDayCountBetweenDates(Date firstDate, Date secondDate){
+	    return ChronoUnit.DAYS.between(firstDate.toInstant(), secondDate.toInstant());
 	}
 
 	public static String getMonthNameByMonthNumber(int monthNum) {

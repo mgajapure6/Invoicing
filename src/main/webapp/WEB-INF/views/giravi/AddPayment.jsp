@@ -13,10 +13,10 @@
 					</a>
 					<div class="media align-items-center">
 						<span class="tx-color-03 d-none d-sm-block">
-							<i data-feather="box"></i>
+							<i class="fa fa-credit-card" style="font-size: 2rem;"></i>
 						</span>
 						<div class="media-body mg-sm-l-20">
-							<h4 class="tx-18 tx-sm-20 mg-b-2">Add Payment to giravi</h4>
+							<h4 class="tx-18 tx-sm-20 mg-b-2">Add Payment to Giravi</h4>
 						</div>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 
 
 	function clearPaymentForm() {
-		//console.log('clearItemForm')
+		var loanId 		= $('#addPaymentForm').find('input.loanId').val();
 		$('#addPaymentForm').find('input').val('');
 		$('#addPaymentForm').find('select').val('');
 		$('#addPaymentForm').find('select').find('option:first').prop('selected',true).trigger('change');
@@ -94,6 +94,7 @@
 		$('#addPaymentForm').find('.select2-selection').removeClass('.parsley-error');
 		$('#modalAddPayment').find('.savePaymentBtn').attr('onclick', "saveGiraviPayment(this,'N')");
 		$('#modalAddPayment').find('.savePaymentBtn').prop('disabled', true);
+		$('#addPaymentForm').find('input.loanId').val(loanId);
 		$('#addPaymentForm').parsley().reset();
 	}
 
@@ -111,9 +112,7 @@
 				'payMethod' : payMethod,
 				'flag' : "N"
 			}
-
 		
-	
 		$.ajax({
 			url : '/app/giravi/giraviMaster/saveGiraviPayment',
 			method : 'POST',
@@ -132,7 +131,29 @@
 					$('#modalAddPayment').find('.modal-content').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-t-10 mg-b-0" role="alert">'+
 		            '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
 				}
+
+				if($(obj).attr('isreload')=='true'){
+					$.ajax({
+						url : '/app/giravi/giraviMaster/getGiraviTransactions',
+						method : 'GET',
+						data : {
+							'loadId' : loanId
+						},
+						success : function(resp) {
+							$('.transactionPalceholder').empty();
+							$('.transactionPalceholder').html(resp);
+						}
+					});
+				}
 			}
 		});
 	}
+
+	
+	$('#modalAddPayment').on('keypress', function(event) {
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if (keycode == '13') {
+			$('#modalAddPayment').find('.savePaymentBtn').click();
+		}
+	});
 </script>
