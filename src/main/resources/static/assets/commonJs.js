@@ -1,42 +1,5 @@
 $(function() {
-	// alert()
-	/*
-	 * if ($('.currentPageLink').val() != null && $('.currentPageLink').val() !=
-	 * '') { console.log('currentPageLink found'); var activeLinkClass =
-	 * $('.currentLinkClass').val(); var activeLinkLiClass =
-	 * $('.currentLinkLiClass').val(); loadPage(null,
-	 * $('.currentPageLink').val(), activeLinkClass, activeLinkLiClass,
-	 * $('.currentLayout').val()); } else { console.log('currentPageLink not
-	 * found'); $('.currentPageLink').val($('.default-link').data('page-link'));
-	 * $('.currentLinkClass').val('moduleLi_1'); loadPage(null,
-	 * $('.default-link').data('page-link'), 'default-link', null,
-	 * $('.currentLayout').val()); }
-	 */
 	$('.moduleLi_1').find('.m-link_0').click();
-	/*
-	 * $('.menuCollapse').on('click', function() { if
-	 * ($(this).hasClass('collapsed')) { $(this).find('span').addClass('bold');
-	 * $(this).find('i:eq(1)').removeClass('fa-angle-right').addClass('fa-angle-down'); }
-	 * else { $(this).find('span').removeClass('bold');
-	 * $(this).find('i:eq(1)').removeClass('fa-angle-down').addClass('fa-angle-right'); }
-	 * }); // for vertical $('.nav-aside').on('click', '.nav-link-new',
-	 * function() { $('.nav-link-new').removeClass('activeLink');
-	 * $(this).addClass('activeLink');
-	 * $('.currentPageLink').val($(this).data('page-link'));
-	 * $('.currentLinkClass').val($(this).attr('class').split(" ")[0]);
-	 * $('.currentLinkLiClass').val($(this).closest('.moduleLi').attr('class').split("
-	 * ")[0]); loadPage($(this), $(this).data('page-link'),
-	 * $(this).attr('class').split(" ")[0],
-	 * $(this).closest('.moduleLi').attr('class').split(" ")[0], 'V'); }); //
-	 * for horizontal $('.navbar-menu').on('click', '.nav-sub-link-new',
-	 * function() { $('.currentPageLink').val($(this).data('page-link'));
-	 * $('.currentLinkClass').val($(this).attr('class').split(" ")[0]);
-	 * $('.currentLinkLiClass').val($(this).closest('.moduleLi').attr('class').split("
-	 * ")[0]); $(this).closest('.with-sub').removeClass('show');
-	 * loadPage($(this), $(this).data('page-link'),
-	 * $(this).attr('class').split(" ")[0],
-	 * $(this).closest('.moduleLi').attr('class').split(" ")[0], 'H'); });
-	 */
 });
 function loadPage(obj, link, eleClassName, eleLiClassName, VorH) {
 	$('.loading').removeClass('hide');
@@ -48,7 +11,7 @@ function loadPage(obj, link, eleClassName, eleLiClassName, VorH) {
 	}
 	$.ajax({
 	  url : link,
-	  async : false,
+	  async : true,
 	  success : function(resp) {
 		  $('.mainContainer').empty().html(resp);
 		  $('.dataTables_length').find('select').select2({
@@ -56,12 +19,7 @@ function loadPage(obj, link, eleClassName, eleLiClassName, VorH) {
 		  });
 		  $('#ui-datepicker-div').remove();
 		  feather.replace();
-		  console.log('eleClassName', eleClassName)
-		  console.log('eleLiClassName', eleLiClassName)
-		  console.log('obj==null:', obj == null)
 		  if (obj == null) {
-			  console.log('eleClassName', eleClassName)
-			  console.log('eleLiClassName', eleLiClassName)
 			  if (VorH == 'V') {
 				  $('.nav-aside').find('.moduleLi').removeClass('active');
 				  $('.nav-aside').find('.active').removeClass('active');
@@ -99,18 +57,32 @@ function loadPage(obj, link, eleClassName, eleLiClassName, VorH) {
 			  scrollTop : parseInt($('body').offset().top)
 		  }, 1000);
 	  },
-	  error : function(e) {
-		  if (e.status == 404) {
-			  $('.mainContainer').empty().html('<h1>404 Requested Page Not Found !</h1>');
-		  } else {
-			  $('.mainContainer').empty().html('<h1>' + e.status + ' Error Occured !</h1>');
-		  }
-		  setTimeout(function() {
-			  $('.loading').addClass('hide');
-			  $('.mainContainer').removeClass('hide');
-			  $('.footer').removeClass('hide');
-		  }, 1000);
-	  },
+		  error : function(e) {
+			if (e.status == 404) {
+				$.get("/err404", function(data) {
+					$('.mainContainer').empty().html(data);
+				});
+			} else if (e.status == 500) {
+				$.get("/err500", function(data) {
+					$('.mainContainer').empty().html(data);
+				});
+			} else if (e.status == 503) {
+				$.get("/err503", function(data) {
+					$('.mainContainer').empty().html(data);
+				});
+			} else if (e.status == 505) {
+				$.get("/err505", function(data) {
+					$('.mainContainer').empty().html(data);
+				});
+			} else {
+				$('.mainContainer').empty().html('<h1>' + e.status + ' Error Occured !</h1>');
+			}
+			setTimeout(function() {
+				$('.loading').addClass('hide');
+				$('.mainContainer').removeClass('hide');
+				$('.footer').removeClass('hide');
+			}, 1000);
+		},
 	});
 }
 function reloadPage() {
