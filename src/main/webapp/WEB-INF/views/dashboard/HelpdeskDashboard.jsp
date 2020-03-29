@@ -638,7 +638,7 @@
 	</div>
 	<script src="lib/jquery.flot/jquery.flot.js"></script>
 	<script src="lib/jquery.flot/jquery.flot.stack.js"></script>
-	<!-- <script src="lib/jquery.flot/jquery.flot.resize.js"></script> -->
+	<script src="lib/jquery.flot/jquery.flot.resize.js"></script>
 	<script src="lib/flot.curvedlines/curvedLines.js"></script>
 	<script src="lib/peity/jquery.peity.min.js"></script>
 	<script src="lib/chart.js/Chart.bundle.min.js"></script>

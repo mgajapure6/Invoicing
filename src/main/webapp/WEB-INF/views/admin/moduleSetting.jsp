@@ -23,12 +23,11 @@
 			</nav>
 			<h4 class="mg-b-0 tx-spacing--1">Module Setting</h4>
 		</div>
-		<div class="d-none d-md-block">
+		<div class="d-md-block">
 			<button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5 listToFormBtn">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file wd-10 mg-r-5">
-					<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-					<polyline points="13 2 13 9 20 9"></polyline></svg>
-				<span>Add new module</span>
+				<i class="fa fa-plus"></i>
+				<span class="spinner-border spinner-border-sm hide spinIcon" ></span>
+				<span class="title"> Add new module</span>
 			</button>
 		</div>
 	</div>
@@ -121,22 +120,37 @@
 			}
 		});
 
+		
 		$('.listToFormBtn').on('click', function() {
+			var that = $(this);
 			if ($('.moduleTable-div').hasClass('hide')) {
 				if (needPageReload) {
 					reloadPage();
 				} else {
 					needPageReload = false;
-					$('.moduleTable-div').removeClass('hide');
-					$('.moduleForm-div').addClass('hide');
-					$(this).find('span').text('Add new module');
+					$(that).find('.fa').toggleClass('hide');
+					$(that).find('.spinIcon').toggleClass('hide');
+					setTimeout(function() {
+						$('.moduleTable-div').removeClass('hide');
+						$('.moduleForm-div').addClass('hide');
+						$(that).find('span.title').text('Add new module');
+						$(that).find('.fa').toggleClass('hide');
+						$(that).find('.spinIcon').toggleClass('hide');
+					}, 500);
 				}
 			} else {
 				clearForm();
-				$('.moduleTable-div').addClass('hide');
-				$('.moduleForm-div').removeClass('hide');
-				$(this).find('span').text('All modules');
+				$(that).find('.fa').toggleClass('hide');
+				$(that).find('.spinIcon').toggleClass('hide');
+				setTimeout(function() {
+					$('.moduleTable-div').addClass('hide');
+					$('.moduleForm-div').removeClass('hide');
+					$(that).find('span.title').text('All modules');
+					$(that).find('.fa').toggleClass('hide');
+					$(that).find('.spinIcon').toggleClass('hide');
+				}, 500);
 			}
+
 		});
 
 		$('#moduleForm')

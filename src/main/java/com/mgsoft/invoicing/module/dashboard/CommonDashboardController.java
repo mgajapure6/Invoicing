@@ -24,7 +24,7 @@ public class CommonDashboardController {
 		}*/
 		
 		ModelAndView modelAndView =  new ModelAndView();
-		modelAndView.setViewName("dashboard/HelpdeskDashboard");
+		modelAndView.setViewName("dashboard/SalesDashboard");
 		return modelAndView;
 	}
 

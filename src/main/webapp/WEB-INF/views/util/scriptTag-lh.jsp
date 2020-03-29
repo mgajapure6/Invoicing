@@ -11,7 +11,6 @@
 <script src="lib/datatable/js/jquery.dataTables.min.js"></script>
 <script src="lib/datatable/js/dataTables.dataTables.min.js"></script>
 <script src="lib/select2/js/select2.full.min.js"></script>
-<script src="lib/jqueryui/jquery-ui.min.js"></script>
 <script src="lib/jqueryui/jquery-ui.accordion.multiple.js"></script>
 <script src="lib/parsleyjs/parsley.min.js"></script>
 <script src="lib/cleave/cleave.min.js"></script>

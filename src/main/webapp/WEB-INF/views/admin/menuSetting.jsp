@@ -23,7 +23,7 @@
 			</nav>
 			<h4 class="mg-b-0 tx-spacing--1">Menu Setting</h4>
 		</div>
-		<div class="d-none d-md-block">
+		<div class="d-md-block">
 			<button class="btn btn-sm pd-x-15 btn-white btn-uppercase hide">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail wd-10 mg-r-5">
 					<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -38,10 +38,9 @@
 				Print
 			</button>
 			<button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5 listToFormBtn">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file wd-10 mg-r-5">
-					<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-					<polyline points="13 2 13 9 20 9"></polyline></svg>
-				<span>Add New Menu</span>
+				<i class="fa fa-plus"></i>
+				<span class="spinner-border spinner-border-sm hide spinIcon" ></span>
+				<span class="title"> Add New Menu</span>
 			</button>
 		</div>
 	</div>
@@ -145,15 +144,23 @@
 		var needPageReload = false;
 	
 		$('.listToFormBtn').on('click',function(){
-			if($('.menu-form').hasClass('hide')){
-				$('.menu-form').removeClass('hide');
-				$('.menuTable-div').addClass('hide');
-				$(this).find('span').text('All Menus')
-			}else{
-				$('.menu-form').addClass('hide');
-				$('.menuTable-div').removeClass('hide');
-				$(this).find('span').text('Add New Menu')
-			}
+			var that = $(this);
+			$(that).find('.fa').toggleClass('hide');
+			$(that).find('.spinIcon').toggleClass('hide');
+			setTimeout(function() {
+				if($('.menu-form').hasClass('hide')){
+					$('.menu-form').removeClass('hide');
+					$('.menuTable-div').addClass('hide');
+					$(that).find('span.title').text('All Menus')
+				}else{
+					$('.menu-form').addClass('hide');
+					$('.menuTable-div').removeClass('hide');
+					$(that).find('span.title').text('Add New Menu')
+				}
+				$(that).find('.fa').toggleClass('hide');
+				$(that).find('.spinIcon').toggleClass('hide');
+			},500);
+			
 		})
 		
 		
