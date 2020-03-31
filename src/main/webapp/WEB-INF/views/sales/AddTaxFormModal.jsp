@@ -80,7 +80,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var needReloadTax = false;
+  var needReloadTax = false;
   $(function() {
 	  var taxPercentCleave = new Cleave('.taxPercentCleave', {
 	  	 numericOnly: true,
@@ -148,7 +148,7 @@
 	    'taxId' : taxId
 	  }
 	  $.ajax({
-	    url : '/tax/saveUpdateDeleteTax',
+	    url : '/app/setting/taxMaster/saveUpdateDeleteTax',
 	    method : 'POST',
 	    data : formData,
 	    async : false,

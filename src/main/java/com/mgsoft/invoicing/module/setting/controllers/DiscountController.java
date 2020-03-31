@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.sales.controllers;
+package com.mgsoft.invoicing.module.setting.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mgsoft.invoicing.beans.Discount;
-import com.mgsoft.invoicing.repositories.DiscountRepository;
+import com.mgsoft.invoicing.module.setting.beans.Discount;
+import com.mgsoft.invoicing.module.setting.repositories.DiscountRepository;
 
 @Controller
-@RequestMapping(value = "/discount")
+@RequestMapping(value = "/app/setting/discount")
 public class DiscountController {
 
     @Autowired

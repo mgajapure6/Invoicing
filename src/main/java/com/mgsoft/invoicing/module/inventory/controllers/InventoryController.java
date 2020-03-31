@@ -22,7 +22,7 @@ import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
 import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 
 @Controller
-@RequestMapping(value="/inventory")
+@RequestMapping(value="/app/inventory/itemServiceMaster")
 public class InventoryController {
 	
 	@Autowired

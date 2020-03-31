@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.beans;
+package com.mgsoft.invoicing.module.setting.beans;
 
 import java.io.Serializable;
 

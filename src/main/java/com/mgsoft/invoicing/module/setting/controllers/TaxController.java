@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.sales.controllers;
+package com.mgsoft.invoicing.module.setting.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,20 +10,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.mgsoft.invoicing.beans.Tax;
-import com.mgsoft.invoicing.repositories.TaxRepository;
+import com.mgsoft.invoicing.module.setting.beans.Tax;
+import com.mgsoft.invoicing.module.setting.repositories.TaxRepository;
 
 @Controller
-@RequestMapping(value="/tax")
+@RequestMapping(value="/app/setting/taxMaster")
 public class TaxController {
 	
 	@Autowired
 	private TaxRepository taxRepository;
 	
+	@RequestMapping(value= "")
+	public ModelAndView showInventory(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("allTax", taxRepository.findAll());
+		ModelAndView modelAndView =  new ModelAndView();
+		modelAndView.setViewName("settings/taxMaster/taxMasterList");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value= "/taxFrom")
+	public ModelAndView showTaxFrom(HttpServletRequest request, HttpServletResponse response) {
+		//request.setAttribute("allTax", taxRepository.findAll());
+		String taxid = request.getParameter("taxid");
+		String flag = request.getParameter("flag");
+		ModelAndView modelAndView =  new ModelAndView();
+		request.setAttribute("flag", flag);
+		modelAndView.setViewName("settings/taxMaster/taxMasterForm");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/saveUpdateDeleteTax")
 	@ResponseBody
-	public Map<String,Object> saveUpdateDeleteCategory(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String,Object> saveUpdateDeleteTax(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> res = new HashMap<>();
 		Long id=Long.parseLong(request.getParameter("taxId"));
 		String taxName = request.getParameter("taxName");

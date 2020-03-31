@@ -213,8 +213,7 @@
 				'flag' : flag
 			}
 
-			$
-					.ajax({
+			$.ajax({
 						url : '/app/admin/moduleMaster/saveUpdateDeleteModule',
 						method : 'POST',
 						data : formData,

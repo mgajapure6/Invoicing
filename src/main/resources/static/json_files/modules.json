@@ -71,11 +71,6 @@
 		"module_icon": "shopping-bag",
 		"menu" : [
 			{
-				"menu_name": "Units of Measurement",
-				"isLink":true,
-				"url": "app/inventory/uomMaster"
-			},
-			{
 				"menu_name": "Category Master",
 				"isLink":true,
 				"url": "app/inventory/categoryMaster"
@@ -130,27 +125,27 @@
 		]
 	},
 	{
-		"module_name": "Giravi / Loan",
+		"module_name": "Giravi",
 		"isLink": false,
 		"module_icon": "shopping-bag",
 		"menu" : [
 			{
-				"menu_name": "Giravi / Loan Master",
+				"menu_name": "Giravi Master",
 				"isLink":true,
 				"url": "app/giravi/giraviMaster"
 			},
 			{
-				"menu_name": "Giravi / Loan Customers",
+				"menu_name": "Giravi Customers",
 				"isLink":true,
 				"url": "gahan/GahanCustomer"
 			},
 			{
-				"menu_name": "Giravi / Loan Items",
+				"menu_name": "Giravi Items",
 				"isLink":true,
 				"url": "gahan/GahanItems"
 			},
 			{
-				"menu_name": "Giravi / Loan Report",
+				"menu_name": "Giravi Report",
 				"isLink":true,
 				"url": "gahan/GahanReport"
 			}

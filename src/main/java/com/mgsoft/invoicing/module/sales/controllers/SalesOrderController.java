@@ -20,15 +20,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mgsoft.invoicing.beans.Customer;
-import com.mgsoft.invoicing.beans.Tax;
 import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
 import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoiceItem;
 import com.mgsoft.invoicing.module.sales.repositories.SalesOrderRepository;
+import com.mgsoft.invoicing.module.setting.beans.Tax;
+import com.mgsoft.invoicing.module.setting.repositories.DiscountRepository;
+import com.mgsoft.invoicing.module.setting.repositories.TaxRepository;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
-import com.mgsoft.invoicing.repositories.DiscountRepository;
-import com.mgsoft.invoicing.repositories.TaxRepository;
 
 @Controller
 @RequestMapping(value = "/app/sales/invoiceMaster")

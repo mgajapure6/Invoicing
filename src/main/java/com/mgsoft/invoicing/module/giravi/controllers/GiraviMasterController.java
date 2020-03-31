@@ -1,7 +1,6 @@
 package com.mgsoft.invoicing.module.giravi.controllers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,15 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Base64Utils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -31,12 +26,9 @@ import com.mgsoft.invoicing.beans.Customer;
 import com.mgsoft.invoicing.module.giravi.beans.GiraviItem;
 import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.giravi.beans.LoanTransaction;
-import com.mgsoft.invoicing.module.giravi.beans.PartyAccount;
 import com.mgsoft.invoicing.module.giravi.repository.GiraviMasterRepository;
-import com.mgsoft.invoicing.module.giravi.repository.PartyAccountRepository;
 import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.util.DateUtil;
-import com.mgsoft.invoicing.util.JsonUtil;
 
 @Controller
 @RequestMapping("/app/giravi/giraviMaster")
@@ -44,20 +36,14 @@ public class GiraviMasterController {
 
 	@Autowired
 	public GiraviMasterRepository giraviMasterRepository;
-
-	@Autowired
-	public PartyAccountRepository partyAccountRepository;
 	
 	@Autowired
 	private CustomerRepository customerRepository;
 
 	@GetMapping("")
 	public String showPage(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("partyAccount", new PartyAccount());
-		List<PartyAccount> list = partyAccountRepository.findAll();
-		
 		request.setAttribute("giraviList", giraviMasterRepository.findAll());
-		request.setAttribute("partyAccountList", list.size()>0 ? JsonUtil.javaCollectionToJson(list) : new ArrayList<>());
+		//request.setAttribute("partyAccountList", list.size()>0 ? JsonUtil.javaCollectionToJson(list) : new ArrayList<>());
 		return "giravi/giraviMasterList";
 	}
 	

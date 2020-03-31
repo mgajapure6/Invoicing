@@ -214,7 +214,7 @@
 
 
 	function loadAllInventoryItems() {
-		var url = '/inventory/getInventoryItems?iid=null';
+		var url = '/app/inventory/itemServiceMaster/getInventoryItems?iid=null';
 		$.ajax({
 			url: url,
 			method: 'POST',
