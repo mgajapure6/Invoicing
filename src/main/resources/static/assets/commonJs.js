@@ -154,6 +154,7 @@ window.alert = function (message,type) {
 
 
 $( document ).ajaxError(function( event, jqxhr, settings ) {
+	console.log('ajaxError::', event, jqxhr, settings)
 	//var alertData = '<p>Status : <b style="color: #b30e0e;">' + (jqxhr.responseJSON.status) + '</b><br/>Error : <b style="color: #b30e0e;">' + (jqxhr.responseJSON.error) + '</b><br/>Message : <b style="color: #b30e0e;">' + (jqxhr.responseJSON.message) + '</b></p>';
 	//alert(alertData,'E');
 });

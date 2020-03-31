@@ -4,6 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+<%@ page import="com.fasterxml.jackson.databind.SerializationFeature"%>
+<%ObjectMapper mapper = new ObjectMapper();
+mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,7 +134,7 @@
 								<select class="form-control mandatory customerSelect parsleyField" required data-parsley-trigger="input" data-parsley-validation-threshold="0">
 									<c:forEach items="${customers}" var="cus">
 										<c:set var="newCus" value="${cus }" />
-										<option value="${cus.id}" data-obj='<%= new ObjectMapper().writeValueAsString(pageContext.getAttribute("newCus"))%>'>${cus.cusName}</option>
+										<option value="${cus.id}" data-obj='<%= mapper.writeValueAsString(pageContext.getAttribute("newCus"))%>'>${cus.cusName}</option>
 									</c:forEach>
 								</select>
 							</div>

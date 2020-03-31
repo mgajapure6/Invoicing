@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +31,7 @@ public class Loan implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
 	
-	@Column
+	@Column(unique = true)
 	String loanNumber;
 	
 	@Column

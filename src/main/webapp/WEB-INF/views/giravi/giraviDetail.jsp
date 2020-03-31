@@ -4,6 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+<%@ page import="com.fasterxml.jackson.databind.SerializationFeature"%>
+<% ObjectMapper mapper = new ObjectMapper();
+mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,7 +155,7 @@
 	<div id="giraviDetailDiv">
 		<c:set var="totPaidAmt" value="0"></c:set>
 		<input type="hidden" value="${loan.id }" id="giraviDetailId">
-		<input type="hidden" value="N" id="giraviFlag">
+		<input type="hidden" value="${flag }" id="giraviFlag">
 		<input type="hidden" class="customerId" value="${loan.customer.id}">
 		<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-10">
 			<div>
@@ -366,6 +370,7 @@
 		</div>
 	</div>
 	<div class="webcamModalDiv"></div>
+	<jsp:include page="AddPaymentModal.jsp"></jsp:include>
 	<script type="text/javascript">
 
 	//var cuss = JSON.stringify(${loan.customer});
@@ -446,7 +451,7 @@
 				},
 				"initComplete" : function() {
 					var giraviId = $('#giraviDetailId').val();
-					$('#giraviDetailDiv').find('.dataTables_filter').append(
+					$('#giraviDetailDiv').find('.dataTables_filter label').append(
 									'<div class="input-group mg-r-10" style="float: left;width: auto;">'
 											+ '<input type="text" class="fromDateFilter" placeholder="From Date" style="width: 115px;">'
 											+ '<div class="input-group-append">'
@@ -455,7 +460,7 @@
 											+ '<input type="text" class="toDateFilter" placeholder="To Date" style="width: 115px;">'
 											+ '<div class="input-group-append">'
 											+ '<span class="input-group-text" style="background-color: #fff;"><i class="fa fa-calendar"></i></span></div></div>'
-											+ '<button type="button" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-xs-b-10" onclick=openAddPaymentModal(this,true) data-loanid="'
+											+ '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-xs-b-10" onclick=openAddPaymentModal(this) data-loanid="'
 											+ giraviId+ '" style="float:right;">'
 											+ '<i class="fa fa-credit-card"></i> <span> &nbsp;&nbsp;Pay Now</span>'
 											+ '</button>');
@@ -509,24 +514,14 @@
 		});
 
 		function closeGiraviDetail(btnObj) {
-			$(btnObj).find('.fa').toggleClass('hide');
-			$(btnObj).find('.spinIcon').toggleClass('hide');
-			setTimeout(function() {
-				$('.giraviTable').toggleClass('hide');
-				$('.transactionPalceholder').toggleClass('hide');
-				$('.transactionPalceholder').empty();
-			}, 500);
+			reloadPage();
 		}
 
-		function openAddPaymentModal(obj, isReload) {
+		function openAddPaymentModal(obj) {
 			clearPaymentForm();
 			var loanId = $(obj).attr('data-loanid');
 			$('#addPaymentForm').find('input.loanId').val(loanId);
-			if (isReload) {
-				$('.savePaymentBtn').attr('isreload', true);
-			} else {
-				$('.savePaymentBtn').attr('isreload', false);
-			}
+			$('.savePaymentBtn').attr('isreload', false);
 			$('#modalAddPayment').modal('toggle');
 		}
 

@@ -15,11 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -52,24 +55,43 @@ public class GiraviMasterController {
 	public String showPage(HttpServletRequest request, HttpServletResponse response) {
 		request.setAttribute("partyAccount", new PartyAccount());
 		List<PartyAccount> list = partyAccountRepository.findAll();
-		request.setAttribute("customers", customerRepository.findAll());
+		
 		request.setAttribute("giraviList", giraviMasterRepository.findAll());
 		request.setAttribute("partyAccountList", list.size()>0 ? JsonUtil.javaCollectionToJson(list) : new ArrayList<>());
-		return "giravi/giraviMaster";
+		return "giravi/giraviMasterList";
 	}
 	
-	@PostMapping(value = "/getGiraviById")
-	@ResponseBody
-	public Map<String, Object> getSalesOrderById(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, Object> res = new HashMap<>();
-		Integer loanid = Integer.parseInt(request.getParameter("loanid"));
-		res.put("data",giraviMasterRepository.getOne(loanid));
-		return res;
+	@GetMapping("/giraviForm")
+	public String showgiraviFormPage(HttpServletRequest request, HttpServletResponse response) {
+		String flag = request.getParameter("flag");
+		Loan loan = null;
+		if(!flag.equalsIgnoreCase("N")) {
+			String loanid = request.getParameter("loanid");
+			loan = giraviMasterRepository.getOne(Integer.parseInt(loanid));
+			request.setAttribute("loan", loan);
+			request.setAttribute("customer", loan.getCustomer());
+			request.setAttribute("flag", flag);
+		}else {
+			request.setAttribute("loan", new Loan());
+			request.setAttribute("customer", new Customer());
+			request.setAttribute("flag", flag);
+		}
+		request.setAttribute("customers", customerRepository.findAll());
+		return "giravi/giraviMasterForm";
 	}
+	
+//	@PostMapping(value = "/getGiraviById")
+//	@ResponseBody
+//	public Map<String, Object> getSalesOrderById(HttpServletRequest request, HttpServletResponse response) {
+//		Map<String, Object> res = new HashMap<>();
+//		Integer loanid = Integer.parseInt(request.getParameter("loanid"));
+//		res.put("data",giraviMasterRepository.getOne(loanid));
+//		return res;
+//	}
 
 	@PostMapping("/saveGiravi")
 	@ResponseBody
-	public Map<String, Object> save(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String, Object> saveGiravi(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> res = new HashMap<>();
 		String giraviId = request.getParameter("giraviId");
 		String flag = request.getParameter("flag");
@@ -87,11 +109,17 @@ public class GiraviMasterController {
 		JsonElement jsonElement = parser.parse(request.getParameter("items"));
 		JsonArray itemsArr = jsonElement.getAsJsonArray();
 		
+		Customer cus = null;
+		Loan loan = null;
+		if(flag.equalsIgnoreCase("N")) {
+			cus = customerRepository.getOne(Long.valueOf(customerId));
+			loan = new Loan();
+			loan.setId(0);
+			loan.setCustomer(cus);
+		}else {
+			loan = giraviMasterRepository.getOne(Integer.valueOf(giraviId));
+		}
 		
-		Customer cus = customerRepository.getOne(Long.valueOf(customerId));
-		
-		Loan loan = new Loan();
-		loan.setId(Integer.valueOf(giraviId));
 		loan.setLoanNumber(giraviNo);
 		loan.setIntrestRate(intrestRate);
 		loan.setLoanAmount(loanAmount);
@@ -103,8 +131,8 @@ public class GiraviMasterController {
 		loan.setDescription(recipientDesc);
 		loan.setStatus("U");
 		loan.setCloseStatus("N");
-		//loan.setLoanTransactions(null);
-		loan.setCustomer(cus);
+		
+		
 		
 		List<GiraviItem> itemsList = new ArrayList<>();
 		
@@ -133,20 +161,32 @@ public class GiraviMasterController {
 		}
 		
 		loan.setGiraviItems(itemsList);
-		ArrayList<Loan> loanList = new ArrayList<>();
-		loanList.add(loan);
-		cus.getLoans().add(loan);
-		Customer customer = customerRepository.save(cus);
-		if (customer != null) {
-			res.put("status", "success");
-			res.put("msg", "Giravi entry save successfully !");
-		} else {
-			res.put("status", "failed");
-			res.put("msg", "Failed to save giravi entry !");
+		
+		
+		if(flag.equalsIgnoreCase("N")) {
+			ArrayList<Loan> loanList = new ArrayList<>();
+			loanList.add(loan);
+			cus.getLoans().add(loan);
+			Customer customer = customerRepository.save(cus);
+			if (customer != null) {
+				res.put("status", "success");
+				res.put("msg", "Giravi entry save successfully !");
+			} else {
+				res.put("status", "failed");
+				res.put("msg", "Failed to save giravi entry !");
+			}
+			
+		}else {
+			Loan respLoan = giraviMasterRepository.save(loan);
+			if (respLoan != null) {
+				res.put("status", "success");
+				res.put("msg", "Giravi entry updated successfully !");
+			} else {
+				res.put("status", "failed");
+				res.put("msg", "Failed to updated giravi entry !");
+			}
 		}
 		
-		//System.out.println("itemsArr::"+itemsArr);
-
 		return res;
 	}
 	
@@ -185,7 +225,7 @@ public class GiraviMasterController {
 		return res;
 	}
 	
-	@GetMapping("/getGiraviTransactions")
+	@GetMapping("/getGiraviDetail")
 	public String getGiraviTransactions(HttpServletRequest request, HttpServletResponse response) {
 		Integer loanId = Integer.parseInt(request.getParameter("loadId"));
 		Loan loan = giraviMasterRepository.getOne(loanId);
@@ -194,7 +234,7 @@ public class GiraviMasterController {
 		Float perDayInterestRate = loan.getTenureType().equalsIgnoreCase("M") ? loan.getIntrestRate() / DateUtil.getCurrentMonthDayCount() : loan.getIntrestRate() / DateUtil.getCurrentYearDayCount();
 		System.out.println("perDayInterestRate::"+perDayInterestRate);
 		Long totalDays = DateUtil.getDayCountBetweenDates(loan.getLoanDate(), new Date());
-		totalDays = totalDays == 0 ? 1 : totalDays;
+		totalDays = totalDays == 0 ? 1 : totalDays+1;
 		System.out.println("totalDays::"+totalDays);
 		Float currentInterestAmt = (totalDays*perDayInterestRate)/100*loan.getLoanAmount();
 		System.out.println("currentInterestAmt::"+currentInterestAmt);

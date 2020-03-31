@@ -35,7 +35,7 @@
 					<hr class="mg-t-20 mg-b-20">
 					<div class="row row-sm">
 						<div class="col-sm mg-t-10 mg-b-10" style="text-align: right;">
-							<button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-white cancelBtn" data-dismiss="modal">Cancel</button>
 							<button type="button" class="btn btn-primary savePaymentBtn" data-flag="N" onclick="saveGiraviPayment(this,'N')" disabled>Save Payment</button>
 						</div>
 					</div>
@@ -121,29 +121,16 @@
 			success : function(resp) {
 				console.log('resp',resp);
 				if(resp.status=="success"){
-					//needReloadCustomer=true;
 					clearPaymentForm($('#addPaymentForm'));
+					$(obj).attr('isreload',true);
 					$('#modalAddPayment').find('.modal-content').append('<div class="alert alert-solid alert-success d-flex align-items-center mg-t-10 mg-b-0" role="alert">'+
-				    '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
+				    '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>');
+					$('#addPaymentForm').find('.cancelBtn').focus();
 				}else{
-					//needReloadCustomer=false;
+					$(obj).attr('isreload',false);
 					$('#modalAddPayment').find('.modal-content').find('.alert').remove();
 					$('#modalAddPayment').find('.modal-content').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-t-10 mg-b-0" role="alert">'+
-		            '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>')
-				}
-
-				if($(obj).attr('isreload')=='true'){
-					$.ajax({
-						url : '/app/giravi/giraviMaster/getGiraviTransactions',
-						method : 'GET',
-						data : {
-							'loadId' : loanId
-						},
-						success : function(resp) {
-							$('.transactionPalceholder').empty();
-							$('.transactionPalceholder').html(resp);
-						}
-					});
+		            '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '+resp.msg+'</div>');
 				}
 			}
 		});
@@ -153,7 +140,45 @@
 	$('#modalAddPayment').on('keypress', function(event) {
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		if (keycode == '13') {
-			$('#modalAddPayment').find('.savePaymentBtn').click();
+			if($('#modalAddPayment').find('.savePaymentBtn').prop('disabled')){
+				$('#addPaymentForm').parsley().validate();
+			}else{
+				$('#modalAddPayment').find('.savePaymentBtn').click();
+			}
+		}
+	});
+
+	$('#modalAddPayment').on('shown.bs.modal', function() {
+		$('#modalAddPayment').find('.addPaymentReceivableAmountInput').focus();
+	});
+
+	$('#modalAddPayment').on('hidden.bs.modal', function() {
+		if($('#modalAddPayment').find('.savePaymentBtn').attr('isreload')=='true'){
+			$('.loading').removeClass('hide');
+			$('.mainContainer').addClass('hide');
+			$('.footer').addClass('hide');
+			//var flag = $(btnObj).attr('data-flag');
+			var loanId 	= $('#addPaymentForm').find('input.loanId').val();
+			$.ajax({
+				  url : '/app/giravi/giraviMaster/getGiraviDetail',
+				  async : true,
+				  data : {
+					  //'flag' : flag,
+					  'loadId' : loanId
+				  },
+				  success : function(resp) {
+					  $('.mainContainer').empty().html(resp);
+					  $('#ui-datepicker-div').remove();
+					  setTimeout(function() {
+						  $('.loading').addClass('hide');
+						  $('.mainContainer').removeClass('hide');
+						  $('.footer').removeClass('hide');
+					  }, 1000);
+					  $('html,body').animate({
+						  scrollTop : parseInt($('body').offset().top)
+					  }, 1000);
+				  }
+			});
 		}
 	});
 </script>

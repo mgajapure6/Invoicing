@@ -42,75 +42,81 @@
 			<div class="tab-content mg-t-20" id="myTabContent6">
 				<div class="tab-pane fade active show" id="allGiraviTabPane" role="tabpanel" aria-labelledby="allGiravi-tab6">
 					<h6>All Giravi</h6>
-					<table class="table allGiraviTable" id="allGiraviTable">
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Giravi No</th>
-								<th scope="col">Date</th>
-								<th scope="col" class="center">Principle Amount</th>
-								<th scope="col" class="center">RoI</th>
-								<th scope="col" class="center">Intrest Amount</th>
-								<th scope="col">Customer</th>
-								<th scope="col" class="center">Status</th>
-								<!-- <th scope="col" class="center">Pay Now</th> -->
-								<th scope="col" class="center">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:set var="rCount" value="0"></c:set>
-							<c:forEach items="${giraviList}" var="lon">
-								<c:set var="rCount" value="${rCount+1 }"></c:set>
-								<tr class="tr-id-${lon.id}">
-									<td scope="col" class="">${rCount}</td>
-									<td scope="col" class="">${lon.loanNumber}</td>
-									<td scope="col" class=""><fmt:formatDate pattern="dd-MM-yyyy" value="${lon.loanDate}" /></td>
-									<td scope="col" class="right bold"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.loanAmount}" /></td>
-									<td scope="col" class="right"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.intrestRate}" /> %</td>
-									<td scope="col" class="right bold"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.intrestAmount}" /></td>
-									<td scope="col" class="">${lon.customer.cusName} <input type="hidden" class="customerId" value="${lon.customer.id}"></td>
-									<td scope="col" class="center">
-									<c:choose>
-									<c:when test="${lon.status=='P'}">
-											<span class="badge badge-success">Paid</span>
-										</c:when>
-										<c:otherwise>
-											<span class="badge badge-danger">Unpaid</span>
-										</c:otherwise>
-									</c:choose>
-										
-									</td>
-									<%-- <td scope="col" class="center"><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
+					<div class="table-responsive">
+						<table class="table allGiraviTable" id="allGiraviTable">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Giravi No</th>
+									<th scope="col">Date</th>
+									<th scope="col" class="center">Principle Amount</th>
+									<th scope="col" class="center">RoI</th>
+									<th scope="col" class="center">Intrest Amount</th>
+									<th scope="col">Customer</th>
+									<th scope="col" class="center">Status</th>
+									<!-- <th scope="col" class="center">Pay Now</th> -->
+									<th scope="col" class="center">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:set var="rCount" value="0"></c:set>
+								<c:forEach items="${giraviList}" var="lon">
+									<c:set var="rCount" value="${rCount+1 }"></c:set>
+									<tr class="tr-id-${lon.id}">
+										<td scope="col" class="">${rCount}</td>
+										<td scope="col" class="">${lon.loanNumber}</td>
+										<td scope="col" class=""><fmt:formatDate pattern="dd-MM-yyyy" value="${lon.loanDate}" /></td>
+										<td scope="col" class="right bold"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.loanAmount}" /></td>
+										<td scope="col" class="right"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.intrestRate}" /> %</td>
+										<td scope="col" class="right bold"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${lon.intrestAmount}" /></td>
+										<td scope="col" class="">${lon.customer.cusName}<input type="hidden" class="customerId" value="${lon.customer.id}"></td>
+										<td scope="col" class="center"><c:choose>
+												<c:when test="${lon.status=='P'}">
+													<span class="badge badge-success">Paid</span>
+												</c:when>
+												<c:otherwise>
+													<span class="badge badge-danger">Unpaid</span>
+												</c:otherwise>
+											</c:choose></td>
+										<%-- <td scope="col" class="center"><button type="button" onclick="openAddPaymentModal(this)" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-dark btn-icon btn-sm">
 												<i class="fa fa-credit-card"></i>
 											</button></td> --%>
-									<td scope="col" class="center">
-										<span class="loanId hide">${lon.id}</span>
-										<div class="dropdown">
-											<button type="button" class="btn btn-default btn-icon btn-sm actionIconBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" style="font-size: 1.2rem;"></i><span class="spinner-border spinner-border-sm hide spinIcon"></span></button>
-											<div class="dropdown-menu dropdown-menu-right">
-												<button class="dropdown-item giraviDetailBtn" onclick="viewGiraviTransactions(this,'V')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-eye"></i>&nbsp;&nbsp;View Detail</button>
-											    <button class="dropdown-item" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;Edit</button>
-											    <div class="dropdown-divider"></div>
-											    <button class="dropdown-item" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button"><i class="fa fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>
+										<td scope="col" class="center"><span class="loanId hide">${lon.id}</span>
+											<div class="dropdown">
+												<button type="button" class="btn btn-default btn-icon btn-sm actionIconBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<i class="fa fa-ellipsis-h" style="font-size: 1.2rem;"></i><span class="spinner-border spinner-border-sm hide spinIcon"></span>
+												</button>
+												<div class="dropdown-menu dropdown-menu-right">
+													<button class="dropdown-item giraviDetailBtn" onclick="viewGiraviTransactions(this,'V')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button">
+														<i class="fa fa-eye"></i>&nbsp;&nbsp;View Detail
+													</button>
+													<button class="dropdown-item" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button">
+														<i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;Edit
+													</button>
+													<div class="dropdown-divider"></div>
+													<button class="dropdown-item" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" type="button">
+														<i class="fa fa-trash-alt"></i>&nbsp;&nbsp;Delete
+													</button>
+												</div>
 											</div>
-										</div>
-										
-										<div class="text-center hide">
-											<button type="button" data-loanid="${lon.id}" data-customerId="${lon.customer.id}"  class="btn btn-info btn-icon btn-sm">
-												<i class="fa fa-eye"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span>
-											</button>
-											<button type="button" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-success btn-icon btn-sm">
-												<i class="fa fa-pencil-alt"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span>
-											</button>
-											<button type="button" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-danger btn-icon btn-sm">
-												<i class="fa fa-trash-alt"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span>
-											</button>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+
+											<div class="text-center hide">
+												<button type="button" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-info btn-icon btn-sm">
+													<i class="fa fa-eye"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span>
+												</button>
+												<button type="button" onclick="viewGiraviForm(this,'M')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-success btn-icon btn-sm">
+													<i class="fa fa-pencil-alt"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span>
+												</button>
+												<button type="button" onclick="viewGiraviForm(this,'D')" data-loanid="${lon.id}" data-customerId="${lon.customer.id}" class="btn btn-danger btn-icon btn-sm">
+													<i class="fa fa-trash-alt"></i> <span class="spinner-border spinner-border-sm hide spinIcon"></span>
+												</button>
+											</div></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+
 				</div>
 				<div class="tab-pane fade" id="paidGiraviTabPane" role="tabpanel" aria-labelledby="paidGiravi-tab6">
 					<h6>Paid Giravi</h6>
