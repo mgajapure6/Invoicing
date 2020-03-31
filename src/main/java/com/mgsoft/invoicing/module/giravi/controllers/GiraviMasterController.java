@@ -22,12 +22,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mgsoft.invoicing.beans.Customer;
+import com.mgsoft.invoicing.module.customer.beans.Customer;
+import com.mgsoft.invoicing.module.customer.repositories.CustomerRepository;
 import com.mgsoft.invoicing.module.giravi.beans.GiraviItem;
 import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.giravi.beans.LoanTransaction;
 import com.mgsoft.invoicing.module.giravi.repository.GiraviMasterRepository;
-import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.util.DateUtil;
 
 @Controller

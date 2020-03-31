@@ -5,7 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.mgsoft.invoicing.module.admin.beans.Module;
-import com.mgsoft.invoicing.module.giravi.beans.Loan;
 
 @Repository
 public interface ModuleRepository extends CrudRepository<Module, Long>, JpaRepository<Module, Long> {

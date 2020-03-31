@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.beans;
+package com.mgsoft.invoicing.module.customer.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,10 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.persistence.Transient;
-
-import org.springframework.util.Base64Utils;
 
 import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;

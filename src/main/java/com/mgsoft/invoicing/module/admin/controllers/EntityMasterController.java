@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mgsoft.invoicing.module.admin.beans.EntityMaster;
-import com.mgsoft.invoicing.module.admin.beans.Menu;
-import com.mgsoft.invoicing.module.admin.beans.Module;
 import com.mgsoft.invoicing.module.admin.repository.EntityRepository;
 
 @Controller

@@ -1,4 +1,4 @@
-package com.mgsoft.invoicing.module.customer;
+package com.mgsoft.invoicing.module.customer.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mgsoft.invoicing.beans.Customer;
-import com.mgsoft.invoicing.repositories.CustomerRepository;
+import com.mgsoft.invoicing.module.customer.beans.Customer;
+import com.mgsoft.invoicing.module.customer.repositories.CustomerRepository;
 
 @Controller
 @RequestMapping(value = "/customer")

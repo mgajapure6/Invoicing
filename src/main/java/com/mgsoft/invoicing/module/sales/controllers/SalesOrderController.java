@@ -19,7 +19,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mgsoft.invoicing.beans.Customer;
+import com.mgsoft.invoicing.module.customer.beans.Customer;
+import com.mgsoft.invoicing.module.customer.repositories.CustomerRepository;
 import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
 import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
@@ -28,7 +29,6 @@ import com.mgsoft.invoicing.module.sales.repositories.SalesOrderRepository;
 import com.mgsoft.invoicing.module.setting.beans.Tax;
 import com.mgsoft.invoicing.module.setting.repositories.DiscountRepository;
 import com.mgsoft.invoicing.module.setting.repositories.TaxRepository;
-import com.mgsoft.invoicing.repositories.CustomerRepository;
 
 @Controller
 @RequestMapping(value = "/app/sales/invoiceMaster")

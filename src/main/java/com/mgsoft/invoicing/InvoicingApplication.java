@@ -24,11 +24,12 @@ import org.springframework.util.ResourceUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mgsoft.invoicing.beans.Customer;
 import com.mgsoft.invoicing.module.admin.beans.Menu;
 import com.mgsoft.invoicing.module.admin.beans.Module;
 import com.mgsoft.invoicing.module.admin.repository.MenuRepository;
 import com.mgsoft.invoicing.module.admin.repository.ModuleRepository;
+import com.mgsoft.invoicing.module.customer.beans.Customer;
+import com.mgsoft.invoicing.module.customer.repositories.CustomerRepository;
 import com.mgsoft.invoicing.module.giravi.beans.GiraviItem;
 import com.mgsoft.invoicing.module.giravi.beans.Loan;
 import com.mgsoft.invoicing.module.inventory.beans.InvItem;
@@ -37,7 +38,6 @@ import com.mgsoft.invoicing.module.inventory.repositories.InvItemRepository;
 import com.mgsoft.invoicing.module.inventory.repositories.ItemCategoryRepository;
 import com.mgsoft.invoicing.module.setting.beans.Tax;
 import com.mgsoft.invoicing.module.setting.repositories.TaxRepository;
-import com.mgsoft.invoicing.repositories.CustomerRepository;
 import com.mgsoft.invoicing.util.DateUtil;
 
 @SpringBootApplication

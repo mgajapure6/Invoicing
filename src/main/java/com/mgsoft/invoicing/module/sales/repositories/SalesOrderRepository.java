@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mgsoft.invoicing.beans.Customer;
+import com.mgsoft.invoicing.module.customer.beans.Customer;
 import com.mgsoft.invoicing.module.sales.beans.SalesInvoice;
 
 

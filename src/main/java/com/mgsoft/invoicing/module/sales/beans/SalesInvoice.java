@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mgsoft.invoicing.beans.Customer;
+import com.mgsoft.invoicing.module.customer.beans.Customer;
 
 @Entity
 @Table
