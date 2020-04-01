@@ -39,7 +39,7 @@
 	</div>
 	<div data-label="Entity Form" class="df-example menu-form hide">
 		<form id="menuForm">
-			<input type="text" id="menuId" class="menuId" hidden />
+			<input type="hidden" id="menuId" class="menuId"/>
 			<div class="form-group row">
 				<label for="inputEmail3" class="col-sm-2 col-form-label">Module Name</label>
 				<div class="col-sm-10">
@@ -188,11 +188,11 @@
 			needPageReload = false;
 			$('.menu-form').find('.alert').remove();
 			var tr = $(btnObj).closest('tr');
-			var modId = $(btnObj).attr('data-menuid');
+			var menuId = $(btnObj).attr('data-menuid');
 			
 			$('#menuName').val($(tr).find('.menuName').text().trim());                                           
 			$('#menuNameOl').val($(tr).find('.menuNameOl').text().trim());
-			$('#moduleList').val($(btnObj).attr('data-moduleid'));
+			$('#moduleList').val($(btnObj).attr('data-moduleid')).trigger('change');
 			$('#pageUrl').val($(tr).find('.menulink').text().trim());
 			if($(tr).find('span.menuStatus').text()=="E")  {
 				$('#mStatusE').prop("checked",true);
@@ -200,7 +200,7 @@
 				$('#mStatusD').prop("checked",true);
 			}                                     
 			
-			$('#menuForm').find('input.menuId').val(modId); 
+			$('#menuForm').find('input.menuId').val(menuId); 
 			$('#menuForm').find('.menuSaveBtn').attr('data-flag',flg);
 			$('#menuForm').parsley().validate();
 		}
@@ -208,13 +208,12 @@
 		
 		function saveMenu(btnObj){
 			var flag = $(btnObj).data('flag');
-			console.log();
 			var menuId = null;
 			
 			if(flag=='N'){
 				menuId = 0;
 			}else{
-				menuId = $("#menuId").attr('data-parsley-id');
+				menuId = $("#menuId").val();
 			}
 			
 			var formData = {

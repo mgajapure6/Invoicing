@@ -1,5 +1,7 @@
 package com.mgsoft.invoicing.module.admin.beans;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,9 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
-public class Menu {
+public class Menu implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -46,6 +52,7 @@ public class Menu {
 	private String parentName;
 
 	@ManyToOne
+	@JsonIgnore
 	private Module module;
 
 	public Long getId() {

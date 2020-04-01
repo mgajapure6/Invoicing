@@ -37,6 +37,7 @@ public class TaxController {
 		String flag = request.getParameter("flag");
 		ModelAndView modelAndView =  new ModelAndView();
 		request.setAttribute("flag", flag);
+		request.setAttribute("tax", taxRepository.getOne(Long.parseLong(taxid)));
 		modelAndView.setViewName("settings/taxMaster/taxMasterForm");
 		return modelAndView;
 	}

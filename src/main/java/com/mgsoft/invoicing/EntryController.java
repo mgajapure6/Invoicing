@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,7 +46,7 @@ public class EntryController {
 		request.setAttribute("activeLinkLiClass", activeLinkLiClass);
 		request.setAttribute("VorH","H" );
 		
-		request.setAttribute("menu",  moduleRepository.findAll());
+		request.setAttribute("menu",  moduleRepository.findAll(Sort.by(Sort.Direction.ASC, "moduleName")));
 		modelAndView.setViewName("index/Horizontal");
 		return modelAndView;
 	}
@@ -62,7 +63,7 @@ public class EntryController {
 		request.setAttribute("activeLinkClass", eleClass);
 		request.setAttribute("activeLinkLiClass", activeLinkLiClass);
 		request.setAttribute("VorH","V" );
-		request.setAttribute("menu",  moduleRepository.findAll());
+		request.setAttribute("menu",  moduleRepository.findAll(Sort.by(Sort.Direction.ASC, "moduleName")));
 		modelAndView.setViewName("index/Verticle");
 		return modelAndView;
 	}

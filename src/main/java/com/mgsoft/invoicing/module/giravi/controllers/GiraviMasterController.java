@@ -162,7 +162,11 @@ public class GiraviMasterController {
 				res.put("msg", "Failed to save giravi entry !");
 			}
 			
-		}else {
+		}else if(flag.equalsIgnoreCase("D")) {
+			customerRepository.deleteById(Long.parseLong(giraviId));
+			res.put("status", "success");
+			res.put("msg", "Giravi entry deleted successfully !");
+		}else{
 			Loan respLoan = giraviMasterRepository.save(loan);
 			if (respLoan != null) {
 				res.put("status", "success");

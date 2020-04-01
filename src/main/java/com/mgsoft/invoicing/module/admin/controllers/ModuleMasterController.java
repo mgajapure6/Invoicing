@@ -35,8 +35,26 @@ public class ModuleMasterController {
 		 */
 		request.setAttribute("allModules", moduleRepository.findAll());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("admin/moduleSetting");
+		modelAndView.setViewName("admin/moduleMaster/moduleMasterList");
 		return modelAndView;
+	}
+	
+	@RequestMapping(value= "/moduleMasterFrom")
+	public String showTaxFrom(HttpServletRequest request, HttpServletResponse response) {
+		//request.setAttribute("allTax", taxRepository.findAll());
+		String flag = request.getParameter("flag");
+		Module module = null;
+		if(!flag.equalsIgnoreCase("N")) {
+			String moduleid = request.getParameter("moduleid");
+			module = moduleRepository.getOne(Long.parseLong(moduleid));
+			request.setAttribute("flag", flag);
+			request.setAttribute("module", module);
+		}else {
+			request.setAttribute("flag", flag);
+			request.setAttribute("module", new Module());
+		}
+		
+		return "admin/moduleMaster/moduleMasterForm";
 	}
 
 	@PostMapping(value = "/saveUpdateDeleteModule")

@@ -3,6 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+<%@ page import="com.fasterxml.jackson.databind.SerializationFeature"%>
+<%
+	ObjectMapper mapper = new ObjectMapper();
+	mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+%>
 <!DOCTYPE html>
 <html>
 <head>

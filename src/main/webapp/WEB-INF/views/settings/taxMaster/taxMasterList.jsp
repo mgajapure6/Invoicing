@@ -93,7 +93,6 @@ function loadTaxForm(btnObj,flag){
 	$('.loading').removeClass('hide');
 	$('.mainContainer').addClass('hide');
 	$('.footer').addClass('hide');
-	var flag = $(btnObj).attr('data-flag');
 	var taxid = $(btnObj).attr('data-taxid');
 	$.ajax({
 		  url : "/app/setting/taxMaster/taxFrom",

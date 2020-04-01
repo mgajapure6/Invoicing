@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +41,8 @@ public class MenuMasterController {
 			modelAndView.setViewName("dashboard/SalesDashboard");
 			return modelAndView;
 		}*/
-		request.setAttribute("allMenus", menuRepository.findAll());
-		request.setAttribute("moduleList", moduleRepository.findAll());
+		request.setAttribute("allMenus", menuRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
+		request.setAttribute("moduleList", moduleRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
 		ModelAndView modelAndView =  new ModelAndView();
 		modelAndView.setViewName("admin/menuSetting");
 		return modelAndView;
@@ -61,26 +62,32 @@ public class MenuMasterController {
 		String pageUrl = request.getParameter("pageUrl");
 		
 		Module module = moduleRepository.getOne(moduleId);
+		Menu menu = null;
 		
-		Menu menu = new Menu();
-		menu.setId(id);
+		if(flag.equalsIgnoreCase("N")) {
+			menu = new Menu();
+			menu.setId((long) 0);
+		}else {
+			menu = menuRepository.getOne(id);
+			
+		}
+		System.out.println(" module id:"+module.getId());
+		System.out.println(" menu module id:"+menu.getModule().getId());
 		menu.setMenuName(menuName);
 		menu.setMenuNameOl(menuNameOl);
 		menu.setParentId(moduleId);
 		menu.setParentName(moduleName);
-		menu.setHasLink(false);
+		menu.setHasLink(true);
 		menu.setStatus(status);
-		menu.setModule(module);
 		menu.setLink(pageUrl);
-		module.getMenus().add(menu);
 		
-		//System.out.println(">>>"+menu);
-		if (flag.equals("D")) {
-			menuRepository.delete(menu);
+		if (flag.equalsIgnoreCase("D")) {
+			menuRepository.deleteById(id);
 			res.put("status", "success");
-			res.put("msg", "Successfully deleted customer entry !");
-		} else if (flag.equals("N")){
-			
+			res.put("msg", "Successfully deleted menu entry !");
+		} else if (flag.equalsIgnoreCase("N")){
+			menu.setModule(module);
+			module.getMenus().add(menu);
 			Module moRes = moduleRepository.save(module);
 			if (moRes != null) {
 				res.put("status", "success");
@@ -89,15 +96,33 @@ public class MenuMasterController {
 				res.put("status", "failed");
 				res.put("msg", "Failed to save menu entry !");
 			}
-			
 		}else {
-			Menu me = menuRepository.save(menu);
-			if (me != null) {
-				res.put("status", "success");
-				res.put("msg", "Successfully updated menu entry !");
-			} else {
-				res.put("status", "failed");
-				res.put("msg", "Failed to update menu entry !");
+			System.out.println(" module id:"+module.getId());
+			System.out.println(" menu module id:"+menu.getModule().getId());
+			
+			if(module.getId()==menu.getModule().getId()) {
+				Menu me = menuRepository.save(menu);
+				if (me != null) {
+					res.put("status", "success");
+					res.put("msg", "Successfully updated menu entry !");
+				} else {
+					res.put("status", "failed");
+					res.put("msg", "Failed to update menu entry !");
+				}
+			}else {
+				Module oMdule = menu.getModule();
+				oMdule.getMenus().remove(menu);
+				moduleRepository.save(oMdule);
+				menu.setModule(module);
+				module.getMenus().add(menu);
+				Module moRes = moduleRepository.save(module);
+				if (moRes != null) {
+					res.put("status", "success");
+					res.put("msg", "Successfully save menu entry !");
+				}else {
+					res.put("status", "failed");
+					res.put("msg", "Failed to save menu entry !");
+				}
 			}
 		}
 			
