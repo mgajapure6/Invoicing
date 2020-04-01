@@ -1,5 +1,5 @@
 $(function() {
-	$('.moduleLi_1').find('.m-link_0').click();
+	$('li.moduleLi>a.m-link_0').click();
 });
 function loadPage(obj, link, eleClassName, eleLiClassName, VorH) {
 	$('.loading').removeClass('hide');
