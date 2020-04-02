@@ -19,6 +19,12 @@
 .alert {
 	margin-top: 10px;
 }
+.empty{
+border-color : red;
+}
+.filled{
+border-color : green;
+}
 </style>
 
     <!-- Required meta tags -->
@@ -57,14 +63,14 @@
 
               <div class="form-group">
                 <label>Login Name</label>
-                <input type="text" class="form-control" placeholder="Enter Login User Name" id="loginName">
+                <input type="text" class="form-control" placeholder="Enter Login User Name" id="loginName" >
               </div>
               <div class="form-group">
                 <div class="d-flex justify-content-between mg-b-5">
                   <label class="mg-b-0-f">Password</label>
                   <a href="#" class="tx-13">Forgot password?</a>
                 </div>
-                <input type="password" class="form-control" placeholder="Enter your password" id="loginPassword">
+                <input type="password" class="form-control mandatory" placeholder="Enter your password" id="loginPassword" >
               </div>
               <button class="btn btn-brand-02 btn-block" onClick="checkLogin(this)">Login</button>
               <div class="tx-13 mg-t-20 tx-center">Don't have an account? <a href="page-signup.html">Create an Account</a></div>
@@ -76,35 +82,60 @@
 
 <script type="text/javascript">
 var needPageReload = false;
-function checkLogin(btnObj) {
-	
-	var formData = {
-		'loginName' : $('#loginName').val(),
-		'loginPassword' : $('#loginPassword').val(),
-	}
+var saveAction = false;
 
-	$.ajax({
-		url : '/app/login/checkUserLogin',
-		method : 'POST',
-		data : formData,
-		async : false,
-		success : function(resp) {
-			//console.log('resp', resp);
-			if (resp.status == "success") {
-				needPageReload = true;
-				$('.login-div').append('<div class="alert alert-solid alert-success d-flex align-items-center mg-b-0" role="alert">'
-										+ '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '
-										+ resp.msg + '</div>')
-				
-			} else {
-				needPageReload = false;
-				$('.login-div').find('.alert').remove();
-				$('.login-div').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-b-0" role="alert">'
-										+ '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '
-										+ resp.msg + '</div>')
-			}
+function checkLogin(btnObj) {
+
+	if($("#loginName").val().length < 1)
+	{
+		$("#loginName").removeClass("filled");
+		$("#loginName").addClass("empty");
+	}else{
+		$("#loginName").removeClass("empty");
+		$("#loginName").addClass("filled");
 		}
-	});
+	
+	if($("#loginPassword").val().length < 1)
+	{
+		$("#loginPassword").removeClass("filled");
+		$("#loginPassword").addClass("empty");
+	}else{
+		$("#loginPassword").removeClass("empty");
+		$("#loginPassword").addClass("filled");
+		}	
+
+	
+	
+	if($("#loginName").hasClass("filled") == true && $("#loginPassword").hasClass("filled") == true)
+	{
+		var formData = {
+			'loginName' : $('#loginName').val(),
+			'loginPassword' : $('#loginPassword').val(),
+		}
+
+		$.ajax({
+			url : '/app/login/checkUserLogin',
+			method : 'POST',
+			data : formData,
+			async : false,
+			success : function(resp) {
+				//console.log('resp', resp);
+				if (resp.status == "success") {
+					needPageReload = true;
+					$('.login-div').append('<div class="alert alert-solid alert-success d-flex align-items-center mg-b-0" role="alert">'
+											+ '<i class="fa fa-check-circle" style="font-size: 22px;margin-right: 10px;"></i> '
+											+ resp.msg + '</div>')
+					
+				} else {
+					needPageReload = false;
+					$('.login-div').find('.alert').remove();
+					$('.login-div').append('<div class="alert alert-solid alert-danger d-flex align-items-center mg-b-0" role="alert">'
+											+ '<i class="fa fa-times-circle" style="font-size: 22px;margin-right: 10px;"></i> '
+											+ resp.msg + '</div>')
+				}
+			}
+		});
+	}else{$('.login-div').find('.alert').remove();}
 }
 </script>
 
