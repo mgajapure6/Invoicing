@@ -153,11 +153,7 @@
     border: 1px solid #ddd;
     z-index: 1000;
     border-radius: 2px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
-    /* for firefox */
-    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
-    /* for safari or chrome */
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    box-shadow: none;
 }
 
 .transfer-double-header {

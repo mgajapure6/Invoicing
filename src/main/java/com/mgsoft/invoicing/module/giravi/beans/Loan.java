@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mgsoft.invoicing.module.customer.beans.Customer;
+import com.mgsoft.invoicing.util.DateUtil;
 
 @Entity
 @Table
@@ -206,6 +207,7 @@ public class Loan implements Serializable {
 
 	public Loan() {
 		super();
+		this.loanNumber = "GN"+DateUtil.getCurrentDate()
 	}
 
 	@Override
