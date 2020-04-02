@@ -207,7 +207,6 @@ public class Loan implements Serializable {
 
 	public Loan() {
 		super();
-		this.loanNumber = "GN"+DateUtil.getCurrentDate()
 	}
 
 	@Override
