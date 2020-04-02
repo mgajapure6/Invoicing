@@ -80,4 +80,10 @@ public class DateUtil {
 		return monthNames[monthNum];
 	}
 
+	public static String getCurrentDateByFormat(String dataFormat) {
+		DateFormat dateFormat = new SimpleDateFormat(dataFormat);
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+
 }

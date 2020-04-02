@@ -182,5 +182,17 @@
 				"url": "app/setting/loanDurationMaster"
 			}
 		]
+	},
+	{
+		"module_name": "Login",
+		"isLink": false,
+		"module_icon": "shopping-bag",
+		"menu" : [
+			{
+				"menu_name": "Login",
+				"isLink":true,
+				"url": "app/login"
+			}
+		]
 	}
 ]
