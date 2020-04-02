@@ -88,6 +88,11 @@ public class UserMaster implements Serializable {
 		this.contact = contact;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "UserMaster [id="+id+", userName = "+UserName + ", UserNameOl = " + UserNameOl + ", address = " + address
+				+ ", email = "+ email + ", loginName = "+ loginName +", loginPassword = "+ loginPassword + ", status = "+ status
+				+ ", contact = " + contact +"]";
+	}
 	
 }
