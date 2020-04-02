@@ -42,13 +42,13 @@
 		<form id="moduleForm">
 			<input type="hidden" class="moduleId" value="0">
 			<div class="form-group row">
-				<label for="inputEmail3" class="col-sm-2 col-form-label mandlabel">Module name </label>
+				<label for="moduleName" class="col-sm-2 col-form-label mandlabel">Module name </label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="moduleName" placeholder="Module name" data-parsley-trigger="keyup" data-parsley-minlength="2" data-parsley-validation-threshold="0" data-parsley-maxlength="100" data-parsley-minlength-message="please enter at least 2 character. ">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Module name ol </label>
+				<label for="moduleNameOl" class="col-sm-2 col-form-label">Module name ol </label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control mandatory" id="moduleNameOl" placeholder="Module name other language">
 				</div>

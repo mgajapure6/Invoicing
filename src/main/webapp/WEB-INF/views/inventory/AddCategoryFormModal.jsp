@@ -114,7 +114,7 @@
 	    }
 
 	    $.ajax({
-	        url : '/inventory/saveUpdateDeleteCategory',
+	        url : '/app/inventory/categoryMaster/saveUpdateDeleteCategory',
 	        method : 'POST',
 	        data : formData,
 	        async : false,
