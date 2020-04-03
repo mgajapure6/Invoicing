@@ -82,7 +82,7 @@ border-color : green;
 
 <script type="text/javascript">
 var needPageReload = false;
-var saveAction = false;
+
 
 function checkLogin(btnObj) {
 
